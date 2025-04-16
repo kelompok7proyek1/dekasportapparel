@@ -10,6 +10,6 @@ $stmt->bind_param("ss", $email, $password);
 if ($stmt->execute()) {
     header("Location: index.php");
 } else {
-    echo "Register gagal! <a href='register.html'>Coba lagi</a>";
+    header("Location: registrasi.html");
 }
 ?>
