@@ -26,6 +26,7 @@
                     <li><a href="custom.php">Custom</a></li>
                     <?php if($loggedIn) : ?>
                         <li><a href="dashboard.php">Dashboard</a></li>
+                        <li><a href="logout.php">Logout</a></li>
                             <?php else : ?>
                                 <li><a href="login.html" onclick="return confirm('Silakan login terlebih dahulu!')">Dashboard</a></li>
                     <?php endif; ?>
