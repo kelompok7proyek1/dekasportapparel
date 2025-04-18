@@ -9,10 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../css/about.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-</head>
-<body>
+    <link rel="stylesheet" href="../../css/contact.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 </head>
 <body>
     <!-- Header Section -->
@@ -42,49 +40,61 @@
     </header>
 
 
-    <!-- About Section -->
-    <section class="about-section" id="about">
-            <div class="container">
-                <!-- <h2 class="section-title">About Us</h2> -->
-                <div class="about-content">
-                    <div class="about-text">
-                        <h2>Deka Sport Apparel</h2>
-                        <p>Deka Sport Apparel adalah perusahaan yang bergerak di bidang custom jersey dan perlengkapan olahraga, dengan komitmen untuk menghadirkan produk berkualitas tinggi bagi para atlet, tim, komunitas,
-                        dan individu.Berkedudukan di Kabupaten Indramayu, kami terus berkembang dengan membuka cabang serta perwakilan di berbagai lokasi yang dianggap strategis dan diperlukan oleh para persero.</p>
+       <!-- Contact Section -->
+       <section class="contact">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h1>Butuh Konsultasi...?</h1>
+                    <h2>Silahkan kontak kami</h2>
+                    <p>Kami Siap Membantu</p>
+                    
+                    <div class="contact-details">
+                        <h3>Kontak</h3>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Jl. Di Panjaitan No. 90 Indramayu</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <p>0818-0469-8724</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <p>dekasport4@gmail.com</p>
+                        </div>
                     </div>
-                    <div class="about-image">
-                        <img src="../image/about.jpeg" alt="about.jpeg">
+                    
+                    <div class="social-media">
+                        <h3>Social Media</h3>
+                        <div class="social-icons">
+                            <a href="#">
+                                <i class="fab fa-facebook"></i>
+                                <span>deka sport apparel</span>
+                            </a>
+                            <a href="#">
+                                <i class="fab fa-instagram"></i>
+                                <span>deka sport apparel</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-    </section>
-
-    <section class="maksud-section">
-        <h2 class="section-title">Maksud dan Tujuan</h2>
-        <div class="container">
-            <div class="maksud-content">
-            <div class="maksud-image">
-                <img src="../image/baju2juga.jpg" alt="about.jpg">
-            </div>
-            <div class ="maksud-text" >
-                <ol>
-                    <li>Maksud dan Tujuan Perseroan ialah menjalankan usaha dalam bidang Konstruksi, Perdagangan Barang dan Jasa.</li>
-                    <li>Untuk mencapai maksud dan tujuan tersebut di atas, Perseroan dapat melaksanakan kegiatan usaha sebagai berikut:
-                        <ol>
-                            <li>Industri Pakaian Jadi (Bukan Penjahitan Dan Pembuatan Pakaian), Yang Meliputi: Industri pakaian jadi (konveksi) dari tekstil.</li>
-                            <li>Industri Perlengkapan Pakaian Yang Utamanya Terbuat Dari Tekstil Yang Meliputi: Industri perlengkapan pakaian dari tekstil.</li>
-                            <li>Industri Pakaian Jadi Rajutan Dan Sulaman/Bordir, Yang Meliputi: Industri pakaian jadi rajutan, industri pakaian jadi sulaman/bordir.</li>
-                            <li>Industri Percetakan, Yang Meliputi: Industri percetakan umum.</li>
-                            <li>Perdagangan besar tekstil, pakaian dan alas kaki, Yang Meliputi: Perdagangan besar tekstil, perdagangan besar pakaian, perdagangan besar alas kaki.</li>
-                            <li>Perdagangan Besar Alat Tulis Dan Hasil Percetakan Dan Penerbitan Yang Meliputi: Perdagangan besar alat tulis dan gambar.</li>
-                        </ol>
-                    </li>
-                </ol>
+                
+                <div class="contact-form">
+                    <h2>ada pertanyaan..?</h2>
+                    <form>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Masukan email anda disini...">
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Pertanyaan Anda..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Kirim</button>
+                    </form>
+                </div>
             </div>
         </div>
-        </div>
     </section>
-
     <!-- Footer -->
     <footer>
         <div class="container-footer">

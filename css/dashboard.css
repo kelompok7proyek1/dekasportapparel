@@ -147,13 +147,14 @@ header {
         .dashboard-section {
             background-color: #f8f9fa;
             width: 100%;
+            padding: 50px;
         }
 
-        .dashboard-section .container {
+        /* .dashboard-section .container {
             padding: 0;
             max-width: 100%;
             margin: 0;
-        }
+        } */
 
         .dashboard-header {
             background-color: var(--secondary-color);
@@ -257,7 +258,7 @@ header {
 
         /* Add this to ensure the Recent Orders heading aligns with the table */
         .dashboard-content h2 {
-            padding-left: 20px;
+            padding-left: 20px; 
         }
         
  /* Footer */

@@ -9,7 +9,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>3D Jersey Configurator</title>
-  <link rel="stylesheet" href="../css/custom.css" />
+  <link rel="stylesheet" href="../../css/custom.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.148.0/examples/js/loaders/GLTFLoader.js"></script>
   <script src="/js/script.js"></script>

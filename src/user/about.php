@@ -8,19 +8,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>deka sport apparel | Premium Custom Jerseys</title>
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <script src="script.js"></script>
+    <title>Document</title>
+    <link rel="stylesheet" href="../../css/about.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 </head>
 <body>
-<header>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
         <div class="container">
             <nav class="navbar">
                 <a href="#" class="logo">DekaSport<span>Apparel</span></a>
                 <ul class="nav-links">
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="custom.php">Custom</a></li>
                     <li><a href="about.php">About Us</a></li>
                     <li><a href="contact.php">Contact Us</a></li>
                     <li><a href="custom.php">Custom</a></li>
@@ -40,89 +41,52 @@
         </div>
     </header>
 
-        <!-- Dashboard Section -->
-        <!-- <section class="dashboard-section" id="dashboard">
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
             <div class="container">
-                    <div class="dashboard-header">
-                        <div class="dashboard-title">My Account</div>
-                        <div class="dashboard-actions">
-                            <i class="fas fa-bell"></i>
-                            <i class="fas fa-user-circle"></i>
-                        </div>
+                <!-- <h2 class="section-title">About Us</h2> -->
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>Deka Sport Apparel</h2>
+                        <p>Deka Sport Apparel adalah perusahaan yang bergerak di bidang custom jersey dan perlengkapan olahraga, dengan komitmen untuk menghadirkan produk berkualitas tinggi bagi para atlet, tim, komunitas,
+                        dan individu.Berkedudukan di Kabupaten Indramayu, kami terus berkembang dengan membuka cabang serta perwakilan di berbagai lokasi yang dianggap strategis dan diperlukan oleh para persero.</p>
                     </div>
-                    <div class="dashboard-nav">
-                        <div class="dashboard-nav-item active">Orders</div>
-                        <div class="dashboard-nav-item">Designs</div>
-                        <div class="dashboard-nav-item">Settings</div>
-                    </div>
-                    <div class="dashboard-content">
-                        <div class="dashboard-cards">
-                            <div class="dashboard-card">
-                                <h4>Total Orders</h4>
-                                <p>12</p>
-                            </div> -->
-                            <!-- <div class="dashboard-card">
-                                <h4>Saved Designs</h4>
-                                <p>5</p>
-                            </div> -->
-                            <!-- <div class="dashboard-card">
-                                <h4>In Progress</h4>
-                                <p>2</p>
-                            </div>
-                            <div class="dashboard-card">
-                                <h4>Completed</h4>
-                                <p>10</p>
-                            </div>
-                        </div>
-                        <h3>Recent Orders</h3>
-                        <table class="orders-table">
-                            <thead>
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Date</th>
-                                    <th>Items</th>
-                                    <th>Total</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#12345</td>
-                                    <td>15 Mar 2025</td>
-                                    <td>Basketball Jersey x5</td>
-                                    <td>$245.00</td>
-                                    <td><span class="status processing">Processing</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#12344</td>
-                                    <td>10 Mar 2025</td>
-                                    <td>Soccer Jersey x3</td>
-                                    <td>$147.00</td>
-                                    <td><span class="status processing">Processing</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#12343</td>
-                                    <td>28 Feb 2025</td>
-                                    <td>Baseball Jersey x10</td>
-                                    <td>$490.00</td>
-                                    <td><span class="status completed">Completed</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#12342</td>
-                                    <td>15 Feb 2025</td>
-                                    <td>Football Jersey x7</td>
-                                    <td>$343.00</td>
-                                    <td><span class="status completed">Completed</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="about-image">
+                        <img src="../image/about.jpeg" alt="about.jpeg">
                     </div>
                 </div>
             </div>
-        </section> -->
-    
+    </section>
 
-        <footer>
+    <section class="maksud-section">
+        <h2 class="section-title">Maksud dan Tujuan</h2>
+        <div class="container">
+            <div class="maksud-content">
+            <div class="maksud-image">
+                <img src="../image/baju2juga.jpg" alt="about.jpg">
+            </div>
+            <div class ="maksud-text" >
+                <ol>
+                    <li>Maksud dan Tujuan Perseroan ialah menjalankan usaha dalam bidang Konstruksi, Perdagangan Barang dan Jasa.</li>
+                    <li>Untuk mencapai maksud dan tujuan tersebut di atas, Perseroan dapat melaksanakan kegiatan usaha sebagai berikut:
+                        <ol>
+                            <li>Industri Pakaian Jadi (Bukan Penjahitan Dan Pembuatan Pakaian), Yang Meliputi: Industri pakaian jadi (konveksi) dari tekstil.</li>
+                            <li>Industri Perlengkapan Pakaian Yang Utamanya Terbuat Dari Tekstil Yang Meliputi: Industri perlengkapan pakaian dari tekstil.</li>
+                            <li>Industri Pakaian Jadi Rajutan Dan Sulaman/Bordir, Yang Meliputi: Industri pakaian jadi rajutan, industri pakaian jadi sulaman/bordir.</li>
+                            <li>Industri Percetakan, Yang Meliputi: Industri percetakan umum.</li>
+                            <li>Perdagangan besar tekstil, pakaian dan alas kaki, Yang Meliputi: Perdagangan besar tekstil, perdagangan besar pakaian, perdagangan besar alas kaki.</li>
+                            <li>Perdagangan Besar Alat Tulis Dan Hasil Percetakan Dan Penerbitan Yang Meliputi: Perdagangan besar alat tulis dan gambar.</li>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
         <div class="container-footer">
                 <div class="footer-content">
                     <section class="footer-column">

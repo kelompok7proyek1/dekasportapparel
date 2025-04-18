@@ -2,24 +2,31 @@
     session_start();
     $loggedIn = isset($_SESSION['email']);
 ?>
+<?php
+    include 'config.php'; // koneksi ke database
+
+    $sql = "SELECT tanggal_pemesanan, total_harga, status_pemesanan, total_order, in_progres, completed FROM pesanan_dekas";
+    $result = $conn->query($sql);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/contact.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <title>deka sport apparel | Premium Custom Jerseys</title>
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
+<header>
         <div class="container">
             <nav class="navbar">
                 <a href="#" class="logo">DekaSport<span>Apparel</span></a>
                 <ul class="nav-links">
                     <li><a href="index.php">Home</a></li>
+                    <li><a href="custom.php">Custom</a></li>
                     <li><a href="about.php">About Us</a></li>
                     <li><a href="contact.php">Contact Us</a></li>
                     <li><a href="custom.php">Custom</a></li>
@@ -39,64 +46,72 @@
         </div>
     </header>
 
-
-       <!-- Contact Section -->
-       <section class="contact">
-        <div class="container">
-            <div class="contact-wrapper">
-                <div class="contact-info">
-                    <h1>Butuh Konsultasi..?</h1>
-                    <h2>Silahkan kontak kami</h2>
-                    <p>Kami Siap Membantu</p>
-                    
-                    <div class="contact-details">
-                        <h3>Kontak</h3>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <p>Jl. Di Panjaitan No. 90 Indramayu</p>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <p>0818-0469-8724</p>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <p>dekasport4@gmail.com</p>
+        <!-- Dashboard Section -->
+        <section class="dashboard-section" id="dashboard">
+            <div class="container">
+                    <div class="dashboard-header">
+                        <div class="dashboard-title">My Account</div>
+                        <div class="dashboard-actions">
+                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-user-circle"></i>
                         </div>
                     </div>
-                    
-                    <div class="social-media">
-                        <h3>Social Media</h3>
-                        <div class="social-icons">
-                            <a href="#">
-                                <i class="fab fa-facebook"></i>
-                                <span>deka sport apparel</span>
-                            </a>
-                            <a href="#">
-                                <i class="fab fa-instagram"></i>
-                                <span>deka sport apparel</span>
-                            </a>
+                    <!-- <div class="dashboard-nav">
+                        <div class="dashboard-nav-item active">Orders</div>
+                        <div class="dashboard-nav-item">Designs</div>
+                        <div class="dashboard-nav-item">Settings</div>
+                    </div> -->
+                    <div class="dashboard-content">
+                        <div class="dashboard-cards">
+                            <div class="dashboard-card">
+                                <h4>Total Orders</h4>
+                                <p>12</p>
+                            </div>
+                            <!-- <div class="dashboard-card">
+                                <h4>Saved Designs</h4>
+                                <p>5</p>
+                            </div> -->
+                            <div class="dashboard-card">
+                                <h4>In Progress</h4>
+                                <p>2</p>
+                            </div>
+                            <div class="dashboard-card">
+                                <h4>Completed</h4>
+                                <p>10</p>
+                            </div>
                         </div>
+                        <h3>Riwayat Pemesanan</h3>
+                        <table border="1" class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal Pemesanan</th>
+                                    <th>Total Harga</th>
+                                    <th>Status Pemesanan</th>
+                                    <th>Total Order</th>
+                                    <th>In Progres</th>
+                                    <th>Completed</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t r>
+                                <?php $row = $result->fetch_assoc() ?>
+                                <td><?= $row["tanggal_pemesanan"] ?></td>
+                                <td><?= $row["total_harga"] ?></td>
+                                <td><span class="status processing"><?= $row["status_pemesanan"] ?></span></td>
+                                <td><?= $row["total_order"] ?></td>
+                                <td><?= $row["in_progres"] ?></td>
+                                <td><?= $row["completed"] ?></td>
+                                <!-- <td><span class="status processing">Processing</span></td> -->
+                                </t>
+                                
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                
-                <div class="contact-form">
-                    <h2>ada pertanyaan..?</h2>
-                    <form>
-                        <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Masukan email anda disini...">
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" placeholder="Pertanyaan Anda..."></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn">Kirim</button>
-                    </form>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- Footer -->
-    <footer>
+        </section>
+
+        <footer>
         <div class="container-footer">
                 <div class="footer-content">
                     <section class="footer-column">
