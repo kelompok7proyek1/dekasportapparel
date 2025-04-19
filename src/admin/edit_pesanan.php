@@ -1,9 +1,14 @@
 <?php
 include '../user/config.php';
 
-$id = $_POST['id'];
-$result = $conn->query("SELECT * FROM pesanan_dekas WHERE id_pesanan = $id");
-$data = $result->fetch_assoc();
+if (!isset($_GET['id'])) {
+    echo "ID pesanan tidak ditemukan di URL.";
+    exit;
+}
+
+    $id = $_GET['id'];
+    $result = $conn->query("SELECT * FROM pesanan_dekas WHERE id_pesanan = $id");
+    $data = $result->fetch_assoc();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tanggal = $_POST['tanggal_pemesanan'];

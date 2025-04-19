@@ -16,7 +16,7 @@ if(isset($_POST['submit'])) {
     $stmt->bind_param("sssi", $nama, $no_hp, $alamat, $jumlah_pesanan);
     
     if($stmt->execute()) {
-        echo "<script>alert('Data pelanggan berhasil ditambahkan'); window.location='admin_dashboard.php';</script>";
+        echo "<script>alert('Data pelanggan berhasil ditambahkan'); window.location='dashboard_coba2.php';</script>";
     } else {
         echo "<script>alert('Gagal menambahkan data pelanggan: " . $conn->error . "');</script>";
     }
@@ -74,7 +74,9 @@ if(isset($_POST['submit'])) {
         }
     </style>
 </head>
+
 <body>
+
     <h2>Tambah Pelanggan Baru</h2>
     
     <div class="form-container">
@@ -96,7 +98,7 @@ if(isset($_POST['submit'])) {
             
             <div class="form-group">
                 <button type="submit" name="submit" class="btn-submit">Simpan</button>
-                <a href="admin_dashboard.php" class="btn-cancel">Batal</a>
+                <a href="dashboard_coba2.php" class="btn-cancel">Batal</a>
             </div>
         </form>
     </div>

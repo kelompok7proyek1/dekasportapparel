@@ -31,7 +31,7 @@
                 <td><?= $row['alamat'] ?></td>
                 <td><?= $row['jumlah_pesanan'] ?></td>
                 <td>
-                    <a href="edit_pesanan.php?id=<?= $row['id_pelanggan'] ?>">Edit</a>
+                    <a href="edit_pelanggan.php?id=<?= $row['id_pelanggan'] ?>">Edit</a>
                 </td>
             </tr>
         <?php endwhile; ?>

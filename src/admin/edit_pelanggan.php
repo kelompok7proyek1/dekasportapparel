@@ -1,12 +1,44 @@
 <?php
 include '../user/config.php';
 
-$id = $_GET['id'];
-$result = $conn->query("SELECT * FROM pelanggan_dekas WHERE id_pelanggan = $id");
-$data = $result->fetch_assoc();
+if (!isset($_GET['id'])) {
+    echo "ID pelanggan tidak ditemukan di URL.";
+    exit;
+}
+    $id = intval($_GET['id']); // biar aman (hindari SQL injection)
+    $result = $conn->query("SELECT * FROM pelanggan_dekas WHERE id_pelanggan = $id");
+    $data = $result->fetch_assoc();
+
+    if (!$data) {
+        echo "Data pelanggan tidak ditemukan.";
+        exit;
+    }
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = $_POST['id_pelanggan'];
+    $nama = $_POST['nama'];
+    $no_hp = $_POST['no_hp'];
+    $alamat = $_POST['alamat'];
+    $jumlah = $_POST['jumlah_pesanan'];
+
+        $query = "UPDATE pelanggan_dekas 
+        SET nama='$nama', 
+        no_hp='$no_hp', 
+        alamat='$alamat', 
+        jumlah_pesanan='$jumlah' 
+        WHERE id_pelanggan=$id";
+
+if ($conn->query($query)) {
+    header("Location: admin_dashboard.php");
+} else {
+    echo "Gagal update data pelanggan: " . $conn->error;
+}   }
 ?>
 
-<form action="update_pelanggan.php" method="POST">
+
+
+<form method="POST">
     <input type="hidden" name="id_pelanggan" value="<?= $data['id_pelanggan'] ?>">
 
     <label>Nama:</label><br>

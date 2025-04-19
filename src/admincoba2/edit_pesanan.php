@@ -48,7 +48,7 @@ if(isset($_POST['submit'])) {
             $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan + 1 WHERE id_pelanggan = $id_pelanggan_baru");
         }
         
-        echo "<script>alert('Data pesanan berhasil diupdate'); window.location='admin_dashboard.php';</script>";
+        echo "<script>alert('Data pesanan berhasil diupdate'); window.location='dashboard_coba2.php';</script>";
     } else {
         echo "<script>alert('Gagal mengupdate data pesanan: " . $conn->error . "');</script>";
     }
@@ -101,6 +101,8 @@ if(isset($_POST['submit'])) {
     </style>
 </head>
 <body>
+
+
     <h2>Edit Data Pesanan</h2>
     
     <div class="form-container">
@@ -156,7 +158,7 @@ if(isset($_POST['submit'])) {
             
             <div class="form-group">
                 <button type="submit" name="submit" class="btn-submit">Update</button>
-                <a href="admin_dashboard.php" class="btn-cancel">Batal</a>
+                <a href="dashboard_coba2.php" class="btn-cancel">Batal</a>
             </div>
         </form>
     </div>
