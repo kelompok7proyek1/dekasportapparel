@@ -1,49 +1,106 @@
 <?php
 include '../user/config.php';
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-
+// Proses form jika ada submit
+if(isset($_POST['submit'])) {
     $nama = $_POST['nama'];
     $no_hp = $_POST['no_hp'];
     $alamat = $_POST['alamat'];
-    $jumlah = $_POST['jumlah_pesanan'];
-
-    $query = "INSERT INTO pelanggan_dekas (nama, no_hp, alamat, jumlah_pesanan) 
-            VALUES ('$nama', '$no_hp', '$alamat', '$jumlah')";
-
-    if ($conn->query($query)) {
-        header("Location: admin_dashboard.php");
+    
+    // Jumlah pesanan awal adalah 0
+    $jumlah_pesanan = 0;
+    
+    // Query untuk insert data
+    $sql = "INSERT INTO pelanggan_dekas (nama, no_hp, alamat, jumlah_pesanan) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssi", $nama, $no_hp, $alamat, $jumlah_pesanan);
+    
+    if($stmt->execute()) {
+        echo "<script>alert('Data pelanggan berhasil ditambahkan'); window.location='dashboard_coba2.php';</script>";
     } else {
-        echo "Gagal menambah data pelanggan: " . $conn->error;
+        echo "<script>alert('Gagal menambahkan data pelanggan: " . $conn->error . "');</script>";
     }
-
+    
+    $stmt->close();
 }
-
-
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Tambah Pelanggan</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            height: 100px;
+        }
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-cancel {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+        }
+    </style>
 </head>
+
 <body>
-    <h2>Tambah Data Pelanggan</h2>
-    <form method="post">
-        <label>Nama:</label><br>
-        <input type="text" name="nama" required><br><br>
 
-        <label>No HP:</label><br>
-        <input type="text" name="no_hp" required><br><br>
-
-        <label>Alamat:</label><br>
-        <input type="text" name="alamat" required><br><br>
-
-        <label>Jumlah Pesanan:</label><br>
-        <input type="number" name="jumlah_pesanan" required><br><br>
-
-        <input type="submit" value="Tambah">
-    </form>
+    <h2>Tambah Pelanggan Baru</h2>
+    
+    <div class="form-container">
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="nama">Nama Pelanggan:</label>
+                <input type="text" id="nama" name="nama" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="no_hp">No HP:</label>
+                <input type="text" id="no_hp" name="no_hp" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="alamat">Alamat:</label>
+                <textarea id="alamat" name="alamat" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" name="submit" class="btn-submit">Simpan</button>
+                <a href="dashboard_coba2.php" class="btn-cancel">Batal</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
-

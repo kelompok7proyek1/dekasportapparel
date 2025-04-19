@@ -7,6 +7,7 @@
 
     $sql = "SELECT tanggal_pemesanan, total_harga, status_pemesanan, total_order, in_progres, completed FROM pesanan_dekas";
     $result = $conn->query($sql);
+    $row = $result->fetch_assoc() 
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +66,7 @@
                         <div class="dashboard-cards">
                             <div class="dashboard-card">
                                 <h4>Total Orders</h4>
-                                <p>12</p>
+                                <p><?= $row["total_order"] ?></p>
                             </div>
                             <!-- <div class="dashboard-card">
                                 <h4>Saved Designs</h4>
@@ -73,11 +74,11 @@
                             </div> -->
                             <div class="dashboard-card">
                                 <h4>In Progress</h4>
-                                <p>2</p>
+                                <p><?= $row["in_progres"] ?></p>
                             </div>
                             <div class="dashboard-card">
                                 <h4>Completed</h4>
-                                <p>10</p>
+                                <p><?= $row["completed"] ?></p>
                             </div>
                         </div>
                         <h3>Riwayat Pemesanan</h3>
@@ -93,8 +94,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <t r>
-                                <?php $row = $result->fetch_assoc() ?>
+                                <tr>
                                 <td><?= $row["tanggal_pemesanan"] ?></td>
                                 <td><?= $row["total_harga"] ?></td>
                                 <td><span class="status processing"><?= $row["status_pemesanan"] ?></span></td>
@@ -102,7 +102,7 @@
                                 <td><?= $row["in_progres"] ?></td>
                                 <td><?= $row["completed"] ?></td>
                                 <!-- <td><span class="status processing">Processing</span></td> -->
-                                </t>
+                                </tr>
                                 
                             </tbody>
                         </table>

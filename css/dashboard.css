@@ -246,7 +246,7 @@ header {
             font-weight: 600;
         }
 
-        .status.completed {
+        /* .status.completed {
             background-color: #d4edda;
             color: #155724;
         }
@@ -254,7 +254,7 @@ header {
         .status.processing {
             background-color: #fff3cd;
             color: #856404;
-        }
+        } */
 
         /* Add this to ensure the Recent Orders heading aligns with the table */
         .dashboard-content h2 {
