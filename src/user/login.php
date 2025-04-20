@@ -14,7 +14,7 @@ if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
     if (password_verify($password, $user['password'])) {
         $_SESSION['email'] = $email;
-        header("Location: dashboard.php") ;
+        header("Location: index.php") ;
         exit();
     }
 }

@@ -22,12 +22,14 @@
                     <li><a href="index.php">Home</a></li>
                     <li><a href="about.php">About Us</a></li>
                     <li><a href="contact.php">Contact Us</a></li>
-                    <li><a href="custom.php">Custom</a></li>
+                    <li><a href="data_pelanggan.php" onclick="return confirm('Silakan isi data-data anda terlebih dahulu!')">Custom</a></li>
                     <?php if($loggedIn) : ?>
                         <li><a href="dashboard.php">Dashboard</a></li>
                         <li><a href="logout.php">Logout</a></li>
                             <?php else : ?>
                                 <li><a href="login.html" onclick="return confirm('Silakan login terlebih dahulu!')">Dashboard</a></li>
+                                <li><a href="login.html">login</a></li>
+                                <li><a href="registrasi.html">Register</a></li> 
                     <?php endif; ?>
                 </ul>
                 <!-- <div class="menu-toggle" id="menu-toggle">

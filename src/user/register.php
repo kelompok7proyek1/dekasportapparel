@@ -8,7 +8,7 @@ $stmt = $conn->prepare("INSERT INTO login_dekas (email, password) VALUES (?, ?)"
 $stmt->bind_param("ss", $email, $password);
 
 if ($stmt->execute()) {
-    header("Location: index.php");
+    header("Location: login.html");
 } else {
     header("Location: registrasi.html");
 }
