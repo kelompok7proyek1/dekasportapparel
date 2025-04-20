@@ -27,7 +27,7 @@
                     <li><a href="contact.php">Contact Us</a></li>
                     <?php if($loggedIn) : ?>
                     <li><a href="dashboard.php">Dashboard</a></li>
-                        <li><a href="logout.php">Logout</a></li>
+                        <!-- <li><a href="logout.php">Logout</a></li> -->
                             <?php else : ?>
                                 <li><a href="login.html" onclick="return confirm('Silakan login terlebih dahulu!')">Dashboard</a></li>
                                 <!-- <li><a href="login.html">login</a></li>
