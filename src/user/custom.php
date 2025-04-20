@@ -21,26 +21,41 @@
                 <a href="#" class="logo">DekaSport<span>Apparel</span></a>
                 <ul class="nav-links">
                     <li><a href="index.php">Home</a></li>
+                    <li><a href="data_pelanggan.php" onclick="return confirm('Silakan isi data-data anda terlebih dahulu!')">Custom</a></li>
                     <li><a href="about.php">About Us</a></li>
                     <li><a href="contact.php">Contact Us</a></li>
-                    <li><a href="data_pelanggan.php" onclick="return confirm('Silakan isi data-data anda terlebih dahulu!')">Custom</a></li>
                     <?php if($loggedIn) : ?>
-                        <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="dashboard.php">Dashboard</a></li>
                         <li><a href="logout.php">Logout</a></li>
                             <?php else : ?>
                                 <li><a href="login.html" onclick="return confirm('Silakan login terlebih dahulu!')">Dashboard</a></li>
-                                <li><a href="login.html">login</a></li>
-                                <li><a href="registrasi.html">Register</a></li> 
+                                <!-- <li><a href="login.html">login</a></li>
+                                <li><a href="registrasi.html">Register</a></li>  -->
                     <?php endif; ?>
                 </ul>
-                <!-- <div class="menu-toggle" id="menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div> -->
-            </nav>
-        </div>
-    </header>
+                 
+            <!-- Auth buttons (Login/Register) -->
+            <div class="auth-buttons">
+                <?php if($loggedIn) : ?>
+                    <a href="profile.php" class="login-btn">My Account</a>
+                    <a href="logout.php" class="register-btn">Logout</a>
+                <?php else : ?>
+                    <a href="login.html" class="login-btn">Login</a>
+                    <a href="register.html" class="register-btn">Register</a>
+                <?php endif; ?>
+                <a href="cart.php" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+            </div>
+            
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </div>
+</header>
 
   <main>
     <div id="viewer-container">
