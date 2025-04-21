@@ -10,6 +10,6 @@ $stmt->bind_param("ss", $email, $password);
 if ($stmt->execute()) {
     header("Location: login.html");
 } else {
-    header("Location: registrasi.html");
+    header("Location: register.html");
 }
 ?>

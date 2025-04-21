@@ -1,5 +1,5 @@
 <?php
-include '../user/config.php';
+include 'config.php';
 
 // Proses form jika ada submit
 if(isset($_POST['submit'])) {
