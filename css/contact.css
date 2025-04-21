@@ -529,12 +529,6 @@ textarea.form-control {
 }
 
 /* Footer */
-.container-footer{
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 0 20px;
-    /* background-color: #ddd; */
-}
 footer {
     background-color: var(--secondary-color);
     color: white;

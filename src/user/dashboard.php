@@ -128,7 +128,7 @@
 
       <!-- Footer -->
     <footer>
-        <div class="container-footer">
+        <div class="container">
                 <div class="footer-content">
                     <section class="footer-column">
                     <div class="footer-column1">
