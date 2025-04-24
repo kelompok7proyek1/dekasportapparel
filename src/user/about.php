@@ -80,8 +80,7 @@
         <div class="container">
             <div class="maksud-content">
             <div class="maksud-image">
-                <img src="../../image/Rectangle 57.png" alt="about.jpg">
-                <img src="../../image/baju2juga.jpg" alt="about.jpg">
+                <img src="../../image/background.jpeg" alt="background.jpeg">
             </div>
             <div class ="maksud-text" >
                 <ol>
