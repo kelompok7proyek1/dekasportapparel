@@ -1,11 +1,11 @@
 <?php
 include 'config.php';
 
-$email = $_POST['email'];
+$nama = $_POST['nama'];
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-$stmt = $conn->prepare("INSERT INTO login_dekas (email, password) VALUES (?, ?)");
-$stmt->bind_param("ss", $email, $password);
+$stmt = $conn->prepare("INSERT INTO login_dekas (nama, password) VALUES (?, ?)");
+$stmt->bind_param("ss", $nama, $password);
 
 if ($stmt->execute()) {
     header("Location: login.html");

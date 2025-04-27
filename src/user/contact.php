@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $loggedIn = isset($_SESSION['email']);
+    $loggedIn = isset($_SESSION['nama']);
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +100,7 @@
                     <h2>ada pertanyaan..?</h2>
                     <form>
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Masukan email anda disini...">
+                            <input type="nama" class="form-control" placeholder="Masukan nama anda disini...">
                         </div>
                         <div class="form-group">
                             <textarea class="form-control" placeholder="Pertanyaan Anda..."></textarea>

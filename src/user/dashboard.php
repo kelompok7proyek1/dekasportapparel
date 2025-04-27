@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $loggedIn = isset($_SESSION['email']);
+    $loggedIn = isset($_SESSION['nama']);
 ?>
 <?php
     include 'config.php'; // koneksi ke database
