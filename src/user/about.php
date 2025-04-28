@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $loggedIn = isset($_SESSION['email']);
+    $loggedIn = isset($_SESSION['id_pelanggan']); 
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +37,7 @@
                 <!-- Auth buttons (Login/Register) -->
             <div class="auth-buttons">
                 <?php if($loggedIn) : ?>
-                    <a href="profile.php" class="login-btn">My Account</a>
+                    <a href="profile.php?id=<?= $_SESSION['id_pelanggan'] ?>" class="login-btn">My Account</a>
                     <a href="logout.php" class="register-btn">Logout</a>
                 <?php else : ?>
                     <a href="login.html" class="login-btn">Login</a>

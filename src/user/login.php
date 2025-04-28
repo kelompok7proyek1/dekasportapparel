@@ -2,21 +2,24 @@
 session_start();
 include 'config.php'; //koneksi ke file config yang sudah terhubung di database
 
-$email = $_POST['email'];
+$nama = $_POST['nama'];
 $password = $_POST['password'];
 
 // $email_admin = $_POST['email_admin'];
 // $password_admin = $_POST['password_admin'];
 
-$stmt = $conn->prepare("SELECT * FROM login_dekas WHERE email = ?");
-$stmt->bind_param("s", $email);
+$stmt = $conn->prepare("SELECT * FROM login_dekas WHERE nama = ?");
+$stmt->bind_param("s", $nama);
 $stmt->execute();
 $result = $stmt->get_result();
+
 
 if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
     if (password_verify($password, $user['password'])) {
-        $_SESSION['email'] = $email;
+        $_SESSION['id_pelanggan'] = $user['id_pelanggan'];
+        $_SESSION['nama'] = $user['nama'];
+        // $_SESSION['nama'] = $nama;
         header("Location: index.php") ;
         exit();
     }
