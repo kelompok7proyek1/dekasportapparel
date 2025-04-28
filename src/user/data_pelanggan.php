@@ -35,10 +35,18 @@ if(isset($_POST['submit'])) {
         
     </style>
 </head>
+<header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">DekaSport<span>Apparel</span></a>
+            </nav>
+        </div>
+    </header>
+
 
 <body>
 
-    <h2>Tolong isi data-data nya untuk melanjutkan desain</h2>
+    
     
     <div class="form-container">
         <form method="POST" action="">
