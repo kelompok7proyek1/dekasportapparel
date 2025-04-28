@@ -1,5 +1,28 @@
 <?php
 include 'config.php';
+session_start();
+
+$id_pelanggan = $_SESSION['id_pelanggan']; // Atau id_pelanggan kalo kamu sudah pakai session id
+
+// Cek apakah pelanggan sudah pernah mengisi
+$stmt = $conn->prepare("SELECT * FROM pelanggan_dekas WHERE id_pelanggan = ?");
+$stmt->bind_param("i", $id_pelanggan);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Kalau sudah ada datanya, langsung lempar ke custom.php
+if($result->num_rows > 0) {
+    echo "<script>
+            window.location='custom.php';
+            </script>";
+    exit();
+}
+
+// Kalau belum ada, baru munculin form (form ada di bawah seperti biasa)
+?>
+
+<?php
+include 'config.php';
 
 // Proses form jika ada submit
 if(isset($_POST['submit'])) {
