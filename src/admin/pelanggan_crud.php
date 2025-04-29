@@ -2,262 +2,326 @@
 include "../user/config.php";
 session_start();
 
-// Proteksi halaman
-// if (!isset($_SESSION['is_admin_logged_in']) || $_SESSION['is_admin_logged_in'] !== true) {
-//     header("Location: login.php");
-//     exit;
-// }
-// $total_artikel_result = $conn->query("SELECT COUNT(*) AS total_artikel FROM artikel");
-// $total_artikel = $total_artikel_result->fetch_assoc()['total_artikel'];
-
-//Menghitung total agenda (misalnya dari tabel agenda)
-// $total_agenda_result = $conn->query("SELECT COUNT(*) AS total_agenda FROM agenda");
-// $total_agenda = $total_agenda_result->fetch_assoc()['total_agenda'];
-
-// // Menghitung total pengguna
-// $total_pengguna_result = $conn->query("SELECT COUNT(*) AS total_pengguna FROM masyarakat");
-// $total_pengguna = $total_pengguna_result->fetch_assoc()['total_pengguna'];
-
-// Simpan nama admin dari session
-// $adminName = $_SESSION['username'];
-
-// Query data pelanggan dan pesanan
+// Query data pelanggan
 $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
-// $resultpesanan = $conn->query("SELECT * FROM pesanan_dekas");
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin</title>
-    <link rel="stylesheet" href="../../css/dashboard.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kelola Pelanggan - DEKAS</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --sidebar-text: #cbd5e1;
         }
-
+        
         body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
         }
+        
+        /* Sidebar styles */
         .sidebar {
-            height: 100vh;
-            width: 240px;
             position: fixed;
-            background-color: #1e293b;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            padding: 1.5rem 1rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .sidebar-brand {
             color: white;
-            padding: 20px;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
-            border-bottom: 1px solid #475569;
-            padding-bottom: 10px;
-        }
-
-        .sidebar a {
-            display: block;
-            color: #cbd5e1;
-            padding: 12px 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
             text-decoration: none;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            transition: 0.2s;
         }
-
-        .sidebar a:hover {
-            background-color: #334155;
-        }
-        .btn btn-danger {
-            color: white;
+        
+        .nav-link {
+            color: var(--sidebar-text);
             border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
+            margin-bottom: 0.5rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
         }
-
-        .main {
-            margin-left: 240px;
-            padding: 30px;
-        }
-
-        .header {
-            background-color: #22c55e;
-            padding: 20px;
+        
+        .nav-link:hover {
+            background-color: var(--sidebar-hover);
             color: white;
-            font-size: 24px;
-            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .nav-link i {
+            margin-right: 0.75rem;
+            width: 1.25rem;
             text-align: center;
-            border-radius: 10px;
         }
-
-        .card {
+        
+        .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Main content area */
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .data-section {
             background-color: white;
-            padding: 25px;
-            margin-top: 25px;
             border-radius: 10px;
-            box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
-
+        
+        .data-section h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        .action-buttons .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.85rem;
+        }
+        
         .logout-btn {
-            background-color: crimson;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            margin-top: 20px;
-            cursor: pointer;
-            border-radius: 6px;
-            font-weight: bold;
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
         }
-
+        
         .logout-btn:hover {
-            background-color: darkred;
+            background-color: #bb2d3b;
+            border-color: #b02a37;
         }
-        .logout{
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-            margin-top: 20px;
+        
+        /* Responsive adjustments */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                width: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            
+            .sidebar.show {
+                width: 250px;
+                padding: 1.5rem 1rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.sidebar-open {
+                margin-left: 250px;
+            }
+            
+            .toggle-sidebar {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 1100;
+            }
         }
-
-        .crud-links {
-            margin-top: 30px;
+        
+        @media (min-width: 992px) {
+            .toggle-sidebar {
+                display: none;
+            }
+        }
+        
+        .customer-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #e9ecef;
+            border-radius: 50%;
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .crud-links a {
-            background-color: #3b82f6;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
-        .crud-links a:hover {
-            background-color: #2563eb;
-        }
-        
-        /* Additional styles for tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            margin-bottom: 25px;
-        }
-        
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-        
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        
-        .btn {
-            padding: 5px 10px;
-            text-decoration: none;
-            margin-right: 5px;
-            border-radius: 3px;
-            display: inline-block;
-            color: white;
-        }
-        
-        .btn-edit {
-            background-color: #4CAF50;
-        }
-        
-        .btn-delete {
-            background-color: #f44336;
-        }
-        
-        .tambah-btn {
-            display: inline-block;
-            background-color: #2196F3;
-            color: white;
-            padding: 8px 16px;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-bottom: 10px;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
-<header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="#" class="logo">DekaSport<span>Apparel</span></a>
-                <ul class="nav-links">
-                    <li><a href="dashboard_coba2.php">Halaman Admin</a></li>
-                    <!-- <li><a href="about.php">About Us</a></li> -->
-                    <!-- <li><a href="contact.php">Contact Us</a></li> -->
-                    <!-- <li><a href="custom.php">Custom</a></li> -->
-                </ul>
-                <!-- <div class="menu-toggle" id="menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div> -->
-            </nav>
-        </div>
-    </header>
 
-<div class="card">
-        <h3>Tabel Pelanggan</h3>
-        <a href="tambah_pelanggan.php" class="tambah-btn">Tambah Pelanggan</a>
-        <table border="1" style="border-collapse: collapse;">
-            <tr>
-                <th>ID Pelanggan</th>
-                <th>Nama Pelanggan</th>
-                <th>No Hp</th>
-                <th>Alamat</th>
-                <th>Jumlah Pesanan</th>
-                <th>Aksi</th>
-            </tr>
-            <?php if($resultpelanggan && $resultpelanggan->num_rows > 0): ?>
-                <?php while($row = $resultpelanggan->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= $row['id_pelanggan'] ?></td>
-                        <td><?= $row['nama'] ?></td>
-                        <td><?= $row['no_hp'] ?></td>
-                        <td><?= $row['alamat'] ?></td>
-                        <td><?= $row['jumlah_pesanan'] ?></td>
-                        <td>
-                            <a href="edit_pelanggan.php?id=<?= $row['id_pelanggan'] ?>" class="btn btn-edit">Edit</a>
-                            <a href="hapus_pelanggan.php?id=<?= $row['id_pelanggan'] ?>" class="btn btn-delete" onclick="return confirm('Yakin ingin menghapus data pelanggan ini?')">Hapus</a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="6">Tidak ada data pelanggan</td>
-                </tr>
-            <?php endif; ?>
-        </table>
+<!-- Sidebar Toggle Button (visible on mobile) -->
+<button class="btn btn-primary toggle-sidebar d-lg-none" type="button" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <a href="#" class="sidebar-brand">
+            <i class="fas fa-tshirt me-2"></i>
+            Admin
+        </a>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="dashboard_coba2.php">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="pelanggan_crud.php">
+                <i class="fas fa-users"></i>
+                Kelola Pelanggan
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pesanan_crud.php">
+                <i class="fas fa-shopping-cart"></i>
+                Kelola Pesanan
+            </a>
+        </li>
+        <li class="nav-item mt-3">
+            <a class="nav-link logout-btn" href="logout.php">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="mb-2"><i class="fas fa-users me-2"></i>Manajemen Data Pelanggan</h1>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <button class="btn btn-light" id="refreshData">
+                    <i class="fas fa-sync-alt me-2"></i>Refresh Data
+                </button>
+            </div>
+        </div>
     </div>
     
+    <!-- Customers Data Section -->
+    <div class="data-section">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Daftar Pelanggan</h2>
+            <a href="tambah_pelanggan.php" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Tambah Pelanggan
+            </a>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama Pelanggan</th>
+                        <th>No HP</th>
+                        <th>Alamat</th>
+                        <th>Jumlah Pesanan</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if($resultpelanggan && $resultpelanggan->num_rows > 0): ?>
+                        <?php while($row = $resultpelanggan->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= $row['id_pelanggan'] ?></td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="customer-avatar">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <span class="fw-medium"><?= $row['nama'] ?></span>
+                                    </div>
+                                </td>
+                                <td><?= $row['no_hp'] ?></td>
+                                <td><?= $row['alamat'] ?></td>
+                                <td>
+                                    <span class="badge bg-info"><?= $row['jumlah_pesanan'] ?> pesanan</span>
+                                </td>
+                                <td class="text-center action-buttons">
+                                    <a href="edit_pelanggan.php?id=<?= $row['id_pelanggan'] ?>" class="btn btn-sm btn-warning">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a href="hapus_pelanggan.php?id=<?= $row['id_pelanggan'] ?>" class="btn btn-sm btn-danger" 
+                                       onclick="return confirm('Yakin ingin menghapus data pelanggan ini?')">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                <i class="fas fa-inbox fa-3x mb-3 text-muted"></i>
+                                <p class="text-muted">Tidak ada data pelanggan</p>
+                                <a href="tambah_pelanggan.php" class="btn btn-sm btn-outline-primary">Tambah Pelanggan Baru</a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Simple refresh function
+    document.getElementById('refreshData').addEventListener('click', function() {
+        location.reload();
+    });
+    
+    // Mobile sidebar toggle
+    document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        
+        sidebar.classList.toggle('show');
+        mainContent.classList.toggle('sidebar-open');
+    });
+</script>
 </body>
 </html>

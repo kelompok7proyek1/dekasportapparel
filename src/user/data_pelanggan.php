@@ -1,24 +1,30 @@
 <?php
-include 'config.php';
 session_start();
+include 'config.php';
 
-$id_pelanggan = $_SESSION['id_pelanggan']; // Atau id_pelanggan kalo kamu sudah pakai session id
+// Cek apakah user sudah login
+if (!isset($_SESSION['id_pelanggan'])) {
+    // Belum login
+    echo "<script>alert('Silakan login terlebih dahulu!'); window.location.href='login.html';</script>";
+    exit;
+}
 
-// Cek apakah pelanggan sudah pernah mengisi
+// Sudah login, cek apakah data pelanggan sudah ada
+$id_pelanggan = $_SESSION['id_pelanggan'];
+
 $stmt = $conn->prepare("SELECT * FROM pelanggan_dekas WHERE id_pelanggan = ?");
 $stmt->bind_param("i", $id_pelanggan);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Kalau sudah ada datanya, langsung lempar ke custom.php
-if($result->num_rows > 0) {
-    echo "<script>
-            window.location='custom.php';
-            </script>";
-    exit();
+// Kalau sudah ada data pelanggan
+if ($result->num_rows > 0) {
+    header("Location: custom.php"); // langsung ke halaman custom
+    exit;
+} else {
+    header("Location: data_pelanggan.php"); // suruh isi data pelanggan dulu
+    exit;
 }
-
-// Kalau belum ada, baru munculin form (form ada di bawah seperti biasa)
 ?>
 
 <?php

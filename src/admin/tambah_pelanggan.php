@@ -1,8 +1,11 @@
 <?php
 include '../user/config.php';
 
+$pelanggan_result = $conn->query("SELECT * FROM login_dekas ORDER BY nama");
+
 // Proses form jika ada submit
 if(isset($_POST['submit'])) {
+    $id_pelanggan = $_POST['id_pelanggan'];
     $nama = $_POST['nama'];
     $no_hp = $_POST['no_hp'];
     $alamat = $_POST['alamat'];
@@ -11,9 +14,9 @@ if(isset($_POST['submit'])) {
     $jumlah_pesanan = 0;
     
     // Query untuk insert data
-    $sql = "INSERT INTO pelanggan_dekas (nama, no_hp, alamat, jumlah_pesanan) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO pelanggan_dekas(id_pelanggan, nama, no_hp, alamat, jumlah_pesanan) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssi", $nama, $no_hp, $alamat, $jumlah_pesanan);
+    $stmt->bind_param("isssi",$id_pelanggan, $nama, $no_hp, $alamat, $jumlah_pesanan);
     
     if($stmt->execute()) {
         echo "<script>alert('Data pelanggan berhasil ditambahkan'); window.location='dashboard_coba2.php';</script>";
@@ -81,6 +84,16 @@ if(isset($_POST['submit'])) {
     
     <div class="form-container">
         <form method="POST" action="">
+        <div class="form-group">
+                <label for="id_pelanggan">Pelanggan yang sudah login:</label>
+                <select id="id_pelanggan" name="id_pelanggan" required>
+                    <option value="">-- Pilih Pelanggan --</option>
+                    <?php while($row = $pelanggan_result->fetch_assoc()): ?>
+                        <option value="<?= $row['id_pelanggan'] ?>"><?= $row['nama'] ?></option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="nama">Nama Pelanggan:</label>
                 <input type="text" id="nama" name="nama" required>

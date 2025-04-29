@@ -18,7 +18,7 @@ if(isset($_POST['submit'])) {
     $sql = "INSERT INTO pesanan_dekas (id_pelanggan, tanggal_pemesanan, total_harga, status_pemesanan, total_order, in_progres, completed) 
             VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("issiiis", $id_pelanggan, $tanggal_pemesanan, $total_harga, $status_pemesanan, $total_order, $in_progres, $completed);
+    $stmt->bind_param("isssiis", $id_pelanggan, $tanggal_pemesanan, $total_harga, $status_pemesanan, $total_order, $in_progres, $completed);
     
     if($stmt->execute()) {
         // Update jumlah pesanan di tabel pelanggan
@@ -98,9 +98,10 @@ if(isset($_POST['submit'])) {
             </div>
             
             <div class="form-group">
-                <label for="total_harga">Total Harga:</label>
-                <input type="number" id="total_harga" name="total_harga" required>
+                <label for="total_order">Total Order:</label>
+                <input type="number" id="total_order" name="total_order" value="0" required>
             </div>
+
             
             <div class="form-group">
                 <label for="status_pemesanan">Status Pemesanan:</label>
@@ -112,10 +113,6 @@ if(isset($_POST['submit'])) {
                 </select>
             </div>
             
-            <div class="form-group">
-                <label for="total_order">Total Order:</label>
-                <input type="number" id="total_order" name="total_order" value="0" required>
-            </div>
             
             <div class="form-group">
                 <label for="in_progres">In Progress:</label>
@@ -127,6 +124,11 @@ if(isset($_POST['submit'])) {
                 <input type="text" id="completed" name="completed" value="0" required>
             </div>
             
+            <div class="form-group">
+                <label for="total_harga">Total Harga:</label>
+                <input type="number" id="total_harga" name="total_harga" required>
+            </div>
+
             <div class="form-group">
                 <button type="submit" name="submit" class="btn-submit">Simpan</button>
                 <a href="dashboard_coba2.php" class="btn-cancel">Batal</a>

@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <div class="dashboard-content">
+        <!-- <div class="dashboard-content">
             <div class="dashboard-cards">
                 <div class="dashboard-card">
                     <h4>Total Orders</h4>
@@ -89,7 +89,7 @@
                     <h4>Completed</h4>
                     <p><?= $row["completed"] ?? 0 ?></p>
                 </div>
-            </div>
+            </div> -->
 
             <h3>Riwayat Pemesanan</h3>
             <table border="1" class="orders-table">

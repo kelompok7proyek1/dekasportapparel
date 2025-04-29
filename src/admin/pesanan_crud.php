@@ -2,266 +2,492 @@
 include "../user/config.php";
 session_start();
 
-// Proteksi halaman
-// if (!isset($_SESSION['is_admin_logged_in']) || $_SESSION['is_admin_logged_in'] !== true) {
-//     header("Location: login.php");
-//     exit;
-// }
-// $total_artikel_result = $conn->query("SELECT COUNT(*) AS total_artikel FROM artikel");
-// $total_artikel = $total_artikel_result->fetch_assoc()['total_artikel'];
-
-//Menghitung total agenda (misalnya dari tabel agenda)
-// $total_agenda_result = $conn->query("SELECT COUNT(*) AS total_agenda FROM agenda");
-// $total_agenda = $total_agenda_result->fetch_assoc()['total_agenda'];
-
-// // Menghitung total pengguna
-// $total_pengguna_result = $conn->query("SELECT COUNT(*) AS total_pengguna FROM masyarakat");
-// $total_pengguna = $total_pengguna_result->fetch_assoc()['total_pengguna'];
-
-// Simpan nama admin dari session
-// $adminName = $_SESSION['username'];
-
-// Query data pelanggan dan pesanan
-// $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
-$resultpesanan = $conn->query("SELECT * FROM pesanan_dekas");
+// Query data pesanan
+$resultpesanan = $conn->query("SELECT p.*, pl.nama as nama_pelanggan 
+                              FROM pesanan_dekas p 
+                              JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan");
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin</title>
-    <link rel="stylesheet" href="../../css/dashboard.css">
+    <title>Kelola Pesanan - DekaSport Apparel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --sidebar-text: #cbd5e1;
         }
-
+        
         body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
         }
+        
+        /* Sidebar styles */
         .sidebar {
-            height: 100vh;
-            width: 240px;
             position: fixed;
-            background-color: #1e293b;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            padding: 1.5rem 1rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .sidebar-brand {
             color: white;
-            padding: 20px;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
-            border-bottom: 1px solid #475569;
-            padding-bottom: 10px;
-        }
-
-        .sidebar a {
-            display: block;
-            color: #cbd5e1;
-            padding: 12px 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
             text-decoration: none;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            transition: 0.2s;
         }
-
-        .sidebar a:hover {
-            background-color: #334155;
-        }
-        .btn btn-danger {
-            color: white;
+        
+        .nav-link {
+            color: var(--sidebar-text);
             border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
+            margin-bottom: 0.5rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
         }
-
-        .main {
-            margin-left: 240px;
-            padding: 30px;
-        }
-
-        .header {
-            background-color: #22c55e;
-            padding: 20px;
+        
+        .nav-link:hover {
+            background-color: var(--sidebar-hover);
             color: white;
-            font-size: 24px;
-            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .nav-link i {
+            margin-right: 0.75rem;
+            width: 1.25rem;
             text-align: center;
-            border-radius: 10px;
         }
-
-        .card {
+        
+        .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Main content area */
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .data-section {
             background-color: white;
-            padding: 25px;
-            margin-top: 25px;
             border-radius: 10px;
-            box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
-
+        
+        .data-section h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        .action-buttons .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.85rem;
+        }
+        
         .logout-btn {
-            background-color: crimson;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            margin-top: 20px;
-            cursor: pointer;
-            border-radius: 6px;
-            font-weight: bold;
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
         }
-
+        
         .logout-btn:hover {
-            background-color: darkred;
-        }
-        .logout{
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-            margin-top: 20px;
-        }
-
-        .crud-links {
-            margin-top: 30px;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .crud-links a {
-            background-color: #3b82f6;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
-        .crud-links a:hover {
-            background-color: #2563eb;
+            background-color: #bb2d3b;
+            border-color: #b02a37;
         }
         
-        /* Additional styles for tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            margin-bottom: 25px;
+        .badge {
+            font-size: 0.85rem;
+            padding: 0.35em 0.65em;
         }
         
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
+        /* Responsive adjustments */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                width: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            
+            .sidebar.show {
+                width: 250px;
+                padding: 1.5rem 1rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.sidebar-open {
+                margin-left: 250px;
+            }
+            
+            .toggle-sidebar {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 1100;
+            }
         }
         
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        
-        .btn {
-            padding: 5px 10px;
-            text-decoration: none;
-            margin-right: 5px;
-            border-radius: 3px;
-            display: inline-block;
-            color: white;
-        }
-        
-        .btn-edit {
-            background-color: #4CAF50;
-        }
-        
-        .btn-delete {
-            background-color: #f44336;
-        }
-        
-        .tambah-btn {
-            display: inline-block;
-            background-color: #2196F3;
-            color: white;
-            padding: 8px 16px;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-bottom: 10px;
+        @media (min-width: 992px) {
+            .toggle-sidebar {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-<header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="#" class="logo">DekaSport<span>Apparel</span></a>
-                <ul class="nav-links">
-                    <li><a href="dashboard_coba2.php">Halaman Admin</a></li>
-                    <!-- <li><a href="about.php">About Us</a></li> -->
-                    <!-- <li><a href="contact.php">Contact Us</a></li> -->
-                    <!-- <li><a href="custom.php">Custom</a></li> -->
+
+<!-- Sidebar Toggle Button (visible on mobile) -->
+<button class="btn btn-primary toggle-sidebar d-lg-none" type="button" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <a href="#" class="sidebar-brand">
+            <i class="fas fa-tshirt me-2"></i>
+            Admin
+        </a>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="dashboard_coba2.php">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pelanggan_crud.php">
+                <i class="fas fa-users"></i>
+                Kelola Pelanggan
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="pesanan_crud.php">
+                <i class="fas fa-shopping-cart"></i>
+                Kelola Pesanan
+            </a>
+        </li>
+        <li class="nav-item mt-3">
+            <a class="nav-link logout-btn" href="logout.php">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="mb-2"><i class="fas fa-shopping-cart me-2"></i>Manajemen Data Pesanan</h1>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a href="tambah_pesanan.php" class="btn btn-light">
+                    <i class="fas fa-plus-circle me-2"></i>Tambah Pesanan
+                </a>
+                <button class="btn btn-light ms-2" id="refreshData">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pesanan Data Section -->
+    <div class="data-section">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-list me-2"></i>Daftar Pesanan</h2>
+            <div class="d-flex">
+                <div class="input-group me-2" style="width: 250px;">
+                    <input type="text" class="form-control" placeholder="Cari pesanan..." id="searchInput">
+                    <button class="btn btn-outline-secondary" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown">
+                        <i class="fas fa-filter me-1"></i>Filter
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                        <li><a class="dropdown-item" href="#">Semua Status</a></li>
+                        <li><a class="dropdown-item" href="#">Pending</a></li>
+                        <li><a class="dropdown-item" href="#">Processed</a></li>
+                        <li><a class="dropdown-item" href="#">Completed</a></li>
+                        <li><a class="dropdown-item" href="#">Cancelled</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID Pesanan</th>
+                        <th>Pelanggan</th>
+                        <th>Tanggal</th>
+                        <th>Total Harga</th>
+                        <th>Status</th>
+                        <th>Progress</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if($resultpesanan && $resultpesanan->num_rows > 0): ?>
+                        <?php while($row = $resultpesanan->fetch_assoc()): 
+                            // Calculate progress percentage
+                            $total = $row['total_order'];
+                            $completed = $row['completed'];
+                            $progress = ($total > 0) ? ($completed / $total) * 100 : 0;
+                            
+                            // Determine badge color based on status
+                            $statusColor = '';
+                            switch(strtolower($row['status_pemesanan'])) {
+                                case 'procesed':
+                                case 'processed':
+                                    $statusColor = 'primary';
+                                    $icon = 'fas fa-spinner fa-spin';
+                                    break;
+                                case 'completed':
+                                    $statusColor = 'success';
+                                    $icon = 'fas fa-check-circle';
+                                    break;
+                                case 'pending':
+                                    $statusColor = 'warning';
+                                    $icon = 'fas fa-clock';
+                                    break;
+                                case 'cancelled':
+                                    $statusColor = 'danger';
+                                    $icon = 'fas fa-times-circle';
+                                    break;
+                                default:
+                                    $statusColor = 'secondary';
+                                    $icon = 'fas fa-question-circle';
+                            }
+                        ?>
+                            <tr>
+                                <td><span class="fw-medium">#<?= $row['id_pesanan'] ?></span></td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-placeholder bg-primary bg-opacity-10 rounded-circle text-primary me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <span class="fw-medium"><?= $row['nama_pelanggan'] ?></span>
+                                            <div class="small text-secondary">ID: <?= $row['id_pelanggan'] ?></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><?= date('d/m/Y', strtotime($row['tanggal_pemesanan'])) ?></td>
+                                <td><span class="fw-medium">Rp <?= number_format($row['total_harga'], 0, ',', '.') ?></span></td>
+                                <td>
+                                    <span class="badge bg-<?= $statusColor ?>">
+                                        <i class="<?= $icon ?> me-1"></i> <?= ucfirst($row['status_pemesanan']) ?>
+                                    </span>
+                                </td>
+                                <td style="width: 18%">
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                            <div class="progress-bar bg-<?= $statusColor ?>" role="progressbar" style="width: <?= $progress ?>%" 
+                                                aria-valuenow="<?= $progress ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <span class="small fw-medium"><?= $completed ?>/<?= $total ?></span>
+                                    </div>
+                                </td>
+                                <td class="text-center action-buttons">
+                                    <div class="btn-group">
+                                        <a href="edit_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Pesanan">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a href="lihat_detail.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-info" data-bs-toggle="tooltip" title="Lihat Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="hapus_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-danger" 
+                                        onclick="return confirm('Yakin ingin menghapus pesanan #<?= $row['id_pesanan'] ?>?')" data-bs-toggle="tooltip" title="Hapus Pesanan">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <div class="d-flex flex-column align-items-center">
+                                    <i class="fas fa-shopping-cart fa-3x text-secondary mb-3"></i>
+                                    <h5>Tidak ada data pesanan</h5>
+                                    <p class="text-muted">Belum ada pesanan yang dibuat</p>
+                                    <a href="tambah_pesanan.php" class="btn btn-primary mt-2">
+                                        <i class="fas fa-plus-circle me-2"></i>Tambah Pesanan Baru
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        <?php if($resultpesanan && $resultpesanan->num_rows > 10): ?>
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <div class="text-muted small">
+                Menampilkan 1-10 dari <?= $resultpesanan->num_rows ?> pesanan
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
                 </ul>
-                <!-- <div class="menu-toggle" id="menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div> -->
             </nav>
         </div>
-    </header>
-
-<div class="card">
-        <h3>Tabel Pesanan</h3>
-        <a href="tambah_pesanan.php" class="tambah-btn">Tambah Pesanan</a>
-        <table border="1" style="border-collapse: collapse;">
-            <tr>
-                <th>ID Pelanggan</th>
-                <th>ID Pesanan</th>
-                <th>Tanggal</th>
-                <th>Total Harga</th>
-                <th>Status</th>
-                <th>Total Order</th>
-                <th>In Progress</th>
-                <th>Completed</th>
-                <th>Aksi</th>
-            </tr>
-            <?php if($resultpesanan && $resultpesanan->num_rows > 0): ?>
-                <?php while($row = $resultpesanan->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= $row['id_pelanggan'] ?></td>
-                        <td><?= $row['id_pesanan'] ?></td>
-                        <td><?= $row['tanggal_pemesanan'] ?></td>
-                        <td><?= $row['total_harga'] ?></td>
-                        <td><?= $row['status_pemesanan'] ?></td>
-                        <td><?= $row['total_order'] ?></td>
-                        <td><?= $row['in_progres'] ?></td>
-                        <td><?= $row['completed'] ?></td>
-                        <td>
-                            <a href="edit_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-edit">Edit</a>
-                            <a href="hapus_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-delete" onclick="return confirm('Yakin ingin menghapus pesanan ini?')">Hapus</a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="9">Tidak ada data pesanan</td>
-                </tr>
-            <?php endif; ?>
-        </table>
+        <?php endif; ?>
     </div>
+    
+    <!-- Summary Stats -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-3 text-center">
+                <h6 class="text-primary mb-2"><i class="fas fa-shopping-cart me-2"></i>Total Pesanan</h6>
+                <h3><?= $resultpesanan ? $resultpesanan->num_rows : 0 ?></h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-3 text-center">
+                <h6 class="text-warning mb-2"><i class="fas fa-spinner me-2"></i>Sedang Diproses</h6>
+                <h3>
+                    <?php
+                    $processed = 0;
+                    if($resultpesanan) {
+                        $resultpesanan->data_seek(0);
+                        while($row = $resultpesanan->fetch_assoc()) {
+                            if(strtolower($row['status_pemesanan']) == 'procesed' || strtolower($row['status_pemesanan']) == 'processed') {
+                                $processed++;
+                            }
+                        }
+                    }
+                    echo $processed;
+                    ?>
+                </h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-3 text-center">
+                <h6 class="text-success mb-2"><i class="fas fa-check-circle me-2"></i>Selesai</h6>
+                <h3>
+                    <?php
+                    $completed = 0;
+                    if($resultpesanan) {
+                        $resultpesanan->data_seek(0);
+                        while($row = $resultpesanan->fetch_assoc()) {
+                            if(strtolower($row['status_pemesanan']) == 'completed') {
+                                $completed++;
+                            }
+                        }
+                    }
+                    echo $completed;
+                    ?>
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Enable tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+    
+    // Simple refresh function
+    document.getElementById('refreshData').addEventListener('click', function() {
+        location.reload();
+    });
+    
+    // Mobile sidebar toggle
+    document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        
+        sidebar.classList.toggle('show');
+        mainContent.classList.toggle('sidebar-open');
+    });
+    
+    // Simple search function
+    document.getElementById('searchInput')?.addEventListener('keyup', function() {
+        const searchValue = this.value.toLowerCase();
+        const tableRows = document.querySelectorAll('tbody tr');
+        
+        tableRows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            if(text.includes(searchValue)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
 </body>
 </html>
