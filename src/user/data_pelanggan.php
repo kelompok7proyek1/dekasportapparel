@@ -9,11 +9,9 @@ if (!isset($_SESSION['id_pelanggan'])) {
     exit;
 }
 
-
-
-// Sudah login, cek apakah data pelanggan sudah ada
 $id_cek = $_SESSION['id_pelanggan'];
 
+// Sudah login, cek apakah data pelanggan sudah ada
 $stmt = $conn->prepare("SELECT * FROM pelanggan_dekas WHERE id_pelanggan = ?");
 $stmt->bind_param("i", $id_cek);
 $stmt->execute();
@@ -23,21 +21,19 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     header("Location: custom.php"); // langsung ke halaman custom
     exit;
-} else {
+}
+
 // Proses form jika ada submit
 if(isset($_POST['submit'])) {
     $nama = $_POST['nama'];
     $no_hp = $_POST['no_hp'];
     $alamat = $_POST['alamat'];
     $jumlah_pesanan = $_POST['jumlah_pesanan'];
-    
-    // Jumlah pesanan awal adalah 0
-    // $jumlah_pesanan = 0;
-    
+
     // Query untuk insert data
-    $sql = "INSERT INTO pelanggan_dekas (nama, no_hp, alamat, jumlah_pesanan) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO pelanggan_dekas (id_pelanggan, nama, no_hp, alamat, jumlah_pesanan) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssi", $nama, $no_hp, $alamat, $jumlah_pesanan);
+    $stmt->bind_param("isssi", $id_cek, $nama, $no_hp, $alamat, $jumlah_pesanan);
     
     if($stmt->execute()) {
         echo "<script>alert('Data pelanggan berhasil disimpan'); window.location='custom.php';</script>";
@@ -46,7 +42,6 @@ if(isset($_POST['submit'])) {
     }
     
     $stmt->close();
-}
 }
 ?>
 
@@ -75,7 +70,7 @@ if(isset($_POST['submit'])) {
     <div class="form-container">
         <form method="POST" action="">
             <div class="form-group">
-                <label for="nama">Nama Pelanggan:</label>
+                <label for="nama">Nama Pelanggan: <?php echo " ", $id_cek ?></label>
                 <input type="text" id="nama" name="nama" required>
             </div>
             
@@ -91,7 +86,7 @@ if(isset($_POST['submit'])) {
 
             <div class="form-group">
                 <label for="alamat">Jumlah Pesanan:</label>
-                <input id="jumlah_pesanan" name="jumlah_pesanan" required></input>
+                <input type="number" id="jumlah_pesanan" name="jumlah_pesanan" required></input>
             </div>
             
             <div class="form-group">

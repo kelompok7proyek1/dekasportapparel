@@ -358,8 +358,8 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
                             echo "<td class='action-buttons'>
                                     <a href='edit_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
                                     <a href='hapus_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus?\");'><i class='fas fa-trash'></i></a>
-                                  </td>";
-                            echo "</tr>";
+                                    </td>";
+                            echo   "</tr>";
                             $count++;
                         } else {
                             break;
@@ -433,7 +433,7 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
                             echo "<td>" . $row['id_pesanan'] . "</td>";
                             echo "<td>" . $row['id_pelanggan'] . "</td>";
                             echo "<td>" . $row['tanggal_pemesanan'] . "</td>";
-                            echo "<td>Rp " . $row['total_harga'] . "</td>";
+                            echo "<td>Rp " . number_format($row['total_harga'], 0, ',', '.') . "</td>";
                             echo "<td><span class='" . $statusClass . "'>" . $row['status_pemesanan'] . "</span></td>";
                             echo "<td>
                                     <div class='progress' style='height: 10px;'>

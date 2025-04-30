@@ -11,7 +11,7 @@
     $stmt->execute();    
     $result = $stmt->get_result();
     // $result = $conn->query($sql);
-    $row = $result ? $result->fetch_assoc() : null;
+    // $row = $result ? $result->fetch_assoc() : null;
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +31,7 @@
             <a href="#" class="logo">DekaSport<span>Apparel</span></a>
             <ul class="nav-links">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="data_pelanggan.php" onclick="return confirm('Silakan isi data-data anda terlebih dahulu!')">Custom</a></li>
+                <li><a href="data_pelanggan.php">Custom</a></li>
                 <li><a href="about.php">About Us</a></li>
                 <li><a href="contact.php">Contact Us</a></li>
                 <?php if($loggedIn) : ?>
@@ -68,10 +68,10 @@
 <section class="dashboard-section" id="dashboard">
     <div class="container">
         <div class="dashboard-header">
-            <div class="dashboard-title">My Account</div>
+            <div class="dashboard-title"><h3>Riwayat Pemesanan</h3></div>
             <div class="dashboard-actions">
-                <i class="fas fa-bell"></i>
-                <i class="fas fa-user-circle"></i>
+                <!-- <i class="fas fa-bell"></i> -->
+                <!-- <i class="fas fa-user-circle" href="profile.php?id=<?= $_SESSION['id_pelanggan'] ?>"></i> -->
             </div>
         </div>
 
@@ -90,8 +90,6 @@
                     <p><?= $row["completed"] ?? 0 ?></p>
                 </div>
             </div> -->
-
-            <h3>Riwayat Pemesanan</h3>
             <table border="1" class="orders-table">
                 <thead>
                     <tr>
@@ -104,16 +102,46 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if ($row) : ?>
-                        <tr>
-                            <td><?= $row["tanggal_pemesanan"] ?></td>
-                            <td><?= $row["total_harga"] ?></td>
-                            <td><span class="status processing"><?= $row["status_pemesanan"] ?></span></td>
-                            <td><?= $row["total_order"] ?></td>
-                            <td><?= $row["in_progres"] ?></td>
-                            <td><?= $row["completed"] ?></td>
-                        </tr>
-                    <?php else : ?>
+                <?php while ($row = $result ? $result->fetch_assoc() : null): ?>
+                    <tr>
+                        <td><?= date('d/m/Y', strtotime($row['tanggal_pemesanan'])) ?></td>
+                        <td><span class="fw-medium">Rp <?= number_format($row['total_harga'], 0, ',', '.') ?></span></td>
+                        <td>
+                            <?php
+                                $statusColor = '';
+                                $icon = '';
+                                switch(strtolower($row['status_pemesanan'])) {
+                                    case 'processed':
+                                        $statusColor = 'primary';
+                                        $icon = 'fas fa-spinner fa-spin';
+                                        break;
+                                    case 'completed':
+                                        $statusColor = 'success';
+                                        $icon = 'fas fa-check-circle';
+                                        break;
+                                    case 'pending':
+                                        $statusColor = 'warning';
+                                        $icon = 'fas fa-clock';
+                                        break;
+                                    case 'cancelled':
+                                        $statusColor = 'danger';
+                                        $icon = 'fas fa-times-circle';
+                                        break;
+                                    default:
+                                        $statusColor = 'secondary';
+                                        $icon = 'fas fa-question-circle';
+                                }
+                            ?>
+                            <span class="badge bg-<?= $statusColor ?>">
+                                <i class="<?= $icon ?> me-1"></i> <?= ucfirst($row['status_pemesanan']) ?>
+                            </span>
+                        </td>
+                        <td><?= $row["total_order"] ?></td>
+                        <td><?= $row["in_progres"] ?></td>
+                        <td><?= $row["completed"] ?></td>
+                    </tr>
+                <?php endwhile; ?>
+                    <?php if($result->num_rows === 0) : ?>
                         <tr>
                             <td colspan="6" style="text-align:center;">Belum ada data pemesanan.</td>
                         </tr>
