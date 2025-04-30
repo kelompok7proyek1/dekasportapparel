@@ -237,7 +237,7 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
     <div class="sidebar-header">
         <a href="#" class="sidebar-brand">
             <i class="fas fa-tshirt me-2"></i>
-            DEKAS Admin
+            Admin
         </a>
     </div>
     <ul class="nav flex-column">

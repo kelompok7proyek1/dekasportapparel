@@ -9,11 +9,13 @@ if (!isset($_SESSION['id_pelanggan'])) {
     exit;
 }
 
+
+
 // Sudah login, cek apakah data pelanggan sudah ada
-$id_pelanggan = $_SESSION['id_pelanggan'];
+$id_cek = $_SESSION['id_pelanggan'];
 
 $stmt = $conn->prepare("SELECT * FROM pelanggan_dekas WHERE id_pelanggan = ?");
-$stmt->bind_param("i", $id_pelanggan);
+$stmt->bind_param("i", $id_cek);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -22,14 +24,6 @@ if ($result->num_rows > 0) {
     header("Location: custom.php"); // langsung ke halaman custom
     exit;
 } else {
-    header("Location: data_pelanggan.php"); // suruh isi data pelanggan dulu
-    exit;
-}
-?>
-
-<?php
-include 'config.php';
-
 // Proses form jika ada submit
 if(isset($_POST['submit'])) {
     $nama = $_POST['nama'];
@@ -52,6 +46,7 @@ if(isset($_POST['submit'])) {
     }
     
     $stmt->close();
+}
 }
 ?>
 
@@ -96,7 +91,7 @@ if(isset($_POST['submit'])) {
 
             <div class="form-group">
                 <label for="alamat">Jumlah Pesanan:</label>
-                <textarea id="jumlah_pesanan" name="jumlah_pesanan" required></textarea>
+                <input id="jumlah_pesanan" name="jumlah_pesanan" required></input>
             </div>
             
             <div class="form-group">
