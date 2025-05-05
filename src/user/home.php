@@ -1,22 +1,10 @@
+<?php
+    // include 'config.php';
+    session_start();
+    $loggedIn = isset($_SESSION['id_pelanggan']); 
 
-<?php 
-session_start();
-$loggedIn = isset($_SESSION['id_pelanggan']);
-include 'config.php';
-
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-
-    $stmt = $conn->prepare("SELECT * FROM login_dekas WHERE id_pelanggan = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $row = $result->fetch_assoc();
-} else {
-    // Kalau tidak ada parameter id di URL
-    $row = null;
-}
+    // $resultpelanggan = $conn->query("SELECT * FROM login_dekas");
+    // $row = $resultpelanggan->fetch_assoc()
 ?>
 
 <!DOCTYPE html>
@@ -24,9 +12,10 @@ if (isset($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../../css/contact.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <title>deka sport apparel | Premium Custom Jerseys</title>
+    <link rel="stylesheet" href="../../css/home.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
 </head>
 <body>
     <!-- Header Section -->
@@ -48,9 +37,11 @@ if (isset($_GET['id'])) {
                                 <li><a href="registrasi.html">Register</a></li>  -->
                     <?php endif; ?>
                 </ul>
-                <!-- Auth buttons (Login/Register) -->
+            
+            <!-- Auth buttons (Login/Register) -->
             <div class="auth-buttons">
                 <?php if($loggedIn) : ?>
+                    <!-- <a href="profile.php?" class="login-btn">My Account</a> -->
                     <a href="profile.php?id=<?= $_SESSION['id_pelanggan'] ?>" class="login-btn">My Account</a>
                     <a href="logout.php" class="register-btn">Logout</a>
                 <?php else : ?>
@@ -67,35 +58,101 @@ if (isset($_GET['id'])) {
                 <span></span>
                 <span></span>
             </div>
-            </nav>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Custom Jersey Berkualitas untuk Tim Anda!</h1>
+            <p>Deka Sport Apparel hadir untuk layanan custom jersey dengan desain eksklusif, bahan premium, dan kualitas terbaik. Cocok untuk tim olahraga</p>
+            <a href="data_pelanggan.php" class="btn">Mulai Mendesain</a>
         </div>
-    </header>
+    </div>
+</section>
 
-
-    <!-- Contact Section -->
-    <section class="contact">
+    <!-- custom Section -->
+    <section class="custom" id="custom">
         <div class="container">
-            <div class="contact-wrapper">
-                <?php 
-
-                    if($result-> num_rows > 0) {
-                        echo "Username: " . $row["nama"] . "<br>";
-                        echo "Password: " . $row["password"] . "<br>";
-
-                        echo "Nanti dikasih kaya edit, jadi nanti dia bisa edit passwordnya, <br> dan bisa edit data-data lainnya</p> <br>";
-                        echo "mantap ga man <br>";
-
-                    } else {
-                        echo $conn->error;
-                    }
-
-                    // $result->close();
-                ?>
+            <h2 class="section-title">KAMI MELAYANI CUSTOM</h2>
+            <div class="custom-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>JERSEY BOLA</h3>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>JERSEY BASKET</h3>
+                </div>
+                </div>
             </div>
         </div>
     </section>
+
+    
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">ABOUT US</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Deka Sport Apparel</h2>
+                    <p>Deka Sport Apparel adalah perusahaan yang bergerak di bidang custom jersey dan perlengkapan olahraga, dengan komitmen untuk menghadirkan produk berkualitas tinggi bagi para atlet, tim, komunitas,
+                    dan individu.Berkedudukan di Kabupaten Indramayu, kami terus berkembang dengan membuka cabang serta perwakilan di berbagai lokasi yang dianggap strategis dan diperlukan oleh para persero.</p>
+                </div>
+                <div class="about-image">
+                    <img src="../../image/about.jpeg" alt="about">
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- custom Section -->
+<section class="custom" id="custom">
+    <div class="container">
+        <h2 class="section-title">KENAPA HARUS DEKA SPORT APPAREL?</h2>
+        <div class="custom-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tshirt"></i>
+                </div>
+                <h3>BAHAN BERKUALITAS</h3>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brush"></i>
+                </div>
+                <h3>WARNA CERAH</h3>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>PENGERJAAN CEPAT</h3>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section2">
+        <div class="container">
+            <h1>SEKARANG GILIRAN TIM MU !!!</h1><br>
+            <a href="#whatsapp" class="btn">Konsultasi Sekarang</a>
+        </div>
+    </section>
+
+
     <!-- Footer -->
-    <!-- <footer>
+    <footer>
         <div class="container">
                 <div class="footer-content">
                     <section class="footer-column">
@@ -139,6 +196,6 @@ if (isset($_GET['id'])) {
                 <p>&copy; 2025 Deka Sport Apparel. All Rights Reserved.</p>
             </div>
         </div>
-    </footer> -->
+    </footer>
 </body>
 </html>

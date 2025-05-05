@@ -91,7 +91,7 @@ if(isset($_POST['submit'])) {
             
             <div class="form-group">
                 <button type="submit" name="submit" class="btn-submit">Simpan</button>
-                <a href="index.php" class="btn-cancel">Batal</a>
+                <a href="home.php" class="btn-cancel">Batal</a>
             </div>
         </form>
     </div>

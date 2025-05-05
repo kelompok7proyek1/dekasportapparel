@@ -20,12 +20,12 @@ if ($result->num_rows === 1) {
         $_SESSION['id_pelanggan'] = $user['id_pelanggan'];
         $_SESSION['nama'] = $user['nama'];
         // $_SESSION['nama'] = $nama;
-        header("Location: index.php") ;
+        header("Location: home.php") ;
         exit();
     }
     // else {
     //     $_SESSION['email_admin'] = $email_admin;
-    //     header("Location: index.php") ;
+    //     header("Location: home.php") ;
     // }
 }
 
