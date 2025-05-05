@@ -258,7 +258,7 @@ $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
                         <th>Nama Pelanggan</th>
                         <th>No HP</th>
                         <th>Alamat</th>
-                        <th>Jumlah Pesanan</th>
+                        <!-- <th>Jumlah Pesanan</th> -->
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -277,9 +277,11 @@ $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
                                 </td>
                                 <td><?= $row['no_hp'] ?></td>
                                 <td><?= $row['alamat'] ?></td>
-                                <td>
+
+                                <!-- <td>
                                     <span class="badge bg-info"><?= $row['jumlah_pesanan'] ?> pesanan</span>
-                                </td>
+                                </td> -->
+
                                 <td class="text-center action-buttons">
                                     <a href="edit_pelanggan.php?id=<?= $row['id_pelanggan'] ?>" class="btn btn-sm btn-warning">
                                         <i class="fas fa-edit"></i> Edit

@@ -3,9 +3,23 @@ include "../user/config.php";
 session_start();
 
 // Query data pesanan
-$resultpesanan = $conn->query("SELECT p.*, pl.nama as nama_pelanggan 
-                              FROM pesanan_dekas p 
-                              JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan");
+// $resultpesanan = $conn->query("SELECT p.*, pl.nama as nama_pelanggan 
+//                               FROM pesanan_dekas p 
+//                               JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan");
+
+
+$resultpesanan = $conn->query(
+    "SELECT p.*, 
+    pl.nama AS nama_pelanggan, 
+    dp.total_jersey AS jumlah_jersey
+    FROM pesanan_dekas p
+    JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan
+    JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan"
+);
+// Tambahkan pengecekan error
+if (!$resultpesanan) {
+    die("Error dalam query: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +27,7 @@ $resultpesanan = $conn->query("SELECT p.*, pl.nama as nama_pelanggan
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Pesanan - DekaSport Apparel</title>
+    <title>Kelola Pesanan | DekaSport Apparel</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
@@ -273,6 +287,7 @@ $resultpesanan = $conn->query("SELECT p.*, pl.nama as nama_pelanggan
                         <th>ID Pesanan</th>
                         <th>Pelanggan</th>
                         <th>Tanggal</th>
+                        <th>Harga satuan</th>
                         <th>Total Harga</th>
                         <th>Status</th>
                         <th>Progress</th>
@@ -283,7 +298,7 @@ $resultpesanan = $conn->query("SELECT p.*, pl.nama as nama_pelanggan
                     <?php if($resultpesanan && $resultpesanan->num_rows > 0): ?>
                         <?php while($row = $resultpesanan->fetch_assoc()): 
                             // Calculate progress percentage
-                            $total = $row['total_order'];
+                            $total = $row['jumlah_jersey'];
                             $completed = $row['completed'];
                             $progress = ($total > 0) ? ($completed / $total) * 100 : 0;
                             
@@ -326,12 +341,14 @@ $resultpesanan = $conn->query("SELECT p.*, pl.nama as nama_pelanggan
                                     </div>
                                 </td>
                                 <td><?= date('d/m/Y', strtotime($row['tanggal_pemesanan'])) ?></td>
+                                <td><span class="fw-medium">Rp <?= number_format($row['harga_satuan'], 0, ',', '.') ?></span></td>
                                 <td><span class="fw-medium">Rp <?= number_format($row['total_harga'], 0, ',', '.') ?></span></td>
                                 <td>
                                     <span class="badge bg-<?= $statusColor ?>">
                                         <i class="<?= $icon ?> me-1"></i> <?= ucfirst($row['status_pemesanan']) ?>
                                     </span>
                                 </td>
+                                    
                                 <td style="width: 18%">
                                     <div class="d-flex align-items-center">
                                         <div class="progress flex-grow-1 me-2" style="height: 8px;">
@@ -341,14 +358,15 @@ $resultpesanan = $conn->query("SELECT p.*, pl.nama as nama_pelanggan
                                         <span class="small fw-medium"><?= $completed ?>/<?= $total ?></span>
                                     </div>
                                 </td>
+
                                 <td class="text-center action-buttons">
                                     <div class="btn-group">
                                         <a href="edit_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Pesanan">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
-                                        <a href="lihat_detail.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-info" data-bs-toggle="tooltip" title="Lihat Detail">
+                                        <!-- <a href="lihat_detail.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-info" data-bs-toggle="tooltip" title="Lihat Detail">
                                             <i class="fas fa-eye"></i>
-                                        </a>
+                                        </a> -->
                                         <a href="hapus_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-danger" 
                                         onclick="return confirm('Yakin ingin menghapus pesanan #<?= $row['id_pesanan'] ?>?')" data-bs-toggle="tooltip" title="Hapus Pesanan">
                                             <i class="fas fa-trash"></i>

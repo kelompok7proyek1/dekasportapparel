@@ -5,13 +5,27 @@
 <?php
     include 'config.php'; // koneksi ke database
 
-    $sql = "SELECT tanggal_pemesanan, total_harga, status_pemesanan, total_order, in_progres, completed FROM pesanan_dekas WHERE id_pelanggan = ?";
+    $sql = "SELECT 
+    p.id_pesanan,
+    p.tanggal_pemesanan, 
+    p.harga_satuan, 
+    p.total_harga, 
+    p.status_pemesanan, 
+    p.dalam_progres, 
+    p.completed,
+    dp.total_jersey
+        FROM 
+        pesanan_dekas p
+        JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
+        WHERE p.id_pesanan = dp.id_pesanan AND p.id_pelanggan = ?";
+
     $stmt = $conn->prepare($sql);    
     $stmt->bind_param("i", $_SESSION['id_pelanggan']);
     $stmt->execute();    
-    $result = $stmt->get_result();
+    $resultpesanan = $stmt->get_result();
     // $result = $conn->query($sql);
     // $row = $result ? $result->fetch_assoc() : null;
+
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +97,7 @@
                 </div>
                 <div class="dashboard-card">
                     <h4>In Progress</h4>
-                    <p><?= $row["in_progres"] ?? 0 ?></p>
+                    <p><?= $row["dalam_progres"] ?? 0 ?></p>
                 </div>
                 <div class="dashboard-card">
                     <h4>Completed</h4>
@@ -93,55 +107,73 @@
             <table border="1" class="orders-table">
                 <thead>
                     <tr>
+                        <th>Confirm Pemesanan</th>
                         <th>Tanggal Pemesanan</th>
-                        <th>Total Harga</th>
+                        <th>Harga satuan</th>
+                        <th>Total harga</th>
                         <th>Status Pemesanan</th>
-                        <th>Total Order</th>
-                        <th>In Progress</th>
-                        <th>Completed</th>
+                        <th>Progres</th>
+                        <!-- <th>In Progress</th> -->
+                        <!-- <th>Completed</th> -->
                     </tr>
                 </thead>
                 <tbody>
-                <?php while ($row = $result ? $result->fetch_assoc() : null): ?>
+
+                <?php if($resultpesanan && $resultpesanan->num_rows > 0): ?>
+                        <?php while($row = $resultpesanan->fetch_assoc()): 
+                            // Calculate progress percentage
+                            $total = $row['total_jersey'];
+                            $completed = $row['completed'];
+                            $progress = ($total > 0) ? ($completed / $total) * 100 : 0;
+                            
+                            // Determine badge color based on status
+                            $statusColor = '';
+                            switch(strtolower($row['status_pemesanan'])) {
+                                case 'procesed':
+                                case 'processed':
+                                    $statusColor = 'primary';
+                                    $icon = 'fas fa-spinner fa-spin';
+                                    break;
+                                case 'completed':
+                                    $statusColor = 'success';
+                                    $icon = 'fas fa-check-circle';
+                                    break;
+                                case 'pending':
+                                    $statusColor = 'warning';
+                                    $icon = 'fas fa-clock';
+                                    break;
+                                case 'cancelled':
+                                    $statusColor = 'danger';
+                                    $icon = 'fas fa-times-circle';
+                                    break;
+                                default:
+                                    $statusColor = 'secondary';
+                                    $icon = 'fas fa-question-circle';
+                            }
+                        ?>
                     <tr>
+                        <td><button>confirm</button></td>
                         <td><?= date('d/m/Y', strtotime($row['tanggal_pemesanan'])) ?></td>
+                        <td><span class="fw-medium">Rp <?= number_format($row['harga_satuan'], 0, ',', '.') ?></span></td>
                         <td><span class="fw-medium">Rp <?= number_format($row['total_harga'], 0, ',', '.') ?></span></td>
                         <td>
-                            <?php
-                                $statusColor = '';
-                                $icon = '';
-                                switch(strtolower($row['status_pemesanan'])) {
-                                    case 'processed':
-                                        $statusColor = 'primary';
-                                        $icon = 'fas fa-spinner fa-spin';
-                                        break;
-                                    case 'completed':
-                                        $statusColor = 'success';
-                                        $icon = 'fas fa-check-circle';
-                                        break;
-                                    case 'pending':
-                                        $statusColor = 'warning';
-                                        $icon = 'fas fa-clock';
-                                        break;
-                                    case 'cancelled':
-                                        $statusColor = 'danger';
-                                        $icon = 'fas fa-times-circle';
-                                        break;
-                                    default:
-                                        $statusColor = 'secondary';
-                                        $icon = 'fas fa-question-circle';
-                                }
-                            ?>
                             <span class="badge bg-<?= $statusColor ?>">
                                 <i class="<?= $icon ?> me-1"></i> <?= ucfirst($row['status_pemesanan']) ?>
                             </span>
                         </td>
-                        <td><?= $row["total_order"] ?></td>
-                        <td><?= $row["in_progres"] ?></td>
-                        <td><?= $row["completed"] ?></td>
+
+                        <td style="width: 18%">
+                            <div class="d-flex align-items-center">
+                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                        <div class="progress-bar bg-<?= $statusColor ?>" role="progressbar" style="width: <?= $progress ?>%" 
+                                        aria-valuenow="<?= $progress ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="small fw-medium"><?= $completed ?>/<?= $total ?></span>
+                            </div>
+                        </td>
                     </tr>
                 <?php endwhile; ?>
-                    <?php if($result->num_rows === 0) : ?>
+                <?php else: ?>
                         <tr>
                             <td colspan="6" style="text-align:center;">Belum ada data pemesanan.</td>
                         </tr>

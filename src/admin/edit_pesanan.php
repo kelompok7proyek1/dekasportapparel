@@ -27,26 +27,26 @@ if(isset($_POST['submit'])) {
     $id_pelanggan_lama = $pesanan['id_pelanggan'];
     $id_pelanggan_baru = $_POST['id_pelanggan'];
     $tanggal_pemesanan = $_POST['tanggal_pemesanan'];
+    $harga_satuan = $_POST['harga_satuan'];
     $total_harga = $_POST['total_harga'];
     $status_pemesanan = $_POST['status_pemesanan'];
-    $total_order = $_POST['total_order'];
-    $in_progres = $_POST['in_progres'];
+    $dalam_progres = $_POST['dalam_progres'];
     $completed = $_POST['completed'];
     
     // Query untuk update data
-    $sql = "UPDATE pesanan_dekas SET id_pelanggan = ?, tanggal_pemesanan = ?, total_harga = ?, 
-            status_pemesanan = ?, total_order = ?, in_progres = ?, completed = ? 
+    $sql = "UPDATE pesanan_dekas SET id_pelanggan = ?, tanggal_pemesanan = ?, harga_satuan = ?, total_harga = ?, 
+            status_pemesanan = ?, dalam_progres = ?, completed = ? 
             WHERE id_pesanan = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssiisi", $id_pelanggan_baru, $tanggal_pemesanan, $total_harga, 
-                    $status_pemesanan, $total_order, $in_progres, $completed, $id_pesanan);
+    $stmt->bind_param("issssiii", $id_pelanggan_baru, $tanggal_pemesanan, $harga_satuan, $total_harga, 
+                    $status_pemesanan, $dalam_progres, $completed, $id_pesanan);
     
     if($stmt->execute()) {
         // Jika pelanggan berubah, update jumlah pesanan untuk pelanggan lama dan baru
-        if($id_pelanggan_lama != $id_pelanggan_baru) {
-            $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan - 1 WHERE id_pelanggan = $id_pelanggan_lama");
-            $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan + 1 WHERE id_pelanggan = $id_pelanggan_baru");
-        }
+        // if($id_pelanggan_lama != $id_pelanggan_baru) {
+        //     $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan - 1 WHERE id_pelanggan = $id_pelanggan_lama");
+        //     $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan + 1 WHERE id_pelanggan = $id_pelanggan_baru");
+        // }
         
         echo "<script>alert('Data pesanan berhasil diupdate'); window.location='dashboard_coba2.php';</script>";
     } else {
@@ -122,6 +122,11 @@ if(isset($_POST['submit'])) {
                 <label for="tanggal_pemesanan">Tanggal Pemesanan:</label>
                 <input type="date" id="tanggal_pemesanan" name="tanggal_pemesanan" value="<?= $pesanan['tanggal_pemesanan'] ?>" required>
             </div>
+
+            <div class="form-group">
+                <label for="harga_satuan">Harga satuan:</label>
+                <input type="date" id="harga_satuan" name="harga_satuan" value="<?= $pesanan['harga_satuan'] ?>" required>
+            </div>
             
             <div class="form-group">
                 <label for="total_harga">Total Harga:</label>
@@ -139,13 +144,13 @@ if(isset($_POST['submit'])) {
             </div>
             
             <div class="form-group">
-                <label for="total_order">Total Order:</label>
-                <input type="number" id="total_order" name="total_order" value="<?= $pesanan['total_order'] ?>" required>
+                <label for="harga_satuan">Total Order:</label>
+                <input type="number" id="harga_satuan" name="harga_satuan" value="<?= $pesanan['harga_satuan'] ?>" required>
             </div>
             
             <div class="form-group">
-                <label for="in_progres">In Progress:</label>
-                <input type="number" id="in_progres" name="in_progres" value="<?= $pesanan['in_progres'] ?>" required>
+                <label for="dalam_progres">Dalam Progress:</label>
+                <input type="number" id="dalam_progres" name="dalam_progres" value="<?= $pesanan['dalam_progres'] ?>" required>
             </div>
             
             <div class="form-group">

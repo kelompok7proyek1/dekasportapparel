@@ -4,17 +4,27 @@ session_start();
 
 // Query data pelanggan dan pesanan berdasarkan struktur database aktual
 $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
-$resultpesanan = $conn->query("SELECT * FROM pesanan_dekas");
+
+$resultpesanan = $conn->query(
+    "SELECT p.*, 
+    pl.nama AS nama_pelanggan, 
+    dp.total_jersey AS jumlah_jersey
+        FROM pesanan_dekas p
+        JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan
+        JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan");
+
+// $resultdetail = $conn->query("SELECT * FROM detail_pesanan");
 
 // Count data for statistics
 $total_pelanggan = $resultpelanggan->num_rows;
 $total_pesanan = $resultpesanan->num_rows;
 
 // Hitung pesanan yang sedang dalam proses (in_progres > 0)
-$in_progress_orders = $conn->query("SELECT COUNT(*) as in_progress FROM pesanan_dekas WHERE in_progres > 0")->fetch_assoc()['in_progress'] ?? 0;
+$in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_progress FROM pesanan_dekas WHERE dalam_progres > 0")->fetch_assoc()['dalam_progress'] ?? 0;
 
 // Hitung pesanan yang sudah selesai (completed = total_order)
-$completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_dekas WHERE completed = total_order")->fetch_assoc()['completed'] ?? 0;
+// $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_dekas WHERE completed = total_order")->fetch_assoc()['completed'] ?? 0;
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -336,7 +346,8 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
                         <th>Nama</th>
                         <th>No. HP</th>
                         <th>Alamat</th>
-                        <th>Jumlah Pesanan</th>
+                        <!-- <th>Jumlah Pesanan</th> -->
+                        <th>tambah pesanan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -350,16 +361,19 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
                     while ($row = $resultpelanggan->fetch_assoc()) {
                         if ($count < 5) {
                             echo "<tr>";
-                            echo "<td>" . $row['id_pelanggan'] . "</td>";
-                            echo "<td>" . $row['nama'] . "</td>";
-                            echo "<td>" . $row['no_hp'] . "</td>";
-                            echo "<td>" . $row['alamat'] . "</td>";
-                            echo "<td>" . $row['jumlah_pesanan'] . "</td>";
-                            echo "<td class='action-buttons'>
-                                    <a href='edit_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                    <a href='hapus_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus?\");'><i class='fas fa-trash'></i></a>
-                                    </td>";
-                            echo   "</tr>";
+                                echo "<td>" . $row['id_pelanggan'] . "</td>";
+                                echo "<td>" . $row['nama'] . "</td>";
+                                echo "<td>" . $row['no_hp'] . "</td>";
+                                echo "<td>" . $row['alamat'] . "</td>";
+                            // echo "<td>" . $row['jumlah_pesanan'] . "</td>";
+                                echo "<td class='action-buttons'>
+                                        <a href='tambah_pesanan.php?id=" . $row['id_pelanggan'] . "' </i>+pesanan</a> 
+                                        </td>";        
+                                echo "<td class='action-buttons'>
+                                        <a href='edit_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                                        <a href='hapus_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus?\");'><i class='fas fa-trash'></i></a>
+                                        </td>";
+                            echo "</tr>";
                             $count++;
                         } else {
                             break;
@@ -396,6 +410,7 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
                         <th>ID</th>
                         <th>ID Pelanggan</th>
                         <th>Tanggal</th>
+                        <th>Harga satuan</th>
                         <th>Total Harga</th>
                         <th>Status</th>
                         <th>Progress</th>
@@ -417,7 +432,7 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
                                 case 'completed':
                                     $statusClass = 'badge bg-success';
                                     break;
-                                case 'procesed':
+                                case 'processed':
                                     $statusClass = 'badge bg-primary';
                                     break;
                                 default:
@@ -425,7 +440,7 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
                             }
                             
                             // Calculate progress percentage
-                            $total = $row['total_order'] > 0 ? $row['total_order'] : 1; // Avoid division by zero
+                            $total = $row['jumlah_jersey'] > 0 ? $row['jumlah_jersey'] : 1; // Avoid division by zero
                             $completed = $row['completed'];
                             $progressPercent = ($completed / $total) * 100;
                             
@@ -433,6 +448,7 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
                             echo "<td>" . $row['id_pesanan'] . "</td>";
                             echo "<td>" . $row['id_pelanggan'] . "</td>";
                             echo "<td>" . $row['tanggal_pemesanan'] . "</td>";
+                            echo "<td>Rp " . number_format($row['harga_satuan'], 0, ',', '.') . "</td>";
                             echo "<td>Rp " . number_format($row['total_harga'], 0, ',', '.') . "</td>";
                             echo "<td><span class='" . $statusClass . "'>" . $row['status_pemesanan'] . "</span></td>";
                             echo "<td>
@@ -440,12 +456,12 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
                                         <div class='progress-bar bg-success' role='progressbar' style='width: " . $progressPercent . "%;' 
                                             aria-valuenow='" . $progressPercent . "' aria-valuemin='0' aria-valuemax='100'></div>
                                     </div>
-                                    <small>" . $row['completed'] . " / " . $row['total_order'] . "</small>
-                                  </td>";
+                                    <small>" . $row['completed'] . " / " . $row['jumlah_jersey'] . "</small>
+                                </td>";
                             echo "<td class='action-buttons'>
                                     <a href='edit_pesanan.php?id=" . $row['id_pesanan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
                                     <a href='hapus_pesanan.php?id=" . $row['id_pesanan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus?\");'><i class='fas fa-trash'></i></a>
-                                  </td>";
+                                </td>";
                             echo "</tr>";
                             $count++;
                         } else {
@@ -483,12 +499,12 @@ $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_deka
                     <div class="text-muted">Sedang Diproses</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <div class="card text-center p-3">
                     <div class="display-4 text-success"><?php echo $completed_orders; ?></div>
                     <div class="text-muted">Pesanan Selesai</div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

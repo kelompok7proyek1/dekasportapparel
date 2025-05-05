@@ -1,4 +1,3 @@
-
 <?php 
 session_start();
 $loggedIn = isset($_SESSION['id_pelanggan']);
@@ -11,12 +10,20 @@ if (isset($_GET['id'])) {
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
-
     $row = $result->fetch_assoc();
 } else {
     // Kalau tidak ada parameter id di URL
     $row = null;
 }
+
+if($result-> num_rows > 0) {
+    $row["nama"] . "<br>";
+    $row["password"] . "<br>";
+} else {
+    echo $conn->error;
+}
+
+// $result->close();
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +42,7 @@ if (isset($_GET['id'])) {
             <nav class="navbar">
                 <a href="#" class="logo">DekaSport<span>Apparel</span></a>
                 <ul class="nav-links">
-                    <li><a href="home.php">Home</a></li>
+                    <li><a href="index.php">Home</a></li>
                     <li><a href="data_pelanggan.php">Custom</a></li>
                     <li><a href="about.php">About Us</a></li>
                     <li><a href="contact.php">Contact Us</a></li>
@@ -73,24 +80,30 @@ if (isset($_GET['id'])) {
 
 
     <!-- Contact Section -->
-    <section class="contact">
+     <section class="contact">
         <div class="container">
-            <div class="contact-wrapper">
-                <?php 
+            <div>
+                <p>Username: <?= $row['nama'] ?></p>
+                <p>Silakan edit data di bawah ini:</p>
+            </div>
 
-                    if($result-> num_rows > 0) {
-                        echo "Username: " . $row["nama"] . "<br>";
-                        echo "Password: " . $row["password"] . "<br>";
-
-                        echo "Nanti dikasih kaya edit, jadi nanti dia bisa edit passwordnya, <br> dan bisa edit data-data lainnya</p> <br>";
-                        echo "mantap ga man <br>";
-
-                    } else {
-                        echo $conn->error;
-                    }
-
-                    // $result->close();
-                ?>
+            <div class="contact-profile">
+                <form action="update_profile.php" method="POST">
+                    <h2>Update Profile</h2>
+                    <div >
+                        <label for="nama">Username: </label>
+                        <input type="text" id="nama" name="nama"value="<?php echo $row['nama'] ?>" required>
+                    </div>
+                    <div >
+                        <label for="password">Password: </label>
+                        <input type="text" id="passowrd" name="password" required>
+                    </div>
+                    
+                    <div>
+                        <button type="submit" name="submit">Update</button>
+                        <a href="index.php">Batal</a>
+                    </div>
+                </form>
             </div>
         </div>
     </section>

@@ -1,36 +1,54 @@
 <?php
 include '../user/config.php';
 
+$id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
+
+
+
+// if ($result->num_rows > 0) {
+//     echo "<script>alert('Data pesanan sudah ada!'); window.location.href='dashboard_coba2.php';</script>";
+// } else {
+
+    if(isset($_POST['submit'])) {
+        $id_pelanggan = $_POST['id_pelanggan'];
+        $tanggal_pemesanan = $_POST['tanggal_pemesanan'];
+        $harga_satuan = $_POST['harga_satuan'];
+        $total_harga = $_POST['total_harga'];
+        $status_pemesanan = $_POST['status_pemesanan'];
+        $dalam_progres = $_POST['dalam_progres'];
+        $completed = $_POST['completed'];
+
+
+        $stmt = $conn->prepare( "SELECT * FROM pesanan_dekas WHERE id_pelanggan = ?");
+        $stmt->bind_param("i", $id_pelanggan); // Bind parameter id_pelanggan
+        $stmt->execute();
+        // $result = $stmt->get_result();
+        $result = $stmt->fetch();
+        if($result > 0){
+            echo "<script>alert('Data pesanan sudah ada!'); window.location.href='dashboard_coba2.php';</script>";
+        } else {
+            // Jika tidak ada, lanjutkan dengan proses insert
+            // Query untuk insert data
+            $sql = "INSERT INTO pesanan_dekas (id_pelanggan, tanggal_pemesanan, harga_satuan, total_harga, status_pemesanan, dalam_progres, completed) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("issssii", $id_pelanggan, $tanggal_pemesanan, $harga_satuan, $total_harga, $status_pemesanan, $dalam_progres, $completed);
+            
+            if($stmt->execute()) {
+                // Update jumlah pesanan di tabel pelanggan
+                // $update_pelanggan = $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan + 1 WHERE id_pelanggan = $id_pelanggan");
+                
+                echo "<script>alert('Data pesanan berhasil ditambahkan'); window.location='dashboard_coba2.php';</script>";
+            } else {
+                echo "<script>alert('Gagal menambahkan data pesanan: " . $conn->error . "');</script>";
+            }
+            
+            $stmt->close();
+        }
+    }
+
 // Ambil data pelanggan untuk dropdown
 $pelanggan_result = $conn->query("SELECT * FROM pelanggan_dekas ORDER BY nama");
-
-// Proses form jika ada submit
-if(isset($_POST['submit'])) {
-    $id_pelanggan = $_POST['id_pelanggan'];
-    $tanggal_pemesanan = $_POST['tanggal_pemesanan'];
-    $total_harga = $_POST['total_harga'];
-    $status_pemesanan = $_POST['status_pemesanan'];
-    $total_order = $_POST['total_order'];
-    $in_progres = $_POST['in_progres'];
-    $completed = $_POST['completed'];
-    
-    // Query untuk insert data
-    $sql = "INSERT INTO pesanan_dekas (id_pelanggan, tanggal_pemesanan, total_harga, status_pemesanan, total_order, in_progres, completed) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssiis", $id_pelanggan, $tanggal_pemesanan, $total_harga, $status_pemesanan, $total_order, $in_progres, $completed);
-    
-    if($stmt->execute()) {
-        // Update jumlah pesanan di tabel pelanggan
-        $update_pelanggan = $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan + 1 WHERE id_pelanggan = $id_pelanggan");
-        
-        echo "<script>alert('Data pesanan berhasil ditambahkan'); window.location='dashboard_coba2.php';</script>";
-    } else {
-        echo "<script>alert('Gagal menambahkan data pesanan: " . $conn->error . "');</script>";
-    }
-    
-    $stmt->close();
-}
 ?>
 
 <!DOCTYPE html>
@@ -78,16 +96,35 @@ if(isset($_POST['submit'])) {
 </head>
 <body>
 
-    <h2>Tambah Pesanan Baru</h2>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">DekaSport<span>Apparel</span></a>
+            </nav>
+            <h2>Tambah Pesanan Baru</h2>
+        </div>
+    </header>
+
+    
     
     <div class="form-container">
         <form method="POST" action="">
             <div class="form-group">
                 <label for="id_pelanggan">Pelanggan:</label>
+                <!-- <input type='text' id='id_pelanggan' name='id_pelanggan' value=<?= $id ?> readonly> -->
                 <select id="id_pelanggan" name="id_pelanggan" required>
                     <option value="">-- Pilih Pelanggan --</option>
                     <?php while($row = $pelanggan_result->fetch_assoc()): ?>
-                        <option value="<?= $row['id_pelanggan'] ?>"><?= $row['nama'] ?> (<?= $row['no_hp'] ?>)</option>
+                        <?php if ($row['id_pelanggan'] == $id): ?>
+                            <!-- Jika id_pelanggan sudah ada, tampilkan sebagai selected -->
+                            <option value="<?= $row['id_pelanggan'] ?>" selected>
+                                <?= $row['nama'] ?> (<?= $row['no_hp'] ?>)
+                            </option>
+                        <?php else: ?>
+                            <option value="<?= $row['id_pelanggan'] ?>">
+                                <?= $row['nama'] ?> (<?= $row['no_hp'] ?>)
+                            </option>
+                        <?php endif; ?>
                     <?php endwhile; ?>
                 </select>
             </div>
@@ -98,8 +135,8 @@ if(isset($_POST['submit'])) {
             </div>
             
             <div class="form-group">
-                <label for="total_order">Total Order:</label>
-                <input type="number" id="total_order" name="total_order" value="0" required>
+                <label for="harga_satuan">Harga satuan:</label>
+                <input type="number" id="harga_satuan" name="harga_satuan" value="0" required>
             </div>
 
             
@@ -115,8 +152,8 @@ if(isset($_POST['submit'])) {
             
             
             <div class="form-group">
-                <label for="in_progres">In Progress:</label>
-                <input type="number" id="in_progres" name="in_progres" value="0" required>
+                <label for="dalam_progres">In Progress:</label>
+                <input type="number" id="dalam_progres" name="dalam_progres" value="0" required>
             </div>
             
             <div class="form-group">

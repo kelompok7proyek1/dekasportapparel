@@ -11,12 +11,12 @@ if(isset($_POST['submit'])) {
     $alamat = $_POST['alamat'];
     
     // Jumlah pesanan awal adalah 0
-    $jumlah_pesanan = 0;
+    // $jumlah_pesanan = 0;
     
     // Query untuk insert data
-    $sql = "INSERT INTO pelanggan_dekas(id_pelanggan, nama, no_hp, alamat, jumlah_pesanan) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO pelanggan_dekas(id_pelanggan, nama, no_hp, alamat) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssi",$id_pelanggan, $nama, $no_hp, $alamat, $jumlah_pesanan);
+    $stmt->bind_param("isss",$id_pelanggan, $nama, $no_hp, $alamat);
     
     if($stmt->execute()) {
         echo "<script>alert('Data pelanggan berhasil ditambahkan'); window.location='dashboard_coba2.php';</script>";

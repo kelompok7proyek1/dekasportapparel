@@ -24,12 +24,12 @@ if(isset($_POST['submit'])) {
     $nama = $_POST['nama'];
     $no_hp = $_POST['no_hp'];
     $alamat = $_POST['alamat'];
-    $jumlah_pesanan = $_POST['jumlah_pesanan'];
+    // $jumlah_pesanan = $_POST['jumlah_pesanan'];
     
     // Query untuk update data
-    $sql = "UPDATE pelanggan_dekas SET nama = ?, no_hp = ?, alamat = ?, jumlah_pesanan = ? WHERE id_pelanggan = ?";
+    $sql = "UPDATE pelanggan_dekas SET nama = ?, no_hp = ?, alamat = ? WHERE id_pelanggan = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssii", $nama, $no_hp, $alamat, $jumlah_pesanan, $id_pelanggan);
+    $stmt->bind_param("sssi", $nama, $no_hp, $alamat, $id_pelanggan);
     
     if($stmt->execute()) {
         echo "<script>alert('Data pelanggan berhasil diupdate'); window.location='dashboard_coba2.php';</script>";
@@ -111,10 +111,10 @@ if(isset($_POST['submit'])) {
                 <textarea id="alamat" name="alamat" required><?= $pelanggan['alamat'] ?></textarea>
             </div>
             
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="jumlah_pesanan">Jumlah Pesanan:</label>
                 <input type="number" id="jumlah_pesanan" name="jumlah_pesanan" value="<?= $pelanggan['jumlah_pesanan'] ?>" required>
-            </div>
+            </div> -->
             
             <div class="form-group">
                 <button type="submit" name="submit" class="btn-submit">Update</button>

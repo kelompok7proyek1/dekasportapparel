@@ -27,8 +27,7 @@ $stmt->bind_param("i", $id_pesanan);
 
 if($stmt->execute()) {
     // Update jumlah pesanan pada tabel pelanggan
-    $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan - 1 WHERE id_pelanggan = $id_pelanggan AND jumlah_pesanan > 0");
-    
+    // $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan - 1 WHERE id_pelanggan = $id_pelanggan AND jumlah_pesanan > 0");
     echo "<script>alert('Data pesanan berhasil dihapus'); window.location='dashboard_coba2.php';</script>";
 } else {
     echo "<script>alert('Gagal menghapus data pesanan: " . $conn->error . "'); window.location='dashboard_coba2.php';</script>";

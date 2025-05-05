@@ -1,22 +1,12 @@
 <?php
 $host = 'localhost';
-$db = 'db_dekas';
 $user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
+$pass = 'Hafiz123';
+$db = 'db_dekas';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+$conn = new mysqli($host, $user, $pass, $db);
+if ($conn->connect_error){
+    die("KONEKSI GAGAL, TOLONG UBAH KODE PROGRAMNYA DI FILE CONFIG YA: " .$conn->connect_error);
 }
 
 ?>
