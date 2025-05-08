@@ -29,17 +29,17 @@ if(isset($_POST['submit'])) {
     $tanggal_pemesanan = $_POST['tanggal_pemesanan'];
     $harga_satuan = $_POST['harga_satuan'];
     $total_harga = $_POST['total_harga'];
-    $status_pemesanan = $_POST['status_pemesanan'];
-    $dalam_progres = $_POST['dalam_progres'];
-    $completed = $_POST['completed'];
+    $status_produksi = $_POST['status_produksi'];
+    $dalam_proses = $_POST['dalam_proses'];
+    $selesai = $_POST['selesai'];
     
     // Query untuk update data
     $sql = "UPDATE pesanan_dekas SET id_pelanggan = ?, tanggal_pemesanan = ?, harga_satuan = ?, total_harga = ?, 
-            status_pemesanan = ?, dalam_progres = ?, completed = ? 
+            status_produksi = ?, dalam_proses = ?, selesai = ? 
             WHERE id_pesanan = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("issssiii", $id_pelanggan_baru, $tanggal_pemesanan, $harga_satuan, $total_harga, 
-                    $status_pemesanan, $dalam_progres, $completed, $id_pesanan);
+                    $status_produksi, $dalam_proses, $selesai, $id_pesanan);
     
     if($stmt->execute()) {
         // Jika pelanggan berubah, update jumlah pesanan untuk pelanggan lama dan baru
@@ -134,12 +134,12 @@ if(isset($_POST['submit'])) {
             </div>
             
             <div class="form-group">
-            <label for="status_pemesanan">Status Pemesanan:</label>
-            <select id="status_pemesanan" name="status_pemesanan" required>
-                <option value="pending" <?= ($pesanan['status_pemesanan'] == 'pending') ? 'selected' : '' ?>>Pending</option>
-                <option value="processing" <?= ($pesanan['status_pemesanan'] == 'processing') ? 'selected' : '' ?>>Processing</option>
-                <option value="completed" <?= ($pesanan['status_pemesanan'] == 'completed') ? 'selected' : '' ?>>Completed</option>
-                <option value="cancelled" <?= ($pesanan['status_pemesanan'] == 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
+            <label for="status_produksi">Status Pemesanan:</label>
+            <select id="status_produksi" name="status_produksi" required>
+                <option value="pending" <?= ($pesanan['status_produksi'] == 'pending') ? 'selected' : '' ?>>Pending</option>
+                <option value="processing" <?= ($pesanan['status_produksi'] == 'processing') ? 'selected' : '' ?>>Processing</option>
+                <option value="selesai" <?= ($pesanan['status_produksi'] == 'selesai') ? 'selected' : '' ?>>selesai</option>
+                <option value="cancelled" <?= ($pesanan['status_produksi'] == 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
             </select>
             </div>
             
@@ -149,13 +149,13 @@ if(isset($_POST['submit'])) {
             </div>
             
             <div class="form-group">
-                <label for="dalam_progres">Dalam Progress:</label>
-                <input type="number" id="dalam_progres" name="dalam_progres" value="<?= $pesanan['dalam_progres'] ?>" required>
+                <label for="dalam_proses">Dalam Progress:</label>
+                <input type="number" id="dalam_proses" name="dalam_proses" value="<?= $pesanan['dalam_proses'] ?>" required>
             </div>
             
             <div class="form-group">
-                <label for="completed">Completed:</label>
-                <input type="text" id="completed" name="completed" value="<?= $pesanan['completed'] ?>" required>
+                <label for="selesai">selesai:</label>
+                <input type="text" id="selesai" name="selesai" value="<?= $pesanan['selesai'] ?>" required>
             </div>
             
             <div class="form-group">

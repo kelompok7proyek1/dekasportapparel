@@ -10,9 +10,9 @@
     p.tanggal_pemesanan, 
     p.harga_satuan, 
     p.total_harga, 
-    p.status_pemesanan, 
-    p.dalam_progres, 
-    p.completed,
+    p.status_produksi, 
+    p.dalam_proses, 
+    p.selesai,
     dp.total_jersey
         FROM 
         pesanan_dekas p
@@ -97,11 +97,11 @@
                 </div>
                 <div class="dashboard-card">
                     <h4>In Progress</h4>
-                    <p><?= $row["dalam_progres"] ?? 0 ?></p>
+                    <p><?= $row["dalam_proses"] ?? 0 ?></p>
                 </div>
                 <div class="dashboard-card">
-                    <h4>Completed</h4>
-                    <p><?= $row["completed"] ?? 0 ?></p>
+                    <h4>selesai</h4>
+                    <p><?= $row["selesai"] ?? 0 ?></p>
                 </div>
             </div> -->
             <table border="1" class="orders-table">
@@ -114,7 +114,7 @@
                         <th>Status Pemesanan</th>
                         <th>Progres</th>
                         <!-- <th>In Progress</th> -->
-                        <!-- <th>Completed</th> -->
+                        <!-- <th>selesai</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -123,18 +123,18 @@
                         <?php while($row = $resultpesanan->fetch_assoc()): 
                             // Calculate progress percentage
                             $total = $row['total_jersey'];
-                            $completed = $row['completed'];
-                            $progress = ($total > 0) ? ($completed / $total) * 100 : 0;
+                            $selesai = $row['selesai'];
+                            $progress = ($total > 0) ? ($selesai / $total) * 100 : 0;
                             
                             // Determine badge color based on status
                             $statusColor = '';
-                            switch(strtolower($row['status_pemesanan'])) {
+                            switch(strtolower($row['status_produksi'])) {
                                 case 'procesed':
                                 case 'processed':
                                     $statusColor = 'primary';
                                     $icon = 'fas fa-spinner fa-spin';
                                     break;
-                                case 'completed':
+                                case 'selesai':
                                     $statusColor = 'success';
                                     $icon = 'fas fa-check-circle';
                                     break;
@@ -158,7 +158,7 @@
                         <td><span class="fw-medium">Rp <?= number_format($row['total_harga'], 0, ',', '.') ?></span></td>
                         <td>
                             <span class="badge bg-<?= $statusColor ?>">
-                                <i class="<?= $icon ?> me-1"></i> <?= ucfirst($row['status_pemesanan']) ?>
+                                <i class="<?= $icon ?> me-1"></i> <?= ucfirst($row['status_produksi']) ?>
                             </span>
                         </td>
 
@@ -168,7 +168,7 @@
                                         <div class="progress-bar bg-<?= $statusColor ?>" role="progressbar" style="width: <?= $progress ?>%" 
                                         aria-valuenow="<?= $progress ?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <span class="small fw-medium"><?= $completed ?>/<?= $total ?></span>
+                                <span class="small fw-medium"><?= $selesai ?>/<?= $total ?></span>
                             </div>
                         </td>
                     </tr>

@@ -14,9 +14,9 @@ $id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
         $tanggal_pemesanan = $_POST['tanggal_pemesanan'];
         $harga_satuan = $_POST['harga_satuan'];
         $total_harga = $_POST['total_harga'];
-        $status_pemesanan = $_POST['status_pemesanan'];
-        $dalam_progres = $_POST['dalam_progres'];
-        $completed = $_POST['completed'];
+        $status_produksi = $_POST['status_produksi'];
+        $dalam_proses = $_POST['dalam_proses'];
+        $selesai = $_POST['selesai'];
 
 
         $stmt = $conn->prepare( "SELECT * FROM pesanan_dekas WHERE id_pelanggan = ?");
@@ -29,10 +29,10 @@ $id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
         } else {
             // Jika tidak ada, lanjutkan dengan proses insert
             // Query untuk insert data
-            $sql = "INSERT INTO pesanan_dekas (id_pelanggan, tanggal_pemesanan, harga_satuan, total_harga, status_pemesanan, dalam_progres, completed) 
+            $sql = "INSERT INTO pesanan_dekas (id_pelanggan, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, dalam_proses, selesai) 
             VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("issssii", $id_pelanggan, $tanggal_pemesanan, $harga_satuan, $total_harga, $status_pemesanan, $dalam_progres, $completed);
+            $stmt->bind_param("issssii", $id_pelanggan, $tanggal_pemesanan, $harga_satuan, $total_harga, $status_produksi, $dalam_proses, $selesai);
             
             if($stmt->execute()) {
                 // Update jumlah pesanan di tabel pelanggan
@@ -141,24 +141,24 @@ $pelanggan_result = $conn->query("SELECT * FROM pelanggan_dekas ORDER BY nama");
 
             
             <div class="form-group">
-                <label for="status_pemesanan">Status Pemesanan:</label>
-                <select id="status_pemesanan" name="status_pemesanan" required>
+                <label for="status_produksi">Status Pemesanan:</label>
+                <select id="status_produksi" name="status_produksi" required>
                     <option value="pending">Pending</option>
                     <option value="processing">Processing</option>
-                    <option value="completed">Completed</option>
+                    <option value="selesai">selesai</option>
                     <option value="cancelled">Cancelled</option>
                 </select>
             </div>
             
             
             <div class="form-group">
-                <label for="dalam_progres">In Progress:</label>
-                <input type="number" id="dalam_progres" name="dalam_progres" value="0" required>
+                <label for="dalam_proses">In Progress:</label>
+                <input type="number" id="dalam_proses" name="dalam_proses" value="0" required>
             </div>
             
             <div class="form-group">
-                <label for="completed">Completed:</label>
-                <input type="text" id="completed" name="completed" value="0" required>
+                <label for="selesai">selesai:</label>
+                <input type="text" id="selesai" name="selesai" value="0" required>
             </div>
             
             <div class="form-group">

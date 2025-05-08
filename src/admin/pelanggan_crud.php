@@ -200,7 +200,7 @@ $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
     <ul class="nav flex-column">
         <li class="nav-item">
             <a class="nav-link" href="dashboard_coba2.php">
-                <i class="fas fa-tachometer-alt"></i>
+                <i class="fas fa-table"></i>
                 Dashboard
             </a>
         </li>
@@ -208,6 +208,12 @@ $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
             <a class="nav-link active" href="pelanggan_crud.php">
                 <i class="fas fa-users"></i>
                 Kelola Pelanggan
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="detail_pesanan.php">
+                <i class="fas fa-table"></i>
+                Detail Pesanan
             </a>
         </li>
         <li class="nav-item">

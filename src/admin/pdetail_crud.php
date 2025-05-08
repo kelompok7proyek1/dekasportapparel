@@ -221,13 +221,13 @@ if (!$resultpesanan) {
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="detail_pesanan.php">
+            <a class="nav-link active" href="detail_pesanan.php">
                 <i class="fas fa-table"></i>
                 Detail Pesanan
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="pesanan_crud.php">
+            <a class="nav-link" href="pesanan_crud.php">
                 <i class="fas fa-shopping-cart"></i>
                 Kelola Pesanan
             </a>
@@ -247,15 +247,15 @@ if (!$resultpesanan) {
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h1 class="mb-2"><i class="fas fa-shopping-cart me-2"></i>Manajemen Data Pesanan</h1>
+                <h1 class="mb-2"><i class="fas fa-shopping-cart me-2"></i>Detail Pesanan</h1>
             </div>
             <div class="col-md-4 text-md-end">
                 <a href="tambah_pesanan.php" class="btn btn-light">
-                    <i class="fas fa-plus-circle me-2"></i>Tambah Pesanan
+                    <i class="fas fa-plus-circle me-2"></i>Tambah Detail Pesanan
                 </a>
-                <button class="btn btn-light ms-2" id="refreshData">
+                <!-- <button class="btn btn-light ms-2" id="refreshData">
                     <i class="fas fa-sync-alt"></i>
-                </button>
+                </button> -->
             </div>
         </div>
     </div>
@@ -263,7 +263,7 @@ if (!$resultpesanan) {
     <!-- Pesanan Data Section -->
     <div class="data-section">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2><i class="fas fa-list me-2"></i>Daftar Pesanan</h2>
+            <h2><i class="fas fa-list me-2"></i>Detail Pesanan</h2>
             <div class="d-flex">
                 <div class="input-group me-2" style="width: 250px;">
                     <input type="text" class="form-control" placeholder="Cari pesanan..." id="searchInput">
@@ -286,7 +286,7 @@ if (!$resultpesanan) {
             </div>
         </div>
         
-        <div class="table-responsive">
+        <!-- <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
@@ -373,10 +373,10 @@ if (!$resultpesanan) {
                                         <!-- <a href="lihat_detail.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-info" data-bs-toggle="tooltip" title="Lihat Detail">
                                             <i class="fas fa-eye"></i>
                                         </a> -->
-                                        <a href="hapus_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-danger" 
+                                        <!-- <a href="hapus_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-danger" 
                                         onclick="return confirm('Yakin ingin menghapus pesanan #<?= $row['id_pesanan'] ?>?')" data-bs-toggle="tooltip" title="Hapus Pesanan">
                                             <i class="fas fa-trash"></i>
-                                        </a>
+                                        </a> -->
                                     </div>
                                 </td>
                             </tr>
@@ -397,10 +397,10 @@ if (!$resultpesanan) {
                     <?php endif; ?>
                 </tbody>
             </table>
-        </div>
+        </div> -->
         
         <!-- Pagination -->
-        <?php if($resultpesanan && $resultpesanan->num_rows > 10): ?>
+        <!-- <?php if($resultpesanan && $resultpesanan->num_rows > 10): ?>
         <div class="d-flex justify-content-between align-items-center mt-4">
             <div class="text-muted small">
                 Menampilkan 1-10 dari <?= $resultpesanan->num_rows ?> pesanan
@@ -424,10 +424,10 @@ if (!$resultpesanan) {
             </nav>
         </div>
         <?php endif; ?>
-    </div>
+    </div> -->
     
     <!-- Summary Stats -->
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-md-4">
             <div class="card border-0 shadow-sm p-3 text-center">
                 <h6 class="text-primary mb-2"><i class="fas fa-shopping-cart me-2"></i>Total Pesanan</h6>
@@ -452,8 +452,8 @@ if (!$resultpesanan) {
                     ?>
                 </h3>
             </div>
-        </div>
-        <div class="col-md-4">
+        </div> -->
+        <!-- <div class="col-md-4">
             <div class="card border-0 shadow-sm p-3 text-center">
                 <h6 class="text-success mb-2"><i class="fas fa-check-circle me-2"></i>Selesai</h6>
                 <h3>
@@ -473,7 +473,7 @@ if (!$resultpesanan) {
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

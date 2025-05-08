@@ -20,10 +20,10 @@ $total_pelanggan = $resultpelanggan->num_rows;
 $total_pesanan = $resultpesanan->num_rows;
 
 // Hitung pesanan yang sedang dalam proses (in_progres > 0)
-$in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_progress FROM pesanan_dekas WHERE dalam_progres > 0")->fetch_assoc()['dalam_progress'] ?? 0;
+$in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan_dekas WHERE dalam_proses > 0")->fetch_assoc()['dalam_proses'] ?? 0;
 
-// Hitung pesanan yang sudah selesai (completed = total_order)
-// $completed_orders = $conn->query("SELECT COUNT(*) as completed FROM pesanan_dekas WHERE completed = total_order")->fetch_assoc()['completed'] ?? 0;
+// Hitung pesanan yang sudah selesai (selesai = total_order)
+// $selesai_orders = $conn->query("SELECT COUNT(*) as selesai FROM pesanan_dekas WHERE selesai = total_order")->fetch_assoc()['selesai'] ?? 0;
 
 ?>
 <!DOCTYPE html>
@@ -253,7 +253,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_progress FROM pesan
     <ul class="nav flex-column">
         <li class="nav-item">
             <a class="nav-link active" href="dashboard_coba2.php">
-                <i class="fas fa-tachometer-alt"></i>
+                <i class="fas fa-table"></i>
                 Dashboard
             </a>
         </li>
@@ -261,6 +261,12 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_progress FROM pesan
             <a class="nav-link" href="pelanggan_crud.php">
                 <i class="fas fa-users"></i>
                 Kelola Pelanggan
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="detail_pesanan.php">
+                <i class="fas fa-table"></i>
+                Detail Pesanan
             </a>
         </li>
         <li class="nav-item">
@@ -348,6 +354,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_progress FROM pesan
                         <th>Alamat</th>
                         <!-- <th>Jumlah Pesanan</th> -->
                         <th>tambah pesanan</th>
+                        <th>lihat detail pesanan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -369,6 +376,9 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_progress FROM pesan
                                 echo "<td class='action-buttons'>
                                         <a href='tambah_pesanan.php?id=" . $row['id_pelanggan'] . "' </i>+pesanan</a> 
                                         </td>";        
+                                echo "<td class='action-buttons'>
+                                        <a href='detail_pesanan.php?id=" . $row['id_pelanggan'] . "' </i>Detail Pesanan</a> 
+                                        </td>";
                                 echo "<td class='action-buttons'>
                                         <a href='edit_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
                                         <a href='hapus_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus?\");'><i class='fas fa-trash'></i></a>
@@ -428,8 +438,8 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_progress FROM pesan
                         if ($count < 5) {
                             // Determine status badge class
                             $statusClass = '';
-                            switch ($row['status_pemesanan']) {
-                                case 'completed':
+                            switch ($row['status_produksi']) {
+                                case 'selesai':
                                     $statusClass = 'badge bg-success';
                                     break;
                                 case 'processed':
@@ -441,8 +451,8 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_progress FROM pesan
                             
                             // Calculate progress percentage
                             $total = $row['jumlah_jersey'] > 0 ? $row['jumlah_jersey'] : 1; // Avoid division by zero
-                            $completed = $row['completed'];
-                            $progressPercent = ($completed / $total) * 100;
+                            $selesai = $row['selesai'];
+                            $progressPercent = ($selesai / $total) * 100;
                             
                             echo "<tr>";
                             echo "<td>" . $row['id_pesanan'] . "</td>";
@@ -450,13 +460,13 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_progress FROM pesan
                             echo "<td>" . $row['tanggal_pemesanan'] . "</td>";
                             echo "<td>Rp " . number_format($row['harga_satuan'], 0, ',', '.') . "</td>";
                             echo "<td>Rp " . number_format($row['total_harga'], 0, ',', '.') . "</td>";
-                            echo "<td><span class='" . $statusClass . "'>" . $row['status_pemesanan'] . "</span></td>";
+                            echo "<td><span class='" . $statusClass . "'>" . $row['status_produksi'] . "</span></td>";
                             echo "<td>
                                     <div class='progress' style='height: 10px;'>
                                         <div class='progress-bar bg-success' role='progressbar' style='width: " . $progressPercent . "%;' 
                                             aria-valuenow='" . $progressPercent . "' aria-valuemin='0' aria-valuemax='100'></div>
                                     </div>
-                                    <small>" . $row['completed'] . " / " . $row['jumlah_jersey'] . "</small>
+                                    <small>" . $row['selesai'] . " / " . $row['jumlah_jersey'] . "</small>
                                 </td>";
                             echo "<td class='action-buttons'>
                                     <a href='edit_pesanan.php?id=" . $row['id_pesanan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
@@ -496,12 +506,12 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_progress FROM pesan
             <div class="col-md-4">
                 <div class="card text-center p-3">
                     <div class="display-4 text-warning"><?php echo $in_progress_orders; ?></div>
-                    <div class="text-muted">Sedang Diproses</div>
+                    <div class="text-muted">Sedang dalam_proses</div>
                 </div>
             </div>
             <!-- <div class="col-md-4">
                 <div class="card text-center p-3">
-                    <div class="display-4 text-success"><?php echo $completed_orders; ?></div>
+                    <div class="display-4 text-success"><?php echo $selesai_orders; ?></div>
                     <div class="text-muted">Pesanan Selesai</div>
                 </div>
             </div> -->
