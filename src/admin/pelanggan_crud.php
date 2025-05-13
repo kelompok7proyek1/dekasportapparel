@@ -251,7 +251,7 @@ $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
     <div class="data-section">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Daftar Pelanggan</h2>
-            <a href="tambah_pelanggan.php" class="btn btn-primary">
+            <a href="pelanggan/tambah_pelanggan.php" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Tambah Pelanggan
             </a>
         </div>
@@ -289,10 +289,10 @@ $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
                                 </td> -->
 
                                 <td class="text-center action-buttons">
-                                    <a href="edit_pelanggan.php?id=<?= $row['id_pelanggan'] ?>" class="btn btn-sm btn-warning">
+                                    <a href="pelanggan/edit_pelanggan.php?id=<?= $row['id_pelanggan'] ?>" class="btn btn-sm btn-warning">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <a href="hapus_pelanggan.php?id=<?= $row['id_pelanggan'] ?>" class="btn btn-sm btn-danger" 
+                                    <a href="pelanggan/hapus_pelanggan.php?id=<?= $row['id_pelanggan'] ?>" class="btn btn-sm btn-danger" 
                                        onclick="return confirm('Yakin ingin menghapus data pelanggan ini?')">
                                         <i class="fas fa-trash"></i> Hapus
                                     </a>
@@ -304,7 +304,7 @@ $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
                             <td colspan="6" class="text-center py-4">
                                 <i class="fas fa-inbox fa-3x mb-3 text-muted"></i>
                                 <p class="text-muted">Tidak ada data pelanggan</p>
-                                <a href="tambah_pelanggan.php" class="btn btn-sm btn-outline-primary">Tambah Pelanggan Baru</a>
+                                <a href="pelanggan/tambah_pelanggan.php" class="btn btn-sm btn-outline-primary">Tambah Pelanggan Baru</a>
                             </td>
                         </tr>
                     <?php endif; ?>

@@ -250,7 +250,7 @@ if (!$resultpesanan) {
                 <h1 class="mb-2"><i class="fas fa-shopping-cart me-2"></i>Manajemen Data Pesanan</h1>
             </div>
             <div class="col-md-4 text-md-end">
-                <a href="tambah_pesanan.php" class="btn btn-light">
+                <a href="pesanan/tambah_pesanan.php" class="btn btn-light">
                     <i class="fas fa-plus-circle me-2"></i>Tambah Pesanan
                 </a>
                 <button class="btn btn-light ms-2" id="refreshData">
@@ -367,13 +367,13 @@ if (!$resultpesanan) {
 
                                 <td class="text-center action-buttons">
                                     <div class="btn-group">
-                                        <a href="edit_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Pesanan">
+                                        <a href="pesanan/edit_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Pesanan">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
                                         <!-- <a href="lihat_detail.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-info" data-bs-toggle="tooltip" title="Lihat Detail">
                                             <i class="fas fa-eye"></i>
                                         </a> -->
-                                        <a href="hapus_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-danger" 
+                                        <a href="pesanan/hapus_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-danger" 
                                         onclick="return confirm('Yakin ingin menghapus pesanan #<?= $row['id_pesanan'] ?>?')" data-bs-toggle="tooltip" title="Hapus Pesanan">
                                             <i class="fas fa-trash"></i>
                                         </a>
@@ -388,7 +388,7 @@ if (!$resultpesanan) {
                                     <i class="fas fa-shopping-cart fa-3x text-secondary mb-3"></i>
                                     <h5>Tidak ada data pesanan</h5>
                                     <p class="text-muted">Belum ada pesanan yang dibuat</p>
-                                    <a href="tambah_pesanan.php" class="btn btn-primary mt-2">
+                                    <a href="pesanan/tambah_pesanan.php" class="btn btn-primary mt-2">
                                         <i class="fas fa-plus-circle me-2"></i>Tambah Pesanan Baru
                                     </a>
                                 </div>

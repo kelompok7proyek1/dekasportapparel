@@ -1,5 +1,5 @@
 <?php
-include '../user/config.php';
+include '../../user/config.php';
 
 $pelanggan_result = $conn->query("SELECT * FROM login_dekas ORDER BY nama");
 
@@ -12,19 +12,29 @@ if(isset($_POST['submit'])) {
     
     // Jumlah pesanan awal adalah 0
     // $jumlah_pesanan = 0;
+    $stmt = $conn->prepare( "SELECT * FROM pelanggan_dekas WHERE id_pelanggan = ?");
+        $stmt->bind_param("i", $id_pelanggan); // Bind parameter id_pelanggan
+        $stmt->execute();
+        // $result = $stmt->get_result();
+        $result = $stmt->fetch();
+        if($result > 0){
+            echo "<script>alert('Data pesanan sudah ada!'); window.location.href='../dashboard_coba2.php';</script>";
+        } else {
+            // Query untuk insert data
+        $sql = "INSERT INTO pelanggan_dekas(id_pelanggan, nama, no_hp, alamat) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("isss",$id_pelanggan, $nama, $no_hp, $alamat);
+        
+        if($stmt->execute()) {
+            echo "<script>alert('Data pelanggan berhasil ditambahkan'); window.location='../dashboard_coba2.php';</script>";
+        } else {
+            echo "<script>alert('Gagal menambahkan data pelanggan: " . $conn->error . "');</script>";
+        }
+        
+        $stmt->close();
+}
     
-    // Query untuk insert data
-    $sql = "INSERT INTO pelanggan_dekas(id_pelanggan, nama, no_hp, alamat) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isss",$id_pelanggan, $nama, $no_hp, $alamat);
     
-    if($stmt->execute()) {
-        echo "<script>alert('Data pelanggan berhasil ditambahkan'); window.location='dashboard_coba2.php';</script>";
-    } else {
-        echo "<script>alert('Gagal menambahkan data pelanggan: " . $conn->error . "');</script>";
-    }
-    
-    $stmt->close();
 }
 ?>
 
@@ -111,7 +121,7 @@ if(isset($_POST['submit'])) {
             
             <div class="form-group">
                 <button type="submit" name="submit" class="btn-submit">Simpan</button>
-                <a href="dashboard_coba2.php" class="btn-cancel">Batal</a>
+                <a href="../dashboard_coba2.php" class="btn-cancel">Batal</a>
             </div>
         </form>
     </div>

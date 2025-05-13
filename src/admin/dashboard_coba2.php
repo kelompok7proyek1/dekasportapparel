@@ -339,9 +339,9 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
     <div class="data-section">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2><i class="fas fa-users me-2"></i>Data Pelanggan</h2>
-            <a href="pelanggan_crud.php" class="btn btn-primary">
+            <!-- <a href="pelanggan_crud.php" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Tambah Pelanggan
-            </a>
+            </a> -->
         </div>
         
         <div class="table-responsive">
@@ -374,14 +374,14 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
                                 echo "<td>" . $row['alamat'] . "</td>";
                             // echo "<td>" . $row['jumlah_pesanan'] . "</td>";
                                 echo "<td class='action-buttons'>
-                                        <a href='tambah_pesanan.php?id=" . $row['id_pelanggan'] . "' </i>+pesanan</a> 
+                                        <a href='pesanan/tambah_pesanan.php?id=" . $row['id_pelanggan'] . "' </i>+pesanan</a> 
                                         </td>";        
                                 echo "<td class='action-buttons'>
                                         <a href='detail_pesanan.php?id=" . $row['id_pelanggan'] . "' </i>Detail Pesanan</a> 
                                         </td>";
                                 echo "<td class='action-buttons'>
-                                        <a href='edit_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                        <a href='hapus_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus?\");'><i class='fas fa-trash'></i></a>
+                                        <a href='pelanggan/edit_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                                        <a href='pelanggan/hapus_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus?\");'><i class='fas fa-trash'></i></a>
                                         </td>";
                             echo "</tr>";
                             $count++;
@@ -408,9 +408,9 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
     <div class="data-section">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2><i class="fas fa-shopping-cart me-2"></i>Data Pesanan</h2>
-            <a href="pesanan_crud.php" class="btn btn-primary">
+            <!-- <a href="pesanan_crud.php" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Tambah Pesanan
-            </a>
+            </a> -->
         </div>
         
         <div class="table-responsive">
@@ -469,8 +469,8 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
                                     <small>" . $row['selesai'] . " / " . $row['jumlah_jersey'] . "</small>
                                 </td>";
                             echo "<td class='action-buttons'>
-                                    <a href='edit_pesanan.php?id=" . $row['id_pesanan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                    <a href='hapus_pesanan.php?id=" . $row['id_pesanan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus?\");'><i class='fas fa-trash'></i></a>
+                                    <a href='pesanan/edit_pesanan.php?id=" . $row['id_pesanan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                                    <a href='pesanan/hapus_pesanan.php?id=" . $row['id_pesanan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus?\");'><i class='fas fa-trash'></i></a>
                                 </td>";
                             echo "</tr>";
                             $count++;
@@ -494,7 +494,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
     </div>
     
     <!-- Order Progress Summary -->
-    <div class="data-section">
+    <!-- <div class="data-section">
         <h2><i class="fas fa-chart-line me-2"></i>Ringkasan Progres Pesanan</h2>
         <div class="row">
             <div class="col-md-4">
@@ -509,14 +509,14 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
                     <div class="text-muted">Sedang dalam_proses</div>
                 </div>
             </div>
-            <!-- <div class="col-md-4">
+            <div class="col-md-4">
                 <div class="card text-center p-3">
                     <div class="display-4 text-success"><?php echo $selesai_orders; ?></div>
                     <div class="text-muted">Pesanan Selesai</div>
                 </div>
-            </div> -->
+            </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <!-- Bootstrap Bundle with Popper -->

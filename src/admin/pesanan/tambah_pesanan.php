@@ -1,5 +1,5 @@
 <?php
-include '../user/config.php';
+include '../../user/config.php';
 
 $id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
 
@@ -25,7 +25,7 @@ $id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
         // $result = $stmt->get_result();
         $result = $stmt->fetch();
         if($result > 0){
-            echo "<script>alert('Data pesanan sudah ada!'); window.location.href='dashboard_coba2.php';</script>";
+            echo "<script>alert('Data pesanan sudah ada!'); window.location.href='../dashboard_coba2.php';</script>";
         } else {
             // Jika tidak ada, lanjutkan dengan proses insert
             // Query untuk insert data
@@ -38,7 +38,7 @@ $id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
                 // Update jumlah pesanan di tabel pelanggan
                 // $update_pelanggan = $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan + 1 WHERE id_pelanggan = $id_pelanggan");
                 
-                echo "<script>alert('Data pesanan berhasil ditambahkan'); window.location='dashboard_coba2.php';</script>";
+                echo "<script>alert('Data pesanan berhasil ditambahkan'); window.location='../dashboard_coba2.php';</script>";
             } else {
                 echo "<script>alert('Gagal menambahkan data pesanan: " . $conn->error . "');</script>";
             }
@@ -168,7 +168,7 @@ $pelanggan_result = $conn->query("SELECT * FROM pelanggan_dekas ORDER BY nama");
 
             <div class="form-group">
                 <button type="submit" name="submit" class="btn-submit">Simpan</button>
-                <a href="dashboard_coba2.php" class="btn-cancel">Batal</a>
+                <a href="../dashboard_coba2.php" class="btn-cancel">Batal</a>
             </div>
         </form>
     </div>

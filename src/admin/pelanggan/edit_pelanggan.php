@@ -1,9 +1,9 @@
 <?php
-include '../user/config.php';
+include '../../user/config.php';
 
 // Periksa apakah ada parameter id
 if(!isset($_GET['id'])) {
-    header("Location: admin_dashboard.php");
+    header("Location: ../dashboard_coba2.php");
     exit();
 }
 
@@ -13,7 +13,7 @@ $id_pelanggan = $_GET['id'];
 $result = $conn->query("SELECT * FROM pelanggan_dekas WHERE id_pelanggan = $id_pelanggan");
 
 if($result->num_rows == 0) {
-    echo "<script>alert('Data pelanggan tidak ditemukan'); window.location='admin_dashboard.php';</script>";
+    echo "<script>alert('Data pelanggan tidak ditemukan'); window.location='../dashboard_coba2.php';</script>";
     exit();
 }
 
@@ -32,7 +32,7 @@ if(isset($_POST['submit'])) {
     $stmt->bind_param("sssi", $nama, $no_hp, $alamat, $id_pelanggan);
     
     if($stmt->execute()) {
-        echo "<script>alert('Data pelanggan berhasil diupdate'); window.location='dashboard_coba2.php';</script>";
+        echo "<script>alert('Data pelanggan berhasil diupdate'); window.location='../dashboard_coba2.php';</script>";
     } else {
         echo "<script>alert('Gagal mengupdate data pelanggan: " . $conn->error . "');</script>";
     }
@@ -118,7 +118,7 @@ if(isset($_POST['submit'])) {
             
             <div class="form-group">
                 <button type="submit" name="submit" class="btn-submit">Update</button>
-                <a href="dashboard_coba2.php" class="btn-cancel">Batal</a>
+                <a href="../dashboard_coba2.php" class="btn-cancel">Batal</a>
             </div>
         </form>
     </div>
