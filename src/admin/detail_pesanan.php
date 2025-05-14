@@ -9,12 +9,7 @@ session_start();
 
 
 $resultpesanan = $conn->query(
-    "SELECT p.*, 
-    pl.nama AS nama_pelanggan, 
-    dp.total_jersey AS jumlah_jersey
-    FROM pesanan_dekas p
-    JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan
-    JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan"
+    "SELECT * FROM detail_pesanan"
 );
 // Tambahkan pengecekan error
 if (!$resultpesanan) {
@@ -221,13 +216,13 @@ if (!$resultpesanan) {
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="detail_pesanan.php">
+            <a class="nav-link " href="detail_pesanan.php">
                 <i class="fas fa-table"></i>
                 Detail Pesanan
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="pesanan_crud.php">
+            <a class="nav-link active" href="pesanan_crud.php">
                 <i class="fas fa-shopping-cart"></i>
                 Kelola Pesanan
             </a>
@@ -247,11 +242,11 @@ if (!$resultpesanan) {
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h1 class="mb-2"><i class="fas fa-shopping-cart me-2"></i>Detail Pesanan</h1>
+                <h1 class="mb-2"><i class="fas fa-shopping-cart me-2"></i>Manajemen Detail Pesanan</h1>
             </div>
             <div class="col-md-4 text-md-end">
-                <a href="tambah_pesanan.php" class="btn btn-light">
-                    <i class="fas fa-plus-circle me-2"></i>Tambah Detail Pesanan
+                <a href="detail_pesanan/tambah_detail.php" class="btn btn-light">
+                    <i class="fas fa-plus-circle me-2"></i>Tambah detail pesanan
                 </a>
                 <!-- <button class="btn btn-light ms-2" id="refreshData">
                     <i class="fas fa-sync-alt"></i>
@@ -263,7 +258,7 @@ if (!$resultpesanan) {
     <!-- Pesanan Data Section -->
     <div class="data-section">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2><i class="fas fa-list me-2"></i>Detail Pesanan</h2>
+            <h2><i class="fas fa-list me-2"></i>Daftar Detail Pesanan</h2>
             <div class="d-flex">
                 <div class="input-group me-2" style="width: 250px;">
                     <input type="text" class="form-control" placeholder="Cari pesanan..." id="searchInput">
@@ -271,7 +266,7 @@ if (!$resultpesanan) {
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
-                <div class="dropdown">
+                <!-- <div class="dropdown">
                     <button class="btn btn-outline-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown">
                         <i class="fas fa-filter me-1"></i>Filter
                     </button>
@@ -282,198 +277,73 @@ if (!$resultpesanan) {
                         <li><a class="dropdown-item" href="#">selesai</a></li>
                         <li><a class="dropdown-item" href="#">Cancelled</a></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
         
-        <!-- <div class="table-responsive">
+        <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>ID Pesanan</th>
-                        <th>Pelanggan</th>
-                        <th>Tanggal</th>
-                        <th>Harga satuan</th>
-                        <th>Total Harga</th>
-                        <th>Status</th>
-                        <th>Progress</th>
+                        <th>#</th>
+                        <th>Jenis</th>
+                        <th>Bahan</th>
+                        <th>Paket</th>
+                        <th>Nama Pemain</th>
+                        <th>Nomor</th>
+                        <th>Logo</th>
+                        <th>Ukuran</th>
+                        <th>Motif</th>
+                        <th>Kode Jersey</th>
+                        <th>Jumlah</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php if($resultpesanan && $resultpesanan->num_rows > 0): ?>
-                        <?php while($row = $resultpesanan->fetch_assoc()): 
-                            // Calculate progress percentage
-                            $total = $row['jumlah_jersey'];
-                            $selesai = $row['selesai'];
-                            $progress = ($total > 0) ? ($selesai / $total) * 100 : 0;
-                            
-                            // Determine badge color based on status
-                            $statusColor = '';
-                            switch(strtolower($row['status_produksi'])) {
-                                case 'procesed':
-                                case 'processed':
-                                    $statusColor = 'primary';
-                                    $icon = 'fas fa-spinner fa-spin';
-                                    break;
-                                case 'selesai':
-                                    $statusColor = 'success';
-                                    $icon = 'fas fa-check-circle';
-                                    break;
-                                case 'pending':
-                                    $statusColor = 'warning';
-                                    $icon = 'fas fa-clock';
-                                    break;
-                                case 'cancelled':
-                                    $statusColor = 'danger';
-                                    $icon = 'fas fa-times-circle';
-                                    break;
-                                default:
-                                    $statusColor = 'secondary';
-                                    $icon = 'fas fa-question-circle';
-                            }
-                        ?>
-                            <tr>
-                                <td><span class="fw-medium">#<?= $row['id_pesanan'] ?></span></td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar-placeholder bg-primary bg-opacity-10 rounded-circle text-primary me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                            <i class="fas fa-user"></i>
-                                        </div>
-                                        <div>
-                                            <span class="fw-medium"><?= $row['nama_pelanggan'] ?></span>
-                                            <div class="small text-secondary">ID: <?= $row['id_pelanggan'] ?></div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><?= date('d/m/Y', strtotime($row['tanggal_pemesanan'])) ?></td>
-                                <td><span class="fw-medium">Rp <?= number_format($row['harga_satuan'], 0, ',', '.') ?></span></td>
-                                <td><span class="fw-medium">Rp <?= number_format($row['total_harga'], 0, ',', '.') ?></span></td>
-                                <td>
-                                    <span class="badge bg-<?= $statusColor ?>">
-                                        <i class="<?= $icon ?> me-1"></i> <?= ucfirst($row['status_produksi']) ?>
-                                    </span>
-                                </td>
-                                    
-                                <td style="width: 18%">
-                                    <div class="d-flex align-items-center">
-                                        <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                            <div class="progress-bar bg-<?= $statusColor ?>" role="progressbar" style="width: <?= $progress ?>%" 
-                                                aria-valuenow="<?= $progress ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <span class="small fw-medium"><?= $selesai ?>/<?= $total ?></span>
-                                    </div>
-                                </td>
-
-                                <td class="text-center action-buttons">
-                                    <div class="btn-group">
-                                        <a href="edit_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Pesanan">
+                            <tbody>
+                        <?php if($resultpesanan && $resultpesanan->num_rows > 0): ?>
+                            <?php while($row = $resultpesanan->fetch_assoc()): ?>
+                                <tr>
+                                    <td>#<?= $row['id_pesanan'] ?></td>
+                                    <td><?= $row['jenis_jersey'] ?></td>
+                                    <td><?= $row['bahan_jersey'] ?></td>
+                                    <td><?= $row['paket_jersey'] ?></td>
+                                    <td><?= $row['nama_pemain'] ?></td>
+                                    <td><?= $row['nomor_punggung'] ?></td>
+                                    <td><?= $row['logo'] ?></td>
+                                    <td><?= $row['ukuran'] ?></td>
+                                    <td><?= $row['motif'] ?></td>
+                                    <td><?= $row['kode_jersey'] ?></td>
+                                    <td><?= $row['total_jersey'] ?></td>
+                                    <td class="text-center">
+                                        <a href="detail_pesanan/edit_detail.php?id=<?= $row['id_jersey'] ?>" class="btn btn-sm btn-outline-primary" title="Edit">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
-                                        <!-- <a href="lihat_detail.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-info" data-bs-toggle="tooltip" title="Lihat Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </a> -->
-                                        <!-- <a href="hapus_pesanan.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-sm btn-outline-danger" 
-                                        onclick="return confirm('Yakin ingin menghapus pesanan #<?= $row['id_pesanan'] ?>?')" data-bs-toggle="tooltip" title="Hapus Pesanan">
+                                        <a href="detail_pesanan/hapus_detail.php?id=<?= $row['id_jersey'] ?>" class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Yakin ingin menghapus pesanan #<?= $row['id_pesanan'] ?>?')" title="Hapus">
                                             <i class="fas fa-trash"></i>
-                                        </a> -->
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="12" class="text-center py-4">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <i class="fas fa-shopping-cart fa-3x text-secondary mb-3"></i>
+                                        <h5>Tidak ada data pesanan</h5>
+                                        <p class="text-muted">Belum ada pesanan yang dibuat</p>
+                                        <a href="pesanan/tambah_pesanan.php" class="btn btn-primary mt-2">
+                                            <i class="fas fa-plus-circle me-2"></i>Tambah Pesanan Baru
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
-                        <?php endwhile; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="7" class="text-center py-4">
-                                <div class="d-flex flex-column align-items-center">
-                                    <i class="fas fa-shopping-cart fa-3x text-secondary mb-3"></i>
-                                    <h5>Tidak ada data pesanan</h5>
-                                    <p class="text-muted">Belum ada pesanan yang dibuat</p>
-                                    <a href="tambah_pesanan.php" class="btn btn-primary mt-2">
-                                        <i class="fas fa-plus-circle me-2"></i>Tambah Pesanan Baru
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
+                        <?php endif; ?>
+                    </tbody>
             </table>
-        </div> -->
-        
-        <!-- Pagination -->
-        <!-- <?php if($resultpesanan && $resultpesanan->num_rows > 10): ?>
-        <div class="d-flex justify-content-between align-items-center mt-4">
-            <div class="text-muted small">
-                Menampilkan 1-10 dari <?= $resultpesanan->num_rows ?> pesanan
-            </div>
-            <nav aria-label="Page navigation">
-                <ul class="pagination pagination-sm mb-0">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <?php endif; ?>
-    </div> -->
-    
-    <!-- Summary Stats -->
-    <!-- <div class="row">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-3 text-center">
-                <h6 class="text-primary mb-2"><i class="fas fa-shopping-cart me-2"></i>Total Pesanan</h6>
-                <h3><?= $resultpesanan ? $resultpesanan->num_rows : 0 ?></h3>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-3 text-center">
-                <h6 class="text-warning mb-2"><i class="fas fa-spinner me-2"></i>Sedang Diproses</h6>
-                <h3>
-                    <?php
-                    $processed = 0;
-                    if($resultpesanan) {
-                        $resultpesanan->data_seek(0);
-                        while($row = $resultpesanan->fetch_assoc()) {
-                            if(strtolower($row['status_produksi']) == 'procesed' || strtolower($row['status_produksi']) == 'processed') {
-                                $processed++;
-                            }
-                        }
-                    }
-                    echo $processed;
-                    ?>
-                </h3>
-            </div>
-        </div> -->
-        <!-- <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-3 text-center">
-                <h6 class="text-success mb-2"><i class="fas fa-check-circle me-2"></i>Selesai</h6>
-                <h3>
-                    <?php
-                    $selesai = 0;
-                    if($resultpesanan) {
-                        $resultpesanan->data_seek(0);
-                        while($row = $resultpesanan->fetch_assoc()) {
-                            if(strtolower($row['status_produksi']) == 'selesai') {
-                                $selesai++;
-                            }
-                        }
-                    }
-                    echo $selesai;
-                    ?>
-                </h3>
-            </div>
         </div>
     </div>
-</div> -->
+</div>
 
 <!-- Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

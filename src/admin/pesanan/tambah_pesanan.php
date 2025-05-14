@@ -29,10 +29,12 @@ $id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
         } else {
             // Jika tidak ada, lanjutkan dengan proses insert
             // Query untuk insert data
-            $sql = "INSERT INTO pesanan_dekas (id_pelanggan, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, dalam_proses, selesai) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("issssii", $id_pelanggan, $tanggal_pemesanan, $harga_satuan, $total_harga, $status_produksi, $dalam_proses, $selesai);
+            $sql = "INSERT INTO pesanan_dekas 
+            (id_pelanggan, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, dalam_proses, selesai) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)"; //Menggunakan placeholder ? untuk setiap nilai yang akan dimasukkan — ini bagian dari repared statements
+            $stmt = $conn->prepare($sql);//menyiapkan perintah SQL yang aman.
+            $stmt->bind_param("issssii", //bind_param() digunakan untuk menggantikan setiap ? dengan nilai variabel.
+            $id_pelanggan, $tanggal_pemesanan, $harga_satuan, $total_harga, $status_produksi, $dalam_proses, $selesai);
             
             if($stmt->execute()) {
                 // Update jumlah pesanan di tabel pelanggan

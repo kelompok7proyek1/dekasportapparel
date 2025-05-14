@@ -3,24 +3,24 @@ include "../user/config.php";
 session_start();
 
 // Query data pelanggan dan pesanan berdasarkan struktur database aktual
-$resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
+$resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");//Mengambil semua data dari tabel pelanggan_dekas.
 
-$resultpesanan = $conn->query(
+$resultpesanan = $conn->query( //jalankan metode query() dari objek(->) $conn (yaitu koneksi database).
     "SELECT p.*, 
     pl.nama AS nama_pelanggan, 
     dp.total_jersey AS jumlah_jersey
         FROM pesanan_dekas p
-        JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan
-        JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan");
+        JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan 
+        JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan");//menggabungkan tabel berdasarkan id_pesanan dan id_pelanggan.
 
 // $resultdetail = $conn->query("SELECT * FROM detail_pesanan");
 
 // Count data for statistics
-$total_pelanggan = $resultpelanggan->num_rows;
-$total_pesanan = $resultpesanan->num_rows;
+$total_pelanggan = $resultpelanggan->num_rows;//menghitung jumlah baris
+$total_pesanan = $resultpesanan->num_rows;//Menghitung berapa jumlah total pelanggan dan total pesanan 
 
 // Hitung pesanan yang sedang dalam proses (in_progres > 0)
-$in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan_dekas WHERE dalam_proses > 0")->fetch_assoc()['dalam_proses'] ?? 0;
+$in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan_dekas WHERE dalam_proses > 0")->fetch_assoc()['dalam_proses'] ?? 0; //menghitung jumlah pesanan yang sedang dalam proses.
 
 // Hitung pesanan yang sudah selesai (selesai = total_order)
 // $selesai_orders = $conn->query("SELECT COUNT(*) as selesai FROM pesanan_dekas WHERE selesai = total_order")->fetch_assoc()['selesai'] ?? 0;
