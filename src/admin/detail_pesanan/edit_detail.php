@@ -7,10 +7,10 @@ if (!isset($_GET['id'])) {
     exit();
 }
 
-$id_jersey = $_GET['id'];
+$id_detail = $_GET['id'];
 
 // Ambil data detail_pesanan berdasarkan ID
-$result = $conn->query("SELECT * FROM detail_pesanan WHERE id_jersey = $id_jersey");
+$result = $conn->query("SELECT * FROM detail_pesanan WHERE id_detail = $id_detail");
 
 if ($result->num_rows == 0) {
     echo "<script>alert('Data tidak ditemukan'); window.location='../dashboard_coba2.php';</script>";
@@ -36,9 +36,9 @@ if (isset($_POST['submit'])) {
     // Query update detail_pesanan
     $sql = "UPDATE detail_pesanan 
             SET id_pesanan=?, jenis_jersey=?, bahan_jersey=?, paket_jersey=?, nama_pemain=?, nomor_punggung=?, logo=?, ukuran=?, motif=?, total_jersey=?, kode_jersey=? 
-            WHERE id_jersey=?";
+            WHERE id_detail=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("issssssssisi", $id_pesanan, $jenis_jersey, $bahan_jersey, $paket_jersey, $nama_pemain, $nomor_punggung, $logo, $ukuran, $motif, $total_jersey, $kode_jersey, $id_jersey);
+    $stmt->bind_param("issssssssisi", $id_pesanan, $jenis_jersey, $bahan_jersey, $paket_jersey, $nama_pemain, $nomor_punggung, $logo, $ukuran, $motif, $total_jersey, $kode_jersey, $id_detail);
 
     if ($stmt->execute()) {
         echo "<script>alert('Detail pesanan berhasil diupdate'); window.location='../dashboard_coba2.php';</script>";
@@ -100,7 +100,7 @@ if (isset($_POST['submit'])) {
     <form method="POST">
         <div class="form-group">
             <label for="id_pesanan">ID Pesanan:</label>
-            <input type="number" name="id_pesanan" value="<?= $detail['id_pesanan'] ?>" required>
+            <input type="number" name="id_pesanan" value="<?= $detail['id_pelanggan'] ?>" required>
         </div>
         <div class="form-group">
             <label for="jenis_jersey">Jenis Jersey:</label>

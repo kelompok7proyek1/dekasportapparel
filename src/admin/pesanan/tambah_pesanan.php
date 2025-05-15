@@ -11,6 +11,7 @@ $id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
 
     if(isset($_POST['submit'])) {
         $id_pelanggan = $_POST['id_pelanggan'];
+        $id_detail = $_POST['id_detail'];
         $tanggal_pemesanan = $_POST['tanggal_pemesanan'];
         $harga_satuan = $_POST['harga_satuan'];
         $total_harga = $_POST['total_harga'];
@@ -19,8 +20,8 @@ $id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
         $selesai = $_POST['selesai'];
 
 
-        $stmt = $conn->prepare( "SELECT * FROM pesanan_dekas WHERE id_pelanggan = ?");
-        $stmt->bind_param("i", $id_pelanggan); // Bind parameter id_pelanggan
+        $stmt = $conn->prepare( "SELECT * FROM pesanan_dekas WHERE id_detail = ?");
+        $stmt->bind_param("i", $id_detail); // Bind parameter id_detail
         $stmt->execute();
         // $result = $stmt->get_result();
         $result = $stmt->fetch();
@@ -30,15 +31,15 @@ $id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
             // Jika tidak ada, lanjutkan dengan proses insert
             // Query untuk insert data
             $sql = "INSERT INTO pesanan_dekas 
-            (id_pelanggan, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, dalam_proses, selesai) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)"; //Menggunakan placeholder ? untuk setiap nilai yang akan dimasukkan — ini bagian dari repared statements
+            (id_pelanggan, id_detail, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, dalam_proses, selesai) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //Menggunakan placeholder ? untuk setiap nilai yang akan dimasukkan — ini bagian dari repared statements
             $stmt = $conn->prepare($sql);//menyiapkan perintah SQL yang aman.
-            $stmt->bind_param("issssii", //bind_param() digunakan untuk menggantikan setiap ? dengan nilai variabel.
-            $id_pelanggan, $tanggal_pemesanan, $harga_satuan, $total_harga, $status_produksi, $dalam_proses, $selesai);
+            $stmt->bind_param("iissssii", //bind_param() digunakan untuk menggantikan setiap ? dengan nilai variabel.
+            $id_pelanggan, $id_detail, $tanggal_pemesanan, $harga_satuan, $total_harga, $status_produksi, $dalam_proses, $selesai);
             
             if($stmt->execute()) {
                 // Update jumlah pesanan di tabel pelanggan
-                // $update_pelanggan = $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan + 1 WHERE id_pelanggan = $id_pelanggan");
+                // $update_pelanggan = $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan + 1 WHERE id_detail = $id_detail");
                 
                 echo "<script>alert('Data pesanan berhasil ditambahkan'); window.location='../dashboard_coba2.php';</script>";
             } else {
@@ -51,6 +52,13 @@ $id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
 
 // Ambil data pelanggan untuk dropdown
 $pelanggan_result = $conn->query("SELECT * FROM pelanggan_dekas ORDER BY nama");
+$detail_result = $conn->query("
+    SELECT dp.*, pl.nama AS nama_pelanggan
+    FROM detail_pesanan dp
+    JOIN pelanggan_dekas pl ON dp.id_pelanggan = pl.id_pelanggan
+    ORDER BY dp.id_detail
+");
+
 ?>
 
 <!DOCTYPE html>
@@ -111,25 +119,48 @@ $pelanggan_result = $conn->query("SELECT * FROM pelanggan_dekas ORDER BY nama");
     
     <div class="form-container">
         <form method="POST" action="">
+
             <div class="form-group">
                 <label for="id_pelanggan">Pelanggan:</label>
-                <!-- <input type='text' id='id_pelanggan' name='id_pelanggan' value=<?= $id ?> readonly> -->
                 <select id="id_pelanggan" name="id_pelanggan" required>
                     <option value="">-- Pilih Pelanggan --</option>
                     <?php while($row = $pelanggan_result->fetch_assoc()): ?>
                         <?php if ($row['id_pelanggan'] == $id): ?>
-                            <!-- Jika id_pelanggan sudah ada, tampilkan sebagai selected -->
                             <option value="<?= $row['id_pelanggan'] ?>" selected>
-                                <?= $row['nama'] ?> (<?= $row['no_hp'] ?>)
+                                <?= $row['id_pelanggan'] ?> (<?= $row['nama'] ?>)
                             </option>
                         <?php else: ?>
                             <option value="<?= $row['id_pelanggan'] ?>">
-                                <?= $row['nama'] ?> (<?= $row['no_hp'] ?>)
+                                <?= $row['id_pelanggan'] ?> (<?= $row['nama'] ?>)
                             </option>
                         <?php endif; ?>
                     <?php endwhile; ?>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="id_detail">Detail Pesanan:</label>
+                <!-- <input type='text' id='id_detail' name='id_detail' value=<?= $id ?> readonly> -->
+                <select id="id_detail" name="id_detail" required>
+                    <option value="">-- Pilih Pesanan --</option>
+                    <?php while($row = $detail_result->fetch_assoc()): ?>
+                        <?php if ($row['id_detail'] == $id): ?>
+                            <!-- Jika id_detail sudah ada, tampilkan sebagai selected -->
+                            <option value="<?= $row['id_detail'] ?>" selected>
+                                <?= $row['id_detail'] ?> (<?= $row['nama_pelanggan'] ?>)
+                            </option>
+                        <?php else: ?>
+                            <option value="<?= $row['id_detail'] ?>">
+                                <?= $row['id_detail'] ?> (<?= $row['nama_pelanggan'] ?>)
+                            </option>
+                        <?php endif; ?>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+
+            
+
+
+
             
             <div class="form-group">
                 <label for="tanggal_pemesanan">Tanggal Pemesanan:</label>

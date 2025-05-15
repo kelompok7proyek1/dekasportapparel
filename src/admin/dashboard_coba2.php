@@ -11,7 +11,7 @@ $resultpesanan = $conn->query( //jalankan metode query() dari objek(->) $conn (y
     dp.total_jersey AS jumlah_jersey
         FROM pesanan_dekas p
         JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan 
-        JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan");//menggabungkan tabel berdasarkan id_pesanan dan id_pelanggan.
+        JOIN detail_pesanan dp ON p.id_detail = dp.id_detail");//menggabungkan tabel berdasarkan id_pesanan dan id_pelanggan.
 
 // $resultdetail = $conn->query("SELECT * FROM detail_pesanan");
 
@@ -353,7 +353,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
                         <th>No. HP</th>
                         <th>Alamat</th>
                         <!-- <th>Jumlah Pesanan</th> -->
-                        <th>tambah pesanan</th>
+                        <!-- <th>tambah pesanan</th> -->
                         <th>lihat detail pesanan</th>
                         <th>Aksi</th>
                     </tr>

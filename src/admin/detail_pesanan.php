@@ -8,9 +8,16 @@ session_start();
 //                               JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan");
 
 
-$resultpesanan = $conn->query(
-    "SELECT * FROM detail_pesanan"
-);
+// $resultpesanan = $conn->query(
+//     "SELECT * FROM detail_pesanan"
+// );
+
+$resultpesanan = $conn->query("
+    SELECT dp.*, pl.nama AS nama_pelanggan, pl.id_pelanggan
+    FROM detail_pesanan dp
+    JOIN pelanggan_dekas pl ON dp.id_pelanggan = pl.id_pelanggan
+");
+
 // Tambahkan pengecekan error
 if (!$resultpesanan) {
     die("Error dalam query: " . $conn->error);
@@ -216,13 +223,13 @@ if (!$resultpesanan) {
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="detail_pesanan.php">
+            <a class="nav-link active" href="detail_pesanan.php">
                 <i class="fas fa-table"></i>
                 Detail Pesanan
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="pesanan_crud.php">
+            <a class="nav-link" href="pesanan_crud.php">
                 <i class="fas fa-shopping-cart"></i>
                 Kelola Pesanan
             </a>
@@ -285,7 +292,9 @@ if (!$resultpesanan) {
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>#</th>
+                        <th>ID Detail</th>
+                        <th>Nama Pelanggan</th>
+                        <th>Buat Pesanan</th>
                         <th>Jenis</th>
                         <th>Bahan</th>
                         <th>Paket</th>
@@ -299,11 +308,29 @@ if (!$resultpesanan) {
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
+
                             <tbody>
                         <?php if($resultpesanan && $resultpesanan->num_rows > 0): ?>
                             <?php while($row = $resultpesanan->fetch_assoc()): ?>
                                 <tr>
-                                    <td>#<?= $row['id_pesanan'] ?></td>
+                                    <td>#<?= $row['id_detail'] ?></td>
+                                    <!-- <td>#<?= $row['id_pelanggan'] ?></td> -->
+                                    <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-placeholder bg-primary bg-opacity-10 rounded-circle text-primary me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <span class="fw-medium"><?= $row['nama_pelanggan'] ?></span>
+                                            <div class="small text-secondary">ID: <?= $row['id_pelanggan'] ?></div>
+                                        </div>
+                                    </div>
+                                    </td>
+                                    <td class="action-buttons">
+                                        <a href="pesanan/tambah_pesanan.php?id=<?= $row['id_detail'] ?>" class="btn btn-sm btn-success">
+                                            <i class="fas fa-plus-circle"></i>Pesanan
+                                        </a>
+                                    </td>
                                     <td><?= $row['jenis_jersey'] ?></td>
                                     <td><?= $row['bahan_jersey'] ?></td>
                                     <td><?= $row['paket_jersey'] ?></td>
@@ -315,11 +342,11 @@ if (!$resultpesanan) {
                                     <td><?= $row['kode_jersey'] ?></td>
                                     <td><?= $row['total_jersey'] ?></td>
                                     <td class="text-center">
-                                        <a href="detail_pesanan/edit_detail.php?id=<?= $row['id_jersey'] ?>" class="btn btn-sm btn-outline-primary" title="Edit">
+                                        <a href="detail_pesanan/edit_detail.php?id=<?= $row['id_detail'] ?>" class="btn btn-sm btn-outline-primary" title="Edit">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
-                                        <a href="detail_pesanan/hapus_detail.php?id=<?= $row['id_jersey'] ?>" class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm('Yakin ingin menghapus pesanan #<?= $row['id_pesanan'] ?>?')" title="Hapus">
+                                        <a href="detail_pesanan/hapus_detail.php?id=<?= $row['id_detail'] ?>" class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Yakin ingin menghapus pesanan #<?= $row['id_detail'] ?>?')" title="Hapus">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>

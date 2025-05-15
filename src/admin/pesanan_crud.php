@@ -14,7 +14,7 @@ $resultpesanan = $conn->query(
     dp.total_jersey AS jumlah_jersey
     FROM pesanan_dekas p
     JOIN pelanggan_dekas pl ON p.id_pelanggan = pl.id_pelanggan
-    JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan"
+    JOIN detail_pesanan dp ON p.id_detail = dp.id_detail"
 );
 // Tambahkan pengecekan error
 if (!$resultpesanan) {
@@ -290,7 +290,7 @@ if (!$resultpesanan) {
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>ID Pesanan</th>
+                        <th>ID Detail</th>
                         <th>Pelanggan</th>
                         <th>Tanggal</th>
                         <th>Harga satuan</th>
@@ -334,7 +334,7 @@ if (!$resultpesanan) {
                             }
                         ?>
                             <tr>
-                                <td><span class="fw-medium">#<?= $row['id_pesanan'] ?></span></td>
+                                <td><span class="fw-medium">#<?= $row['id_detail'] ?></span></td>
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="avatar-placeholder bg-primary bg-opacity-10 rounded-circle text-primary me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">

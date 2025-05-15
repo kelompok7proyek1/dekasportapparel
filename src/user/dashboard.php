@@ -6,7 +6,7 @@
     include 'config.php'; // koneksi ke database
 
     $sql = "SELECT 
-    p.id_pesanan,
+    p.id_detail,
     p.tanggal_pemesanan, 
     p.harga_satuan, 
     p.total_harga, 
@@ -16,8 +16,8 @@
     dp.total_jersey
         FROM 
         pesanan_dekas p
-        JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
-        WHERE p.id_pesanan = dp.id_pesanan AND p.id_pelanggan = ?";
+        JOIN detail_pesanan dp ON p.id_detail = dp.id_detail
+        WHERE p.id_detail = dp.id_detail AND p.id_pelanggan = ?";
 
     $stmt = $conn->prepare($sql);    
     $stmt->bind_param("i", $_SESSION['id_pelanggan']);

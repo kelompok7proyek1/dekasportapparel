@@ -1,10 +1,10 @@
 <?php
 include '../../user/config.php';
 
-$pesanan_result = $conn->query("SELECT * FROM pesanan_dekas ORDER BY id_pesanan");
+$detail_result = $conn->query("SELECT * FROM pelanggan_dekas ORDER BY id_pelanggan");
 
 if(isset($_POST['submit'])) {
-    $id_pesanan = $_POST['id_pesanan'];
+    $id_pelanggan = $_POST['id_pelanggan'];
     $jenis_jersey = $_POST['jenis_jersey'];
     $bahan_jersey = $_POST['bahan_jersey'];
     $paket_jersey = $_POST['paket_jersey'];
@@ -16,8 +16,8 @@ if(isset($_POST['submit'])) {
     $total_jersey = $_POST['total_jersey'];
     $kode_jersey = $_POST['kode_jersey'];
 
-    $stmt = $conn->prepare("SELECT * FROM detail_pesanan WHERE id_pesanan = ?");
-    $stmt->bind_param("i", $id_pesanan);
+    $stmt = $conn->prepare("SELECT * FROM detail_pesanan WHERE id_pelanggan = ?");
+    $stmt->bind_param("i", $id_pelanggan);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -25,12 +25,12 @@ if(isset($_POST['submit'])) {
         echo "<script>alert('Data pesanan sudah ada!'); window.location.href='../dashboard_coba2.php';</script>";
     } else {
         $sql = "INSERT INTO detail_pesanan(
-            id_pesanan, jenis_jersey, bahan_jersey, paket_jersey, 
+            id_pelanggan, jenis_jersey, bahan_jersey, paket_jersey, 
             nama_pemain, nomor_punggung, logo, ukuran, motif, total_jersey, kode_jersey
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("issssssssis", $id_pesanan, $jenis_jersey, $bahan_jersey, $paket_jersey,
+        $stmt->bind_param("issssssssis", $id_pelanggan, $jenis_jersey, $bahan_jersey, $paket_jersey,
             $nama_pemain, $nomor_punggung, $logo, $ukuran, $motif, $total_jersey, $kode_jersey);
 
         if($stmt->execute()) {
@@ -95,11 +95,11 @@ if(isset($_POST['submit'])) {
     <div class="form-container">
         <form method="POST" action="">
             <div class="form-group">
-                <label for="id_pesanan">Pesanan</label>
-                <select id="id_pesanan" name="id_pesanan" required>
-                    <option value="">-- Pilih Pesanan --</option>
-                    <?php while($row = $pesanan_result->fetch_assoc()): ?>
-                        <option value="<?= $row['id_pesanan'] ?>"><?= $row['id_pesanan'] ?></option>
+                <label for="id_pelanggan">Pesanan</label>
+                <select id="id_pelanggan" name="id_pelanggan" required>
+                    <option value="">-- Pilih Pelanggan --</option>
+                    <?php while($row = $detail_result->fetch_assoc()): ?>
+                        <option value="<?= $row['id_pelanggan'] ?>"><?= $row['id_pelanggan'] ?> (<?= $row['nama'] ?>)</option>
                     <?php endwhile; ?>
                 </select>
             </div>
@@ -108,8 +108,8 @@ if(isset($_POST['submit'])) {
                 <label for="jenis_jersey">Jenis Jersey</label>
                 <select id="jenis_jersey" name="jenis_jersey" required>
                     <option value="">-- Pilih Jenis Jersey --</option>
-                    <option value="jersey_bola">Jersey Bola</option>
-                    <option value="jersey_basket">Jersey Basket</option>
+                    <option value="Jerser Bola">Jersey Bola</option>
+                    <option value="Jersey Basket">Jersey Basket</option>
 
                    
                 </select>
@@ -120,10 +120,10 @@ if(isset($_POST['submit'])) {
                 <select id="bahan_jersey" name="bahan_jersey" required>
                     <option value="">-- Pilih Bahan Jersey --</option>
                     <option value="milano">Milano</option>
-                    <option value="dryfit_puma">Dryfit Puma</option>
-                    <option value="embos_batik">Embos Batik</option>
-                    <option value="dryfit_lite">Dryfit Lite</option>
-                    <option value="jacquard_camo">Jacquard Camo</option>
+                    <option value="Dryfit Puma">Dryfit Puma</option>
+                    <option value="Embos Batik">Embos Batik</option>
+                    <option value="Dryfit Lite">Dryfit Lite</option>
+                    <option value="Jacquard Camo">Jacquard Camo</option>
 
                    
                 </select>
@@ -133,10 +133,10 @@ if(isset($_POST['submit'])) {
                 <label for="paket_jersey">Paket Jersey</label>
                 <select id="paket_jersey" name="paket_jersey" required>
                     <option value="">-- Pilih Paket Jersey --</option>
-                    <option value="paket_basic">Paket Basic</option>
-                    <option value="paket_frontprint">Paket Frontprint</option>
-                    <option value="paket_halfprint">Paket Halfprint</option>
-                    <option value="paket_fullprint">Paket Fullprint</option>
+                    <option value="Paket Basic">Paket Basic</option>
+                    <option value="Paket Front Print">Paket Frontprint</option>
+                    <option value="Paket Halfprint">Paket Halfprint</option>
+                    <option value="Paket Fullprint">Paket Fullprint</option>
 
                    
                 </select>
