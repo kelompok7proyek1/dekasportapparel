@@ -28,12 +28,12 @@ if(isset($_POST['submit'])) {
     $nama = $_POST['nama'];
     $no_hp = $_POST['no_hp'];
     $alamat = $_POST['alamat'];
-    $jumlah_pesanan = $_POST['jumlah_pesanan'];
+    // $jumlah_pesanan = $_POST['jumlah_pesanan'];
 
     // Query untuk insert data
-    $sql = "INSERT INTO pelanggan_dekas (id_pelanggan, nama, no_hp, alamat, jumlah_pesanan) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO pelanggan_dekas (id_pelanggan, nama, no_hp, alamat) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssi", $id_cek, $nama, $no_hp, $alamat, $jumlah_pesanan);
+    $stmt->bind_param("isss", $id_cek, $nama, $no_hp, $alamat);
     
     if($stmt->execute()) {
         echo "<script>alert('Data pelanggan berhasil disimpan'); window.location='custom.php';</script>";
@@ -84,10 +84,10 @@ if(isset($_POST['submit'])) {
                 <textarea id="alamat" name="alamat" required></textarea>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="alamat">Jumlah Pesanan:</label>
                 <input type="number" id="jumlah_pesanan" name="jumlah_pesanan" required></input>
-            </div>
+            </div> -->
             
             <div class="form-group">
                 <button type="submit" name="submit" class="btn-submit">Simpan</button>

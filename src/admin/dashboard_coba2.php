@@ -354,7 +354,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
                         <th>Alamat</th>
                         <!-- <th>Jumlah Pesanan</th> -->
                         <!-- <th>tambah pesanan</th> -->
-                        <th>lihat detail pesanan</th>
+                        <!-- <th>lihat detail pesanan</th> -->
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -373,12 +373,12 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
                                 echo "<td>" . $row['no_hp'] . "</td>";
                                 echo "<td>" . $row['alamat'] . "</td>";
                             // echo "<td>" . $row['jumlah_pesanan'] . "</td>";
-                                echo "<td class='action-buttons'>
-                                        <a href='pesanan/tambah_pesanan.php?id=" . $row['id_pelanggan'] . "' </i>+pesanan</a> 
-                                        </td>";        
-                                echo "<td class='action-buttons'>
-                                        <a href='detail_pesanan.php?id=" . $row['id_pelanggan'] . "' </i>Detail Pesanan</a> 
-                                        </td>";
+                                // echo "<td class='action-buttons'>
+                                //         <a href='pesanan/tambah_pesanan.php?id=" . $row['id_pelanggan'] . "' </i>+pesanan</a> 
+                                //         </td>";        
+                                // echo "<td class='action-buttons'>
+                                //         <a href='detail_pesanan.php?id=" . $row['id_pelanggan'] . "' </i>Detail Pesanan</a> 
+                                //         </td>";
                                 echo "<td class='action-buttons'>
                                         <a href='pelanggan/edit_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
                                         <a href='pelanggan/hapus_pelanggan.php?id=" . $row['id_pelanggan'] . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus?\");'><i class='fas fa-trash'></i></a>

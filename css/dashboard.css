@@ -388,7 +388,7 @@ header {
         
  /* Footer */
 footer {
-    background-color: var(--secondary-color);
+    background-color: rgba(49, 49, 49, 1);
     color: white;
     padding: 40px 0 20px;
 }

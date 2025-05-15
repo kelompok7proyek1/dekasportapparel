@@ -58,111 +58,121 @@ if(isset($_POST['submit'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <title>Edit Pesanan</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="../../css/dashboard.css">
     <style>
-        .form-container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .btn-submit {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-cancel {
-            background-color: #f44336;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-left: 10px;
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e3e6f0;
+            border-top-left-radius: 10px !important;
+            border-top-right-radius: 10px !important;
         }
     </style>
 </head>
-<body>
-
-
-    <h2>Edit Data Pesanan</h2>
-    
-    <div class="form-container">
-        <form method="POST" action="">
-            <div class="form-group">
-                <label for="id_pelanggan">Pelanggan:</label>
-                <select id="id_pelanggan" name="id_pelanggan" required>
-                    <?php while($row = $pelanggan_result->fetch_assoc()): ?>
-                        <option value="<?= $row['id_pelanggan'] ?>" <?= ($row['id_pelanggan'] == $pesanan['id_pelanggan']) ? 'selected' : '' ?>>
-                            <?= $row['nama'] ?> (<?= $row['no_hp'] ?>)
-                        </option>
-                    <?php endwhile; ?>
-                </select>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            <i class="bi bi-pencil-square me-2"></i>Edit Data Pesanan
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_pelanggan" class="form-label">Pelanggan</label>
+                                    <select class="form-select" id="id_pelanggan" name="id_pelanggan" required>
+                                        <?php while($row = $pelanggan_result->fetch_assoc()): ?>
+                                            <option value="<?= $row['id_pelanggan'] ?>" <?= ($row['id_pelanggan'] == $pesanan['id_pelanggan']) ? 'selected' : '' ?>>
+                                                <?= $row['nama'] ?> (<?= $row['no_hp'] ?>)
+                                            </option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="tanggal_pemesanan" class="form-label">Tanggal Pemesanan</label>
+                                    <input type="date" class="form-control" id="tanggal_pemesanan" name="tanggal_pemesanan" value="<?= $pesanan['tanggal_pemesanan'] ?>" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="harga_satuan" class="form-label">Harga Satuan</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rp</span>
+                                        <input type="number" class="form-control" id="harga_satuan" name="harga_satuan" value="<?= $pesanan['harga_satuan'] ?>" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="total_harga" class="form-label">Total Harga</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rp</span>
+                                        <input type="number" class="form-control" id="total_harga" name="total_harga" value="<?= $pesanan['total_harga'] ?>" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="status_produksi" class="form-label">Status Pemesanan</label>
+                                <select class="form-select" id="status_produksi" name="status_produksi" required>
+                                    <option value="pending" <?= ($pesanan['status_produksi'] == 'pending') ? 'selected' : '' ?>>Pending</option>
+                                    <option value="processing" <?= ($pesanan['status_produksi'] == 'processing') ? 'selected' : '' ?>>Processing</option>
+                                    <option value="selesai" <?= ($pesanan['status_produksi'] == 'selesai') ? 'selected' : '' ?>>Selesai</option>
+                                    <option value="cancelled" <?= ($pesanan['status_produksi'] == 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
+                                </select>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="total_order" class="form-label">Total Order</label>
+                                    <input type="number" class="form-control" id="total_order" name="harga_satuan" value="<?= $pesanan['harga_satuan'] ?>" required>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <label for="dalam_proses" class="form-label">Dalam Progress</label>
+                                    <input type="number" class="form-control" id="dalam_proses" name="dalam_proses" value="<?= $pesanan['dalam_proses'] ?>" required>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <label for="selesai" class="form-label">Selesai</label>
+                                    <input type="number" class="form-control" id="selesai" name="selesai" value="<?= $pesanan['selesai'] ?>" required>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end mt-4">
+                                <a href="../dashboard_coba2.php" class="btn btn-secondary me-2">
+                                    <i class="bi bi-x-circle me-1"></i>Batal
+                                </a>
+                                <button type="submit" name="submit" class="btn btn-primary">
+                                    <i class="bi bi-save me-1"></i>Update
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="tanggal_pemesanan">Tanggal Pemesanan:</label>
-                <input type="date" id="tanggal_pemesanan" name="tanggal_pemesanan" value="<?= $pesanan['tanggal_pemesanan'] ?>" required>
-            </div>
-
-            <div class="form-group">
-                <label for="harga_satuan">Harga satuan:</label>
-                <input type="date" id="harga_satuan" name="harga_satuan" value="<?= $pesanan['harga_satuan'] ?>" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="total_harga">Total Harga:</label>
-                <input type="number" id="total_harga" name="total_harga" value="<?= $pesanan['total_harga'] ?>" required>
-            </div>
-            
-            <div class="form-group">
-            <label for="status_produksi">Status Pemesanan:</label>
-            <select id="status_produksi" name="status_produksi" required>
-                <option value="pending" <?= ($pesanan['status_produksi'] == 'pending') ? 'selected' : '' ?>>Pending</option>
-                <option value="processing" <?= ($pesanan['status_produksi'] == 'processing') ? 'selected' : '' ?>>Processing</option>
-                <option value="selesai" <?= ($pesanan['status_produksi'] == 'selesai') ? 'selected' : '' ?>>selesai</option>
-                <option value="cancelled" <?= ($pesanan['status_produksi'] == 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
-            </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="harga_satuan">Total Order:</label>
-                <input type="number" id="harga_satuan" name="harga_satuan" value="<?= $pesanan['harga_satuan'] ?>" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="dalam_proses">Dalam Progress:</label>
-                <input type="number" id="dalam_proses" name="dalam_proses" value="<?= $pesanan['dalam_proses'] ?>" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="selesai">selesai:</label>
-                <input type="text" id="selesai" name="selesai" value="<?= $pesanan['selesai'] ?>" required>
-            </div>
-            
-            <div class="form-group">
-                <button type="submit" name="submit" class="btn-submit">Update</button>
-                <a href="../dashboard_coba2.php" class="btn-cancel">Batal</a>
-            </div>
-        </form>
+        </div>
     </div>
+    
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,209 +1,216 @@
 <?php
 include '../../user/config.php';
+$id = $_GET['id'] ?? null;
 
-$id = $_GET['id'] ?? null; // Ambil id dari URL jika ada
-
-
-
-// if ($result->num_rows > 0) {
-//     echo "<script>alert('Data pesanan sudah ada!'); window.location.href='dashboard_coba2.php';</script>";
-// } else {
-
-    if(isset($_POST['submit'])) {
-        $id_pelanggan = $_POST['id_pelanggan'];
-        $id_detail = $_POST['id_detail'];
-        $tanggal_pemesanan = $_POST['tanggal_pemesanan'];
-        $harga_satuan = $_POST['harga_satuan'];
-        $total_harga = $_POST['total_harga'];
-        $status_produksi = $_POST['status_produksi'];
-        $dalam_proses = $_POST['dalam_proses'];
-        $selesai = $_POST['selesai'];
-
-
-        $stmt = $conn->prepare( "SELECT * FROM pesanan_dekas WHERE id_detail = ?");
-        $stmt->bind_param("i", $id_detail); // Bind parameter id_detail
-        $stmt->execute();
-        // $result = $stmt->get_result();
-        $result = $stmt->fetch();
-        if($result > 0){
-            echo "<script>alert('Data pesanan sudah ada!'); window.location.href='../dashboard_coba2.php';</script>";
+if (isset($_POST['submit'])) {
+    $id_pelanggan = $_POST['id_pelanggan'];
+    $id_detail = $_POST['id_detail'];
+    $tanggal_pemesanan = $_POST['tanggal_pemesanan'];
+    $harga_satuan = $_POST['harga_satuan'];
+    $total_harga = $_POST['total_harga'];
+    $status_produksi = $_POST['status_produksi'];
+    $dalam_proses = $_POST['dalam_proses'];
+    $selesai = $_POST['selesai'];
+    
+    $stmt = $conn->prepare("SELECT * FROM pesanan_dekas WHERE id_detail = ?");
+    $stmt->bind_param("i", $id_detail);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if($result->num_rows > 0){
+        echo "<script>alert('Data pesanan sudah ada!'); window.location.href='../dashboard_coba2.php';</script>";
+    } else {
+        $sql = "INSERT INTO pesanan_dekas 
+                (id_pelanggan, id_detail, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, dalam_proses, selesai) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iissssii", $id_pelanggan, $id_detail, $tanggal_pemesanan, $harga_satuan, $total_harga, $status_produksi, $dalam_proses, $selesai);
+        
+        if($stmt->execute()) {
+            echo "<script>alert('Data pesanan berhasil ditambahkan'); window.location='../dashboard_coba2.php';</script>";
         } else {
-            // Jika tidak ada, lanjutkan dengan proses insert
-            // Query untuk insert data
-            $sql = "INSERT INTO pesanan_dekas 
-            (id_pelanggan, id_detail, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, dalam_proses, selesai) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //Menggunakan placeholder ? untuk setiap nilai yang akan dimasukkan — ini bagian dari repared statements
-            $stmt = $conn->prepare($sql);//menyiapkan perintah SQL yang aman.
-            $stmt->bind_param("iissssii", //bind_param() digunakan untuk menggantikan setiap ? dengan nilai variabel.
-            $id_pelanggan, $id_detail, $tanggal_pemesanan, $harga_satuan, $total_harga, $status_produksi, $dalam_proses, $selesai);
-            
-            if($stmt->execute()) {
-                // Update jumlah pesanan di tabel pelanggan
-                // $update_pelanggan = $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan + 1 WHERE id_detail = $id_detail");
-                
-                echo "<script>alert('Data pesanan berhasil ditambahkan'); window.location='../dashboard_coba2.php';</script>";
-            } else {
-                echo "<script>alert('Gagal menambahkan data pesanan: " . $conn->error . "');</script>";
-            }
-            
-            $stmt->close();
+            echo "<script>alert('Gagal menambahkan data pesanan: " . $conn->error . "');</script>";
         }
+        $stmt->close();
     }
+}
 
-// Ambil data pelanggan untuk dropdown
 $pelanggan_result = $conn->query("SELECT * FROM pelanggan_dekas ORDER BY nama");
 $detail_result = $conn->query("
-    SELECT dp.*, pl.nama AS nama_pelanggan
-    FROM detail_pesanan dp
+SELECT dp.*, pl.nama AS nama_pelanggan
+FROM detail_pesanan dp
     JOIN pelanggan_dekas pl ON dp.id_pelanggan = pl.id_pelanggan
     ORDER BY dp.id_detail
-");
-
+    ");
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Pesanan</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="../../css/dashboard.css">
     <style>
-        .form-container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
         }
-        .form-group {
-            margin-bottom: 15px;
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e3e6f0;
+            border-top-left-radius: 10px !important;
+            border-top-right-radius: 10px !important;
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .btn-submit {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-cancel {
-            background-color: #f44336;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-left: 10px;
+        .form-floating > .form-select {
+            padding-top: 1.625rem;
+            padding-bottom: 0.625rem;
         }
     </style>
 </head>
-<body>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            <i class="bi bi-plus-circle me-2"></i>Tambah Pesanan Baru
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="" class="needs-validation" novalidate>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_pelanggan" class="form-label">Pelanggan</label>
+                                    <select id="id_pelanggan" name="id_pelanggan" class="form-select" required>
+                                        <option value="">-- Pilih Pelanggan --</option>
+                                        <?php while($row = $pelanggan_result->fetch_assoc()): ?>
+                                            <option value="<?= $row['id_pelanggan'] ?>" <?= ($row['id_pelanggan'] == $id) ? 'selected' : '' ?>>
+                                                <?= $row['id_pelanggan'] ?> - <?= $row['nama'] ?>
+                                            </option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Silahkan pilih pelanggan
+                                    </div>
+                                </div>
 
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="#" class="logo">DekaSport<span>Apparel</span></a>
-            </nav>
-            <h2>Tambah Pesanan Baru</h2>
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_detail" class="form-label">Detail Pesanan</label>
+                                    <select id="id_detail" name="id_detail" class="form-select" required>
+                                        <option value="">-- Pilih Pesanan --</option>
+                                        <?php while($row = $detail_result->fetch_assoc()): ?>
+                                            <option value="<?= $row['id_detail'] ?>" <?= ($row['id_detail'] == $id) ? 'selected' : '' ?>>
+                                                <?= $row['id_detail'] ?> - <?= $row['nama_pelanggan'] ?>
+                                            </option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Silahkan pilih detail pesanan
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="tanggal_pemesanan" class="form-label">Tanggal Pemesanan</label>
+                                    <input type="date" id="tanggal_pemesanan" name="tanggal_pemesanan" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                                    <div class="invalid-feedback">
+                                        Harap isi tanggal pemesanan
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="status_produksi" class="form-label">Status Produksi</label>
+                                    <select id="status_produksi" name="status_produksi" class="form-select" required>
+                                        <option value="pending">Pending</option>
+                                        <option value="processing">Processing</option>
+                                        <option value="selesai">Selesai</option>
+                                        <option value="cancelled">Cancelled</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Harap pilih status produksi
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="harga_satuan" class="form-label">Harga Satuan</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rp</span>
+                                        <input type="number" id="harga_satuan" name="harga_satuan" class="form-control" value="0" required oninput="hitungTotal()">
+                                        <div class="invalid-feedback">
+                                            Harap isi harga satuan
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="total_harga" class="form-label">Total Harga</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rp</span>
+                                        <input type="number" id="total_harga" name="total_harga" class="form-control" value="0" required>
+                                        <div class="invalid-feedback">
+                                            Harap isi total harga
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="dalam_proses" class="form-label">Jumlah Dalam Proses</label>
+                                    <input type="number" id="dalam_proses" name="dalam_proses" class="form-control" value="0" required min="0" oninput="hitungTotal()">
+                                    <div class="invalid-feedback">
+                                        Harap isi jumlah dalam proses
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="selesai" class="form-label">Jumlah Selesai</label>
+                                    <input type="number" id="selesai" name="selesai" class="form-control" value="0" required min="0" oninput="hitungTotal()">
+                                    <div class="invalid-feedback">
+                                        Harap isi jumlah selesai
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="total_pesanan" class="form-label">Total Pesanan</label>
+                                    <input type="number" id="total_pesanan" class="form-control" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="progress mb-3" style="height: 25px;">
+                                        <div id="progress_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-4">
+                                <a href="../dashboard_coba2.php" class="btn btn-danger me-2">
+                                    <i class="bi bi-x-circle me-1"></i>Batal
+                                </a>
+                                <button type="submit" name="submit" class="btn btn-success">
+                                    <i class="bi bi-save me-1"></i>Simpan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-    </header>
-
-    
-    
-    <div class="form-container">
-        <form method="POST" action="">
-
-            <div class="form-group">
-                <label for="id_pelanggan">Pelanggan:</label>
-                <select id="id_pelanggan" name="id_pelanggan" required>
-                    <option value="">-- Pilih Pelanggan --</option>
-                    <?php while($row = $pelanggan_result->fetch_assoc()): ?>
-                        <?php if ($row['id_pelanggan'] == $id): ?>
-                            <option value="<?= $row['id_pelanggan'] ?>" selected>
-                                <?= $row['id_pelanggan'] ?> (<?= $row['nama'] ?>)
-                            </option>
-                        <?php else: ?>
-                            <option value="<?= $row['id_pelanggan'] ?>">
-                                <?= $row['id_pelanggan'] ?> (<?= $row['nama'] ?>)
-                            </option>
-                        <?php endif; ?>
-                    <?php endwhile; ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="id_detail">Detail Pesanan:</label>
-                <!-- <input type='text' id='id_detail' name='id_detail' value=<?= $id ?> readonly> -->
-                <select id="id_detail" name="id_detail" required>
-                    <option value="">-- Pilih Pesanan --</option>
-                    <?php while($row = $detail_result->fetch_assoc()): ?>
-                        <?php if ($row['id_detail'] == $id): ?>
-                            <!-- Jika id_detail sudah ada, tampilkan sebagai selected -->
-                            <option value="<?= $row['id_detail'] ?>" selected>
-                                <?= $row['id_detail'] ?> (<?= $row['nama_pelanggan'] ?>)
-                            </option>
-                        <?php else: ?>
-                            <option value="<?= $row['id_detail'] ?>">
-                                <?= $row['id_detail'] ?> (<?= $row['nama_pelanggan'] ?>)
-                            </option>
-                        <?php endif; ?>
-                    <?php endwhile; ?>
-                </select>
-            </div>
-
-            
-
-
-
-            
-            <div class="form-group">
-                <label for="tanggal_pemesanan">Tanggal Pemesanan:</label>
-                <input type="date" id="tanggal_pemesanan" name="tanggal_pemesanan" value="<?= date('Y-m-d') ?>" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="harga_satuan">Harga satuan:</label>
-                <input type="number" id="harga_satuan" name="harga_satuan" value="0" required>
-            </div>
-
-            
-            <div class="form-group">
-                <label for="status_produksi">Status Pemesanan:</label>
-                <select id="status_produksi" name="status_produksi" required>
-                    <option value="pending">Pending</option>
-                    <option value="processing">Processing</option>
-                    <option value="selesai">selesai</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-            </div>
-            
-            
-            <div class="form-group">
-                <label for="dalam_proses">In Progress:</label>
-                <input type="number" id="dalam_proses" name="dalam_proses" value="0" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="selesai">selesai:</label>
-                <input type="text" id="selesai" name="selesai" value="0" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="total_harga">Total Harga:</label>
-                <input type="number" id="total_harga" name="total_harga" required>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" name="submit" class="btn-submit">Simpan</button>
-                <a href="../dashboard_coba2.php" class="btn-cancel">Batal</a>
-            </div>
-        </form>
     </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
