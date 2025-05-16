@@ -13,7 +13,7 @@ $id_pesanan = $_GET['id'];
 $result = $conn->query("SELECT * FROM pesanan_dekas WHERE id_pesanan = $id_pesanan");
 
 if($result->num_rows == 0) {
-    echo "<script>alert('Data pesanan tidak ditemukan'); window.location='../dashboard_coba2.php';</script>";
+    echo "<script>alert('Data pesanan tidak ditemukan'); window.location='../pesanan_crud.php';</script>";
     exit();
 }
 
@@ -48,7 +48,7 @@ if(isset($_POST['submit'])) {
         //     $conn->query("UPDATE pelanggan_dekas SET jumlah_pesanan = jumlah_pesanan + 1 WHERE id_pelanggan = $id_pelanggan_baru");
         // }
         
-        echo "<script>alert('Data pesanan berhasil diupdate'); window.location='../dashboard_coba2.php';</script>";
+        echo "<script>alert('Data pesanan berhasil diupdate'); window.location='../pesanan_crud.php';</script>";
     } else {
         echo "<script>alert('Gagal mengupdate data pesanan: " . $conn->error . "');</script>";
     }
@@ -158,7 +158,7 @@ if(isset($_POST['submit'])) {
                             </div>
                             
                             <div class="d-flex justify-content-end mt-4">
-                                <a href="../dashboard_coba2.php" class="btn btn-secondary me-2">
+                                <a href="../pesanan_crud.php" class="btn btn-secondary me-2">
                                     <i class="bi bi-x-circle me-1"></i>Batal
                                 </a>
                                 <button type="submit" name="submit" class="btn btn-primary">

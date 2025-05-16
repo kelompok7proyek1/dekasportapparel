@@ -27,7 +27,7 @@ if (!$resultpesanan) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Pesanan | DekaSport Apparel</title>
+    <title>Kelola Pesanan</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
@@ -247,7 +247,7 @@ if (!$resultpesanan) {
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h1 class="mb-2"><i class="fas fa-shopping-cart me-2"></i>Manajemen Data Pesanan</h1>
+                <h4 class="mb-2"><i class="fas fa-shopping-cart me-2"></i>Manajemen Data Pesanan</h4>
             </div>
             <div class="col-md-4 text-md-end">
                 <a href="pesanan/tambah_pesanan.php" class="btn btn-light">
@@ -425,55 +425,6 @@ if (!$resultpesanan) {
         </div>
         <?php endif; ?>
     </div>
-    
-    <!-- Summary Stats -->
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-3 text-center">
-                <h6 class="text-primary mb-2"><i class="fas fa-shopping-cart me-2"></i>Total Pesanan</h6>
-                <h3><?= $resultpesanan ? $resultpesanan->num_rows : 0 ?></h3>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-3 text-center">
-                <h6 class="text-warning mb-2"><i class="fas fa-spinner me-2"></i>Sedang Diproses</h6>
-                <h3>
-                    <?php
-                    $processed = 0;
-                    if($resultpesanan) {
-                        $resultpesanan->data_seek(0);
-                        while($row = $resultpesanan->fetch_assoc()) {
-                            if(strtolower($row['status_produksi']) == 'procesed' || strtolower($row['status_produksi']) == 'processed') {
-                                $processed++;
-                            }
-                        }
-                    }
-                    echo $processed;
-                    ?>
-                </h3>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-3 text-center">
-                <h6 class="text-success mb-2"><i class="fas fa-check-circle me-2"></i>Selesai</h6>
-                <h3>
-                    <?php
-                    $selesai = 0;
-                    if($resultpesanan) {
-                        $resultpesanan->data_seek(0);
-                        while($row = $resultpesanan->fetch_assoc()) {
-                            if(strtolower($row['status_produksi']) == 'selesai') {
-                                $selesai++;
-                            }
-                        }
-                    }
-                    echo $selesai;
-                    ?>
-                </h3>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

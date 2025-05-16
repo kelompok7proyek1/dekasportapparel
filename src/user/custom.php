@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Custom Jersey - Deka Sport Apparel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../../css/custom.css">
-    <link rel="stylesheet" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
@@ -169,86 +169,199 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Product Showcase -->
     <img src ="../../image/custom.png" alt="Banner" style="width: 100%; height: auto;">
     <!-- Order Form -->
-    <section class="order-form">
-        <div class="container">
-            <h2 class="form-title">Form Detail Pesanan</h2>
-            
-            <?php if(isset($success_message)): ?>
-                <div class="alert alert-success"><?php echo $success_message; ?></div>
-            <?php endif; ?>
-            
-            <?php if(isset($error_message)): ?>
-                <div class="alert alert-danger"><?php echo $error_message; ?></div>
-            <?php endif; ?>
-            
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="paket">Pilih Paket :</label>
-                    <select id="paket" name="paket" class="form-control" required>
-                        <option value="">Pilih paket jersey...</option>
-                        <option value="Paket Basic">Paket Basic - Rp. 110.000/set</option>
-                        <option value="Paket Front Print">Paket Front Print - Rp. 125.000/set</option>
-                        <option value="Paket Halfprint">Paket Halfprint - Rp. 135.000/set</option>
-                        <option value="Paket Fullprint">Paket Fullprint - Rp. 145.000/set</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="jenis_jersey">Jenis Jersey :</label>
-                    <select id="jenis_jersey" name="jenis_jersey" class="form-control" required>
-                        <option value="Jerser Bola">Jersey Bola</option>
-                        <option value="Jersey Basket">Jersey Basket</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="nama_pemain">Nama Pemain :</label>
-                    <input type="text" id="nama_pemain" name="nama_pemain" class="form-control" placeholder="Masukkan semua nama team anda disini..." required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="nomor_punggung">Nomor Punggung :</label>
-                    <input type="text" id="nomor_punggung" name="nomor_punggung" class="form-control" placeholder="Masukkan semua nomor punggung team anda disini..." required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="logo">Logo :</label>
-                    <div class="file-upload">
-                        <label for="logo" class="file-upload-label">Pilih File</label>
-                        <div class="file-name" id="logo-file-name">Tidak ada file yang dipilih</div>
-                        <input type="file" id="logo" name="logo" style="display: none;" accept="image/*" required>
+    <body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            <i class="bi bi-clipboard-plus me-2"></i>Tambah Detail Pesanan
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" class="needs-validation" novalidate>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_pelanggan" class="form-label">Pesanan</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                        <select id="id_pelanggan" name="id_pelanggan" class="form-select" required>
+                                            <option value="">-- Pilih Pelanggan --</option>
+                                            <?php while($row = $detail_result->fetch_assoc()): ?>
+                                                <option value="<?= $row['id_pelanggan'] ?>"><?= $row['id_pelanggan'] ?> (<?= $row['nama'] ?>)</option>
+                                            <?php endwhile; ?>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Silahkan pilih pelanggan
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="jenis_jersey" class="form-label">Jenis Jersey</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                                        <select id="jenis_jersey" name="jenis_jersey" class="form-select" required>
+                                            <option value="">-- Pilih Jenis Jersey --</option>
+                                            <option value="Jerser Bola">Jersey Bola</option>
+                                            <option value="Jersey Basket">Jersey Basket</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Silahkan pilih jenis jersey
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="bahan_jersey" class="form-label">Bahan Jersey</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-layers"></i></span>
+                                        <select id="bahan_jersey" name="bahan_jersey" class="form-select" required>
+                                            <option value="">-- Pilih Bahan Jersey --</option>
+                                            <option value="milano">Milano</option>
+                                            <option value="Dryfit Puma">Dryfit Puma</option>
+                                            <option value="Embos Batik">Embos Batik</option>
+                                            <option value="Dryfit Lite">Dryfit Lite</option>
+                                            <option value="Jacquard Camo">Jacquard Camo</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Silahkan pilih bahan jersey
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="paket_jersey" class="form-label">Paket Jersey</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-box"></i></span>
+                                        <select id="paket_jersey" name="paket_jersey" class="form-select" required>
+                                            <option value="">-- Pilih Paket Jersey --</option>
+                                            <option value="Paket Basic">Paket Basic</option>
+                                            <option value="Paket Front Print">Paket Frontprint</option>
+                                            <option value="Paket Halfprint">Paket Halfprint</option>
+                                            <option value="Paket Fullprint">Paket Fullprint</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Silahkan pilih paket jersey
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="nama_pemain" class="form-label">Nama Pemain</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                        <textarea class="form-control" id="nama_pemain" name="nama_pemain" rows="3" required></textarea>
+                                        <div class="invalid-feedback">
+                                            Silahkan masukkan nama pemain
+                                        </div>
+                                    </div>
+                                    <div class="form-text text-muted">
+                                        Pisahkan tiap nama dengan baris baru
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="nomor_punggung" class="form-label">Nomor Punggung</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-123"></i></span>
+                                        <textarea class="form-control" id="nomor_punggung" name="nomor_punggung" rows="3" required></textarea>
+                                        <div class="invalid-feedback">
+                                            Silahkan masukkan nomor punggung
+                                        </div>
+                                    </div>
+                                    <div class="form-text text-muted">
+                                        Pisahkan tiap nomor dengan baris baru
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="logo" class="form-label">Logo</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-image"></i></span>
+                                        <input type="file" class="form-control" id="logo" name="logo" required>
+                                        <div class="invalid-feedback">
+                                            Silahkan unggah logo
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="motif" class="form-label">Motif</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-palette"></i></span>
+                                        <input type="file" class="form-control" id="motif" name="motif" required>
+                                        <div class="invalid-feedback">
+                                            Silahkan unggah motif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ukuran" class="form-label">Ukuran</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-rulers"></i></span>
+                                        <textarea class="form-control" id="ukuran" name="ukuran" rows="3" required></textarea>
+                                        <div class="invalid-feedback">
+                                            Silahkan masukkan ukuran
+                                        </div>
+                                    </div>
+                                    <div class="form-text text-muted">
+                                        Contoh: S=5, M=10, L=3, XL=2
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="total_jersey" class="form-label">Total Jersey</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-calculator"></i></span>
+                                                <input type="number" class="form-control" id="total_jersey" name="total_jersey" required>
+                                                <div class="invalid-feedback">
+                                                    Silahkan masukkan total jersey
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-12">
+                                            <label for="kode_jersey" class="form-label">Kode Jersey</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-upc"></i></span>
+                                                <input type="text" class="form-control" id="kode_jersey" name="kode_jersey" required>
+                                                <div class="invalid-feedback">
+                                                    Silahkan masukkan kode jersey
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end mt-4">
+                                <a href="../pesanan_crud.php" class="btn btn-danger me-2">
+                                    <i class="bi bi-x-circle me-1"></i>Batal
+                                </a>
+                                <button type="submit" name="submit" class="btn btn-success">
+                                    <i class="bi bi-save me-1"></i>Simpan
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="ukuran">Ukuran :</label>
-                    <input type="text" id="ukuran" name="ukuran" class="form-control" placeholder="Masukkan semua ukuran jersey team anda disini..." required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="motif">Motif :</label>
-                    <div class="file-upload">
-                        <label for="motif" class="file-upload-label">Pilih File</label>
-                        <div class="file-name" id="motif-file-name">Tidak ada file yang dipilih</div>
-                        <input type="file" id="motif" name="motif" style="display: none;" accept="image/*" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="kode_jersey">Kode Jersey :</label>
-                    <input type="text" id="kode_jersey" name="kode_jersey" class="form-control" placeholder="Masukkan kode jersey jika memilih motif dari google drive..." required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="bahan_jersey">Bahan Jersey :</label>
-                    <input type="text" id="bahan_jersey" name="bahan_jersey" class="form-control" placeholder="Masukkan kode jersey jika memilih motif dari google drive..." required>
-                </div>
-                
-                <button type="submit" class="btn-submit">KIRIM</button>
-            </form>
+            </div>
         </div>
-    </section>
-    
+    </div>
+
     <!-- Footer -->
     <footer>
         <div class="container">

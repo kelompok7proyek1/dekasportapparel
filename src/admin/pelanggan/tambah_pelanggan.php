@@ -137,7 +137,7 @@ if(isset($_POST['submit'])) {
                             </div>
                             
                             <div class="d-flex justify-content-end mt-4">
-                                <a href="../dashboard_coba2.php" class="btn btn-danger me-2">
+                                <a href="../pelanggan_crud.php" class="btn btn-danger me-2">
                                     <i class="bi bi-x-circle me-1"></i>Batal
                                 </a>
                                 <button type="submit" name="submit" class="btn btn-success">

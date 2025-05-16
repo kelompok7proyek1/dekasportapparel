@@ -15,7 +15,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if($result->num_rows == 0) {
-    echo "<script>alert('Data pelanggan tidak ditemukan'); window.location='../dashboard_coba2.php';</script>";
+    echo "<script>alert('Data pelanggan tidak ditemukan'); window.location='../pelanggan_crud.php';</script>";
     exit();
 }
 
@@ -32,7 +32,7 @@ if(isset($_POST['submit'])) {
     $stmt->bind_param("sssi", $nama, $no_hp, $alamat, $id_pelanggan);
     
     if($stmt->execute()) {
-        echo "<script>alert('Data pelanggan berhasil diupdate'); window.location='../dashboard_coba2.php';</script>";
+        echo "<script>alert('Data pelanggan berhasil diupdate'); window.location='../pelanggan_crud.php';</script>";
     } else {
         echo "<script>alert('Gagal mengupdate data pelanggan: " . $conn->error . "');</script>";
     }
@@ -136,7 +136,7 @@ if(isset($_POST['submit'])) {
                             </div>
                             
                             <div class="d-flex justify-content-end mt-4">
-                                <a href="../dashboard_coba2.php" class="btn btn-danger me-2">
+                                <a href="../pelanggan_crud.php" class="btn btn-danger me-2">
                                     <i class="bi bi-x-circle me-1"></i>Batal
                                 </a>
                                 <button type="submit" name="submit" class="btn btn-success">

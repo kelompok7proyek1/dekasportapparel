@@ -11,7 +11,7 @@
     --secondary-color: #1a1a2e;
     --accent-color: #4d79ff;
     --light-color: #f5f5f5;
-    --dark-color: #333;
+    --dark-color: #313131;
 }
 
 /* Global Styles */
@@ -394,7 +394,7 @@ header {
 
 /* Footer */
 footer {
-    background-color: var(--secondary-color);
+    background-color: rgba(49, 49, 49, 1);
     color: white;
     padding: 40px 0 20px;
 }

@@ -29,7 +29,7 @@ if (!$resultpesanan) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Pesanan | DekaSport Apparel</title>
+    <title>Kelola Pesanan</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
@@ -249,7 +249,7 @@ if (!$resultpesanan) {
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h1 class="mb-2"><i class="fas fa-shopping-cart me-2"></i>Manajemen Detail Pesanan</h1>
+                <h4 class="mb-2"><i class="fas fa-shopping-cart me-2"></i>Manajemen Detail Pesanan</h4>
             </div>
             <div class="col-md-4 text-md-end">
                 <a href="detail_pesanan/tambah_detail.php" class="btn btn-light">

@@ -29,7 +29,7 @@ if(isset($_POST['submit'])) {
     $no_hp = $_POST['no_hp'];
     $alamat = $_POST['alamat'];
     // $jumlah_pesanan = $_POST['jumlah_pesanan'];
-
+    
     // Query untuk insert data
     $sql = "INSERT INTO pelanggan_dekas (id_pelanggan, nama, no_hp, alamat) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
@@ -46,54 +46,74 @@ if(isset($_POST['submit'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Pelanggan</title>
-    <link rel="stylesheet" href="../../css/dashboard.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        
+        body {
+            background-color: #f8f9fa;
+            padding-top: 90px;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .page-title {
+            margin-bottom: 30px;
+            color: #343a40;
+            text-align: center;
+        }
     </style>
 </head>
-<header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="#" class="logo">DekaSport<span>Apparel</span></a>
-            </nav>
-        </div>
-    </header>
-
-
 <body>
-
-    
-    
-    <div class="form-container">
-        <form method="POST" action="">
-            <div class="form-group">
-                <label for="nama">Nama Pelanggan: <?php echo " ", $id_cek ?></label>
-                <input type="text" id="nama" name="nama" required>
-            </div>
+    <div class="container">
+        <div class="form-container">
+            <h2 class="page-title"></h2>
             
-            <div class="form-group">
-                <label for="no_hp">No HP:</label>
-                <input type="text" id="no_hp" name="no_hp" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="alamat">Alamat:</label>
-                <textarea id="alamat" name="alamat" required></textarea>
-            </div>
-
-            <!-- <div class="form-group">
-                <label for="alamat">Jumlah Pesanan:</label>
-                <input type="number" id="jumlah_pesanan" name="jumlah_pesanan" required></input>
-            </div> -->
-            
-            <div class="form-group">
-                <button type="submit" name="submit" class="btn-submit">Simpan</button>
-                <a href="home.php" class="btn-cancel">Batal</a>
-            </div>
-        </form>
+            <form method="POST" action="" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="nama" class="form-label">Nama Pelanggan: <?php echo " ", $id_cek ?></label>
+                    <input type="text" class="form-control" id="nama" name="nama" required>
+                    <div class="invalid-feedback">
+                        Nama tidak boleh kosong
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="no_hp" class="form-label">No HP:</label>
+                    <input type="text" class="form-control" id="no_hp" name="no_hp" required>
+                    <div class="invalid-feedback">
+                        Nomor HP tidak boleh kosong
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="alamat" class="form-label">Alamat:</label>
+                    <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>
+                    <div class="invalid-feedback">
+                        Alamat tidak boleh kosong
+                    </div>
+                </div>
+                
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <a href="home.php" class="btn btn-secondary me-md-2">Batal</a>
+                    <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
     </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

@@ -31,7 +31,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Admin - DEKAS</title>
+    <title>Dashboard Admin</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
@@ -291,7 +291,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
         <div class="row align-items-center">
             <div class="col-md-8">
                 <h1 class="mb-2">Selamat Datang di Dashboard Admin!</h1>
-                <p class="mb-0">Kelola pelanggan dan pesanan DEKAS Sport Apparel dengan mudah.</p>
+                <p class="mb-0">Kelola pelanggan dan pesanan Deka Sport Apparel dengan mudah.</p>
             </div>
             <div class="col-md-4 text-md-end">
                 <button class="btn btn-light" id="refreshData">
@@ -338,7 +338,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
     <!-- Recent Customers Section -->
     <div class="data-section">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2><i class="fas fa-users me-2"></i>Data Pelanggan</h2>
+            <h4><i class="fas fa-users me-2"></i>Data Pelanggan</h4>
             <!-- <a href="pelanggan_crud.php" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Tambah Pelanggan
             </a> -->
@@ -407,7 +407,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
     <!-- Recent Orders Section -->
     <div class="data-section">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2><i class="fas fa-shopping-cart me-2"></i>Data Pesanan</h2>
+            <h4><i class="fas fa-shopping-cart me-2"></i>Data Pesanan</h4>
             <!-- <a href="pesanan_crud.php" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Tambah Pesanan
             </a> -->

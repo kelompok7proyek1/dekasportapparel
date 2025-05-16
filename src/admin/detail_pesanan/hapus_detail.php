@@ -13,7 +13,7 @@ $id_jersey = $_GET['id'];
 $result = $conn->query("SELECT id_pesanan FROM detail_pesanan WHERE id_jersey = $id_jersey");
 
 if($result->num_rows == 0) {
-    echo "<script>alert('Detail pesanan tidak ditemukan'); window.location='../dashboard_coba2.php';</script>";
+    echo "<script>alert('Detail pesanan tidak ditemukan'); window.location='../detail_pesanan.php';</script>";
     exit();
 }
 
@@ -29,9 +29,9 @@ if($stmt->execute()) {
     // (Opsional) Update jumlah pesanan pada tabel pesanan/pelanggan, jika perlu
     // Misalnya: $conn->query("UPDATE pesanan_dekas SET jumlah_detail = jumlah_detail - 1 WHERE id_pesanan = $id_pesanan");
 
-    echo "<script>alert('Data pesanan berhasil dihapus'); window.location='../dashboard_coba2.php';</script>";
+    echo "<script>alert('Data pesanan berhasil dihapus'); window.location='../detail_pesanan.php';</script>";
 } else {
-    echo "<script>alert('Gagal menghapus data pesanan: " . $conn->error . "'); window.location='../dashboard_coba2.php';</script>";
+    echo "<script>alert('Gagal menghapus data pesanan: " . $conn->error . "'); window.location='../detail_pesanan.php';</script>";
 }
 
 $stmt->close();

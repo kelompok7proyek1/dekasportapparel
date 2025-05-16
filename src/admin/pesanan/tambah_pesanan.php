@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
     $result = $stmt->get_result();
     
     if($result->num_rows > 0){
-        echo "<script>alert('Data pesanan sudah ada!'); window.location.href='../dashboard_coba2.php';</script>";
+        echo "<script>alert('Data pesanan sudah ada!'); window.location.href='../pesananan_crud.php';</script>";
     } else {
         $sql = "INSERT INTO pesanan_dekas 
                 (id_pelanggan, id_detail, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, dalam_proses, selesai) 
@@ -27,7 +27,7 @@ if (isset($_POST['submit'])) {
         $stmt->bind_param("iissssii", $id_pelanggan, $id_detail, $tanggal_pemesanan, $harga_satuan, $total_harga, $status_produksi, $dalam_proses, $selesai);
         
         if($stmt->execute()) {
-            echo "<script>alert('Data pesanan berhasil ditambahkan'); window.location='../dashboard_coba2.php';</script>";
+            echo "<script>alert('Data pesanan berhasil ditambahkan'); window.location='../pesanan_crud.php';</script>";
         } else {
             echo "<script>alert('Gagal menambahkan data pesanan: " . $conn->error . "');</script>";
         }
@@ -196,7 +196,7 @@ FROM detail_pesanan dp
                             </div>
 
                             <div class="d-flex justify-content-end mt-4">
-                                <a href="../dashboard_coba2.php" class="btn btn-danger me-2">
+                                <a href="../pesanan_crud.php" class="btn btn-danger me-2">
                                     <i class="bi bi-x-circle me-1"></i>Batal
                                 </a>
                                 <button type="submit" name="submit" class="btn btn-success">
