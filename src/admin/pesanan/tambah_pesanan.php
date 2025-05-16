@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
     $result = $stmt->get_result();
     
     if($result->num_rows > 0){
-        echo "<script>alert('Data pesanan sudah ada!'); window.location.href='../pesananan_crud.php';</script>";
+        echo "<script>alert('Data pesanan sudah ada!'); window.location.href='../detail_pesanan.php';</script>";
     } else {
         $sql = "INSERT INTO pesanan_dekas 
                 (id_pelanggan, id_detail, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, dalam_proses, selesai) 
@@ -42,6 +42,8 @@ FROM detail_pesanan dp
     JOIN pelanggan_dekas pl ON dp.id_pelanggan = pl.id_pelanggan
     ORDER BY dp.id_detail
     ");
+
+$detail_total = $conn->query("SELECT total_jersey FROM detail_pesanan where id_detail = $id");
 ?>
 
 <!DOCTYPE html>
@@ -183,7 +185,8 @@ FROM detail_pesanan dp
 
                                 <div class="col-md-4 mb-3">
                                     <label for="total_pesanan" class="form-label">Total Pesanan</label>
-                                    <input type="number" id="total_pesanan" class="form-control" value="0" readonly>
+                                    <?php $row = $detail_total->fetch_assoc()  ?>
+                                    <input type="number" id="total_pesanan" class="form-control" value="<?php echo $row['total_jersey'] ?>" readonly>
                                 </div>
                             </div>
 

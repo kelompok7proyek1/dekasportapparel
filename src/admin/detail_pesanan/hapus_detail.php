@@ -7,10 +7,10 @@ if(!isset($_GET['id'])) {
     exit();
 }
 
-$id_jersey = $_GET['id'];
+$id_detail = $_GET['id'];
 
 // Ambil id_pesanan sebelum menghapus untuk update jumlah pesanan
-$result = $conn->query("SELECT id_pesanan FROM detail_pesanan WHERE id_jersey = $id_jersey");
+$result = $conn->query("SELECT * FROM detail_pesanan WHERE id_detail = $id_detail");
 
 if($result->num_rows == 0) {
     echo "<script>alert('Detail pesanan tidak ditemukan'); window.location='../detail_pesanan.php';</script>";
@@ -18,12 +18,12 @@ if($result->num_rows == 0) {
 }
 
 $detail_pesanan = $result->fetch_assoc();
-$id_pesanan = $detail_pesanan['id_pesanan']; // <- ini pembetulannya
+$id_detail = $detail_pesanan['id_detail']; // <- ini pembetulannya
 
 // Query untuk menghapus data
-$sql = "DELETE FROM detail_pesanan WHERE id_jersey = ?";
+$sql = "DELETE FROM detail_pesanan WHERE id_detail = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id_jersey);
+$stmt->bind_param("i", $id_detail);
 
 if($stmt->execute()) {
     // (Opsional) Update jumlah pesanan pada tabel pesanan/pelanggan, jika perlu

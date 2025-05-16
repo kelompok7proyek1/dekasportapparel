@@ -39,7 +39,7 @@ if (!$resultpesanan) {
             --primary-color: #0d6efd;
             --secondary-color: #6c757d;
             --success-color: #198754;
-            --sidebar-bg: #1e293b;
+            --sidebar-bg: #313143;
             --sidebar-hover: #334155;
             --sidebar-text: #cbd5e1;
         }
@@ -108,7 +108,7 @@ if (!$resultpesanan) {
         }
         
         .page-header {
-            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+            background: linear-gradient(135deg, rgba(49, 49, 67, 1)0%, rgba(49, 49, 67, 1) 100%);
             color: white;
             border-radius: 10px;
             padding: 2rem;

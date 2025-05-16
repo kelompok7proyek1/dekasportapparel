@@ -43,7 +43,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
             --primary-color: #0d6efd;
             --secondary-color: #6c757d;
             --success-color: #198754;
-            --sidebar-bg: #1e293b;
+            --sidebar-bg: #313143;
             --sidebar-hover: #334155;
             --sidebar-text: #cbd5e1;
         }
@@ -112,7 +112,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
         }
         
         .welcome-banner {
-            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+            background: linear-gradient(135deg,rgba(49, 49, 67, 1)0%, rgba(49, 49, 67, 1)100%);
             color: white;
             border-radius: 10px;
             padding: 2rem;
@@ -135,7 +135,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
         .stat-card .icon {
             width: 48px;
             height: 48px;
-            background-color: rgba(13, 110, 253, 0.1);
+            background-color: rgba(49, 49, 67, 1);
             border-radius: 10px;
             display: flex;
             align-items: center;

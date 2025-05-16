@@ -236,7 +236,7 @@ if(isset($_POST['submit'])) {
                                         </div>
                                     </div>
                                     <div class="form-text text-muted">
-                                        Contoh: S=5, M=10, L=3, XL=2
+                                        Contoh: S, M, L, XL
                                     </div>
                                 </div>
 
