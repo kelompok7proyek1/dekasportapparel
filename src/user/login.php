@@ -13,18 +13,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows === 1) {
-        $user = $result->fetch_assoc();
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['id_pelanggan'] = $user['id_pelanggan'];
-            $_SESSION['nama'] = $user['nama'];
-            header("Location: home.php");
+if ($result->num_rows === 1) { //Untuk menghitung jumlah data yang diambil dan memastikan hanya ada satu user yang cocok dengan nama tersebut.
+    $user = $result->fetch_assoc();
+    if (password_verify($password, $user['password'])) {
+        $_SESSION['id_pelanggan'] = $user['id_pelanggan'];
+        $_SESSION['nama'] = $user['nama'];
+        $_SESSION['role'] = $user['role'];
+        if($_SESSION['role'] === 'admin'){
+            header("Location: ../admin/dashboard_coba2.php") ; 
+        } else{
+            header("Location: home.php") ;
             exit();
         }
     }
 
     // Jika gagal
     $error = "Username atau password salah.";
+}
 }
 ?>
 

@@ -1,5 +1,14 @@
 <?php
 include '../../user/config.php';
+session_start();
+    $loggedIn = isset($_SESSION['nama']); 
+
+// Check if user is logged in, otherwise redirect to login page
+    if (!isset($_SESSION['nama'])) {
+        header("Location: ../user/login.php");
+        exit();
+    }
+    
 $id = $_GET['id'] ?? null;
 
 if (isset($_POST['submit'])) {

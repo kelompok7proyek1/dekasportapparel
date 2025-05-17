@@ -1,6 +1,13 @@
 <?php
 include "../user/config.php";
 session_start();
+    $loggedIn = isset($_SESSION['nama']); 
+
+// Check if user is logged in, otherwise redirect to login page
+    if (!isset($_SESSION['nama'])) {
+        header("Location: ../user/login.php");
+        exit();
+    }
 
 // Query data pelanggan
 $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
@@ -223,7 +230,7 @@ $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
             </a>
         </li>
         <li class="nav-item mt-3">
-            <a class="nav-link logout-btn" href="logout.php">
+            <a class="nav-link logout-btn" href="logout-admin.php">
                 <i class="fas fa-sign-out-alt"></i>
                 Logout
             </a>

@@ -1,6 +1,15 @@
 <?php
 include '../../user/config.php';
 
+session_start();
+    $loggedIn = isset($_SESSION['nama']); 
+
+// Check if user is logged in, otherwise redirect to login page
+    if (!isset($_SESSION['nama'])) {
+        header("Location: ../user/login.php");
+        exit();
+    }
+
 $detail_result = $conn->query("SELECT * FROM pelanggan_dekas ORDER BY id_pelanggan");
 
 if(isset($_POST['submit'])) {

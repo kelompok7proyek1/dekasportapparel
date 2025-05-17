@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Hash dan simpan password
             $hashed = password_hash($password, PASSWORD_DEFAULT);
-            $insert = $conn->prepare("INSERT INTO login_dekas (nama, password) VALUES (?, ?)");
+            $insert = $conn->prepare("INSERT INTO login_dekas (role, nama, password) VALUES ('pelanggan', ?, ?)");
             $insert->bind_param("ss", $nama, $hashed);
             if ($insert->execute()) {
                 $success = 'Registrasi berhasil! <a href="login.php">Login sekarang</a>';
