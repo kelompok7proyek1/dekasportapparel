@@ -5,7 +5,7 @@ include 'config.php';
 // Cek apakah user sudah login
 if (!isset($_SESSION['id_pelanggan'])) {
     // Belum login
-    echo "<script>alert('Silakan login terlebih dahulu!'); window.location.href='login.html';</script>";
+    echo "<script>alert('Silakan login terlebih dahulu!'); window.location.href='login.php';</script>";
     exit;
 }
 

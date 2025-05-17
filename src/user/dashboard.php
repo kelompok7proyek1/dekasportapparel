@@ -51,9 +51,9 @@
                 <?php if($loggedIn) : ?>
                     <li><a href="dashboard.php">Dashboard</a></li>
                 <?php else : ?>
-                    <li><a href="login.html" onclick="return confirm('Silakan login terlebih dahulu!')">Dashboard</a></li>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="register.html">Register</a></li> 
+                    <li><a href="login.php" onclick="return confirm('Silakan login terlebih dahulu!')">Dashboard</a></li>
+                    <li><a href="login.php">Login</a></li>
+                    <li><a href="register.php">Register</a></li> 
                 <?php endif; ?>
             </ul>
 
@@ -62,8 +62,8 @@
                     <a href="profile.php?id=<?= $_SESSION['id_pelanggan'] ?>" class="login-btn">My Account</a>
                     <a href="logout.php" class="register-btn">Logout</a>
                 <?php else : ?>
-                    <a href="login.html" class="login-btn">Login</a>
-                    <a href="register.html" class="register-btn">Register</a>
+                    <a href="login.php" class="login-btn">Login</a>
+                    <a href="register.php" class="register-btn">Register</a>
                 <?php endif; ?>
                 <a href="cart.php" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
