@@ -98,15 +98,17 @@ header {
 
 /* Center - Navigation Links */
 .nav-links {
-  display: flex;
-  list-style: none;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+    display: flex;
+    list-style: none;
+    position: absolute;
+    left: 48.6%;
+    transform: translateX(-50%);
+    margin-top: 15.2px !important;
+    /* margin-right: px !important; */
 }
 
-.nav-links li {
-  margin: 0 12px;
+.nav-links li{
+    margin: 0 12px;
 }
 
 .nav-links a {
