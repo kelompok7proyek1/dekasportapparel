@@ -242,9 +242,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a href="login.php" class="login-btn">Login</a>
                     <a href="register.php" class="register-btn">Register</a>
                 <?php endif; ?>
-                <a href="cart.php" class="cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
             </div>
             
             <div class="menu-toggle" id="menu-toggle">
@@ -284,9 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">✅ Tanpa Motif Printing</li>
-                            <li class="list-group-item">✅ Logo Bordir</li>
-                            <li class="list-group-item">✅ Nomor Polyflex</li>
-                            <li class="list-group-item">✅ DTP/Polyflex</li>
+                            <li class="list-group-item">✅ Logo Sponsor dan <br>Namaset Pakai DTP/Polyflex</li>
                         </ul>
                     </div>
                 </div>
@@ -300,9 +295,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">✅ Bagian Depan Printing</li>
-                            <li class="list-group-item">✅ Logo Printing</li>
-                            <li class="list-group-item">✅ Nomor Polyflex</li>
-                            <li class="list-group-item">✅ DTP/Polyflex</li>
+                            <li class="list-group-item">✅ Bagian Belakang Non Print</li>
+                            <li class="list-group-item">✅ Namaset Pakai DTP/Polyflex</li>
                         </ul>
                     </div>
                 </div>
@@ -315,10 +309,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">✅ Full Halfprint</li>
-                            <li class="list-group-item">✅ Logo Fullprint</li>
-                            <li class="list-group-item">✅ DTP/Polyflex</li>
-                            <li class="list-group-item">✅ Nomor Polyflex</li>
+                            <li class="list-group-item">✅ Baju Fullprint</li>
+                            <li class="list-group-item">✅ Celana Non Print</li>
+                            <li class="list-group-item">DTP/Polyflex</li>
                         </ul>
                     </div>
                 </div>
@@ -331,10 +324,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">✅ Full Fullprint</li>
-                            <li class="list-group-item">✅ Logo Fullprint</li>
-                            <li class="list-group-item">✅ Nomor Fullprint</li>
-                            <li class="list-group-item">✅ Detail Fullprint</li>
+                            <li class="list-group-item">✅ Baju Fullprint</li>
+                            <li class="list-group-item">✅ Celana Fullprint</li>
                         </ul>
                     </div>
                 </div>
@@ -501,7 +492,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             </div>
                                         </div>
                                         <div class="form-text">
-                                            <a href="https://drive.google.com/drive/folders/1t8OPDnRuWHXHJuwyFc3_Wl7EWsKJSLV7" target="_blank" class="text-decoration-none">
+                                            <a href="https://drive.google.com/drive/folders/1t8OPDnRuWHXHJuwyFc3_Wl7EWsKJSLV7" target="_blank" class="text-decoration-none btn btn-link btn-sm text-white">
                                                 <i class="bi bi-folder me-1"></i>Lihat Pilihan Kode Jersey
                                             </a>
                                         </div>
@@ -622,7 +613,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     Berapa lama waktu pengerjaan jersey custom?
                                 </button>
                             </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     Proses produksi jersey custom membutuhkan waktu sekitar 7-14 hari kerja tergantung tingkat kesulitan desain dan jumlah pesanan. Kami akan selalu memberikan update progres pengerjaan melalui dashboard pelanggan.
                                 </div>

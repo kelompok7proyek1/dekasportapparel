@@ -43,9 +43,6 @@
                     <a href="login.php" class="login-btn">Login</a>
                     <a href="register.php" class="register-btn">Register</a>
                 <?php endif; ?>
-                <a href="cart.php" class="cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
             </div>
             
             <div class="menu-toggle" id="menu-toggle">
