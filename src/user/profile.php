@@ -100,7 +100,7 @@ if(isset($_GET['status']) && $_GET['status'] == 'success') {
         /* CSS untuk section Update Profile */
         .contact {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 60px 0;
+            padding: 30px 0;
             background-color: #f8f9fa;
             min-height: 80vh;
         }
@@ -150,7 +150,7 @@ if(isset($_GET['status']) && $_GET['status'] == 'success') {
         }
         
         .contact-profile form div {
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
         
         .contact-profile label {
@@ -352,10 +352,10 @@ if(isset($_GET['status']) && $_GET['status'] == 'success') {
                 </div>
             <?php endif; ?>
             
-            <div class="user-info">
+            <!-- <div class="user-info">
                 <p>Username: <?= $row['nama'] ?></p>
                 <p>Silakan edit data di bawah ini:</p>
-            </div>
+            </div> -->
 
             <div class="contact-profile">
                 <form action="" method="POST" id="profileForm">
@@ -373,7 +373,6 @@ if(isset($_GET['status']) && $_GET['status'] == 'success') {
                         <label for="password_baru">Password Baru: </label>
                         <input type="password" id="password_baru" name="password_baru" required>
                         <div class="password-requirements">
-                            Password minimal 8 karakter, mengandung huruf dan angka
                         </div>
                         <div id="length-invalid" class="invalid-feedback">Password minimal 8 karakter</div>
                     </div>

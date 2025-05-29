@@ -236,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Auth buttons (Login/Register) -->
             <div class="auth-buttons">
                 <?php if($loggedIn) : ?>
-                    <a href="profile.php?id=<?= $_SESSION['id_pelanggan'] ?>" class="login-btn">My Account</a>
+                    <a href="profile.php?id=<?= $_SESSION['id_pelanggan'] ?>" class="login-btn">Profile</a>
                     <a href="logout.php" class="register-btn">Logout</a>
                 <?php else : ?>
                     <a href="login.php" class="login-btn">Login</a>
@@ -281,7 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">✅ Tanpa Motif Printing</li>
-<<<<<<< HEAD
+ 
                             <li class="list-group-item">✅ Logo Sponsor dan <br>Namaset Pakai DTP/Polyflex</li>
                         </ul>
                     </div>
@@ -297,7 +297,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">✅ Bagian Depan Printing</li>
                             <li class="list-group-item">✅ Bagian Belakang Non Print</li>
-<<<<<<< HEAD
                             <li class="list-group-item">✅ Namaset Pakai DTP/Polyflex</li>
                         </ul>
                     </div>
@@ -313,7 +312,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">✅ Baju Fullprint</li>
                             <li class="list-group-item">✅ Celana Non Print</li>
-<<<<<<< HEAD
                             <li class="list-group-item">DTP/Polyflex</li>
                         </ul>
                     </div>
@@ -329,7 +327,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">✅ Baju Fullprint</li>
                             <li class="list-group-item">✅ Celana Fullprint</li>
-<<<<<<< HEAD
                         </ul>
                     </div>
                 </div>
@@ -487,22 +484,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                 <div class="row mb-4">
                                     <div class="col-md-6 mb-3">
-                                        <label for="kode_jersey" class="form-label">Kode Jersey</label>
+                                        <label for="kode_jersey" class="form-label">Kode Jersey (opsional)</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-upc"></i></span>
-                                            <input type="text" class="form-control" id="kode_jersey" name="kode_jersey" required placeholder="Contoh: DSA-01">
+                                            <input type="text" class="form-control" id="kode_jersey" name="kode_jersey" placeholder="Contoh: DSA-01">
                                             <div class="invalid-feedback">
                                                 Silahkan masukkan kode jersey
                                             </div>
                                         </div>
                                         <div class="form-text">
-<<<<<<< HEAD
                                             <a href="https://drive.google.com/drive/folders/1t8OPDnRuWHXHJuwyFc3_Wl7EWsKJSLV7" target="_blank" class="text-decoration-none btn btn-link btn-sm text-white">
-                                                <i class="bi bi-folder me-1"></i>Lihat Pilihan Kode Jersey
-=======
-                                            <a href="https://drive.google.com/drive/folders/1t8OPDnRuWHXHJuwyFc3_Wl7EWsKJSLV7" target="_blank" class="text-decoration-none">
-                                                <i class="bi bi-folder me-1"></i>Lihat Pilihan Kode Jersey disini!!
->>>>>>> 0b717096c8013dc66aebb42e2d68add719c17152
+                                                <i class="bi bi-folder me-1"></i>Lihat Pilihan Kode Jersey disini!
                                             </a>
                                         </div>
                                     </div>
