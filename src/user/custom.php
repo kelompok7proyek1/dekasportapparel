@@ -281,6 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">✅ Tanpa Motif Printing</li>
+<<<<<<< HEAD
                             <li class="list-group-item">✅ Logo Sponsor dan <br>Namaset Pakai DTP/Polyflex</li>
                         </ul>
                     </div>
@@ -296,6 +297,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">✅ Bagian Depan Printing</li>
                             <li class="list-group-item">✅ Bagian Belakang Non Print</li>
+<<<<<<< HEAD
                             <li class="list-group-item">✅ Namaset Pakai DTP/Polyflex</li>
                         </ul>
                     </div>
@@ -311,6 +313,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">✅ Baju Fullprint</li>
                             <li class="list-group-item">✅ Celana Non Print</li>
+<<<<<<< HEAD
                             <li class="list-group-item">DTP/Polyflex</li>
                         </ul>
                     </div>
@@ -320,12 +323,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="card h-100 shadow-sm border-0 rounded-3">
                     <div class="card-header bg-danger text-white text-center py-3">
                         <h5 class="mb-0">Paket Fullprint</h5>
-                        <h4 class="mb-0">Rp 145.000/pcs</h4>
+                        <h4 class="mb-0">Rp 155.000/pcs</h4>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">✅ Baju Fullprint</li>
                             <li class="list-group-item">✅ Celana Fullprint</li>
+<<<<<<< HEAD
                         </ul>
                     </div>
                 </div>
@@ -414,7 +418,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <label for="nama_pemain" class="form-label">Nama Pemain</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-                                            <textarea class="form-control" id="nama_pemain" name="nama_pemain" rows="3" placeholder="Contoh:&#10;John&#10;Mike&#10;Sarah" required></textarea>
+                                            <textarea class="form-control" id="nama_pemain" name="nama_pemain" rows="3" placeholder="Contoh:&#10;John&#10;Sarah" required></textarea>
                                             <div class="invalid-feedback">
                                                 Silahkan masukkan nama pemain
                                             </div>
@@ -428,7 +432,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <label for="nomor_punggung" class="form-label">Nomor Punggung</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-123"></i></span>
-                                            <textarea class="form-control" id="nomor_punggung" name="nomor_punggung" rows="3" placeholder="Contoh:&#10;7&#10;10&#10;23" required></textarea>
+                                            <textarea class="form-control" id="nomor_punggung" name="nomor_punggung" rows="3" placeholder="Contoh:&#10;7&#10;10" required></textarea>
                                             <div class="invalid-feedback">
                                                 Silahkan masukkan nomor punggung
                                             </div>
@@ -444,7 +448,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <label for="ukuran" class="form-label">Ukuran Jersey</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-rulers"></i></span>
-                                            <textarea class="form-control" id="ukuran" name="ukuran" rows="3" placeholder="Contoh:&#10;M&#10;L&#10;XL" required></textarea>
+                                            <textarea class="form-control" id="ukuran" name="ukuran" rows="3" placeholder="Contoh:&#10;M&#10;L" required></textarea>
                                             <div class="invalid-feedback">
                                                 Silahkan masukkan ukuran
                                             </div>
@@ -492,8 +496,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             </div>
                                         </div>
                                         <div class="form-text">
+<<<<<<< HEAD
                                             <a href="https://drive.google.com/drive/folders/1t8OPDnRuWHXHJuwyFc3_Wl7EWsKJSLV7" target="_blank" class="text-decoration-none btn btn-link btn-sm text-white">
                                                 <i class="bi bi-folder me-1"></i>Lihat Pilihan Kode Jersey
+=======
+                                            <a href="https://drive.google.com/drive/folders/1t8OPDnRuWHXHJuwyFc3_Wl7EWsKJSLV7" target="_blank" class="text-decoration-none">
+                                                <i class="bi bi-folder me-1"></i>Lihat Pilihan Kode Jersey disini!!
+>>>>>>> 0b717096c8013dc66aebb42e2d68add719c17152
                                             </a>
                                         </div>
                                     </div>
@@ -574,8 +583,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </li>
                                     <li class="list-group-item d-flex align-items-center">
                                         <div>
-                                            <strong>Lakukan Pembayaran</strong>
-                                            <p class="mb-0 text-muted small">Transfer sesuai total biaya yang tertera</p>
+                                            <strong>Lakukan konfirmasi Pembayaran</strong>
+                                            <p class="mb-0 text-muted small">Konfirmasi lewat dashboard anda yang nanti akan diarahkan ke whatsapp</p>
                                         </div>
                                     </li>
                                     <li class="list-group-item d-flex align-items-center">

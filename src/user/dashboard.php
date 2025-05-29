@@ -77,7 +77,7 @@
 </header>
 
 <section class="dashboard-section" id="dashboard">
-    <div class="container">
+    <div class="container-table">
         <div class="dashboard-header">
             <div class="dashboard-title"><h3>Riwayat Pemesanan</h3></div>
             <div class="dashboard-actions">
@@ -101,6 +101,7 @@
                     <p><?= $row["selesai"] ?? 0 ?></p>
                 </div>
             </div> -->
+            <div class="container-table">
             <table border="1" class="orders-table">
                 <thead>
                     <tr>
@@ -177,6 +178,7 @@
                     <?php endif; ?>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </section>
