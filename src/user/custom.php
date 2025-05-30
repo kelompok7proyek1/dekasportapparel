@@ -79,23 +79,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             
             // Generate unique filename
-
             $target = "uploads/";
             $logo_filename = basename($_FILES['logo']['name']);
             $ekstensi = pathinfo($logo_filename, PATHINFO_EXTENSION);
             $namaUnik = "id_" . $id_pelanggan . "_kode_". $kode_jersey . "_logo_" . time() . "." . $ekstensi;
-            // $logo_filename = $kode_jersey . "_logo_" . time() . "." . pathinfo($fileName, PATHINFO_EXTENSION);
             $logo_destination = $target . $namaUnik;
-            
-            // Check if uploads directory exists, if not create it
-            // if (!is_dir("uploads/")) {
-            //     mkdir("uploads/", 0775, true);
-            // }
             
             // Move uploaded file
             if (!move_uploaded_file($_FILES['logo']['tmp_name'], $logo_destination)) {
-                // throw new Exception("Gagal mengunggah file logo.");
-                // echo "File logo berhasil diunggah: " . $logo_destination;
                 throw new Exception("Gagal mengunggah file logo.");
 
             }
@@ -119,21 +110,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $logo_filename = basename($_FILES['motif']['name']);
             $ekstensi = pathinfo($logo_filename, PATHINFO_EXTENSION);
             $namaUnik = "id_" . $id_pelanggan . "_kode_". $kode_jersey . "_motif_" . time() . "." . $ekstensi;
-            // $logo_filename = $kode_jersey . "_logo_" . time() . "." . pathinfo($fileName, PATHINFO_EXTENSION);
             $motif_destination = $target . $namaUnik;
-            
-            // Check if uploads directory exists, if not create it
-            // if (!is_dir(__DIR__ . "uploads/")) {
-            //     mkdir(__DIR__ . "uploads/", 0775, true);
-            // }
-            
+        
             // Move uploaded file
             if (!move_uploaded_file($_FILES['motif']['tmp_name'], $motif_destination)) {
-                // throw new Exception("Gagal mengunggah file motif.");
                 throw new Exception("Gagal mengunggah file logo.");
             }
-            // For DB storage, use relative path
-            // $motif_filename = "uploads/" . $motif_filename;
+            
         } else {
             throw new Exception("File motif harus diunggah.");
         }
@@ -197,27 +180,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Set success message and redirect
         $success_message = "Pesanan berhasil dibuat! Silakan cek status pesanan di Dashboard Anda.";
-        
-        // Redirect to dashboard after 2 seconds
-        // header("refresh:2;url=dashboard.php");
-        
-    // } catch (Exception $e) {
-    //     // Rollback transaction
-    //     if ($conn->in_transaction) {
-    //         $conn->rollback();
-    //     }
-        
-    //     // Delete uploaded files if they exist
-    //     if (!empty($logo_filename) && file_exists("uploads/" . $logo_filename)) {
-    //         unlink("uploads/" . $logo_filename);
-    //     }
-    //     if (!empty($motif_filename) && file_exists("uploads/" . $motif_filename)) {
-    //         unlink("uploads/" . $motif_filename);
-    //     }
-        
-    //     // Set error message
-    //     $error_message = $e->getMessage();
-    // }
 }
 ?>
 

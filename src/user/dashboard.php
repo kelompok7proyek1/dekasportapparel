@@ -23,9 +23,6 @@
     $stmt->bind_param("i", $_SESSION['id_pelanggan']);
     $stmt->execute();    
     $resultpesanan = $stmt->get_result();
-    // $result = $conn->query($sql);
-    // $row = $result ? $result->fetch_assoc() : null;
-
 ?>
 
 <!DOCTYPE html>
@@ -81,26 +78,9 @@
         <div class="dashboard-header">
             <div class="dashboard-title"><h3>Riwayat Pemesanan</h3></div>
             <div class="dashboard-actions">
-                <!-- <i class="fas fa-bell"></i> -->
-                <!-- <i class="fas fa-user-circle" href="profile.php?id=<?= $_SESSION['id_pelanggan'] ?>"></i> -->
             </div>
         </div>
 
-        <!-- <div class="dashboard-content">
-            <div class="dashboard-cards">
-                <div class="dashboard-card">
-                    <h4>Total Orders</h4>
-                    <p><?= $row["total_order"] ?? 0 ?></p>
-                </div>
-                <div class="dashboard-card">
-                    <h4>In Progress</h4>
-                    <p><?= $row["dalam_proses"] ?? 0 ?></p>
-                </div>
-                <div class="dashboard-card">
-                    <h4>selesai</h4>
-                    <p><?= $row["selesai"] ?? 0 ?></p>
-                </div>
-            </div> -->
             <div class="container-table">
             <table border="1" class="orders-table">
                 <thead>

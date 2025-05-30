@@ -133,7 +133,7 @@ if(isset($_POST['submit'])) {
                                         <span class="input-group-text"><i class="bi bi-tag"></i></span>
                                         <select id="jenis_jersey" name="jenis_jersey" class="form-select" required>
                                             <option value="">-- Pilih Jenis Jersey --</option>
-                                            <option value="Jerser Bola">Jersey Bola</option>
+                                            <option value="Jersey Bola">Jersey Bola</option>
                                             <option value="Jersey Basket">Jersey Basket</option>
                                         </select>
                                         <div class="invalid-feedback">
