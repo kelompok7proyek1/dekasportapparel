@@ -9,6 +9,6 @@ session_start();
         exit();
     }
     
-header("Location: dashboard_coba2.php");
+header("Location: dashboard_admin.php");
 exit;
 ?>

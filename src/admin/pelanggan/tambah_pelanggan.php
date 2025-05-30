@@ -26,14 +26,14 @@ if(isset($_POST['submit'])) {
     $result = $stmt->get_result();
     
     if($result->num_rows > 0) {
-        echo "<script>alert('Data pelanggan sudah ada!'); window.location.href='../dashboard_coba2.php';</script>";
+        echo "<script>alert('Data pelanggan sudah ada!'); window.location.href='../dashboard_admin.php';</script>";
     } else {
         $sql = "INSERT INTO pelanggan_dekas (id_pelanggan, nama, no_hp, alamat) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("isss", $id_pelanggan, $nama, $no_hp, $alamat);
         
         if($stmt->execute()) {
-            echo "<script>alert('Data pelanggan berhasil ditambahkan'); window.location='../dashboard_coba2.php';</script>";
+            echo "<script>alert('Data pelanggan berhasil ditambahkan'); window.location='../dashboard_admin.php';</script>";
         } else {
             echo "<script>alert('Gagal menambahkan data pelanggan: " . $conn->error . "');</script>";
         }

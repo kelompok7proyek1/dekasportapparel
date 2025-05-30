@@ -12,7 +12,7 @@ session_start();
     
 // Periksa apakah ada parameter id
 if(!isset($_GET['id'])) {
-    header("Location: ../dashboard_coba2.php");
+    header("Location: ../dashboard_admin.php");
     exit();
 }
 
@@ -40,7 +40,7 @@ if($stmt->execute()) {
 
     echo "<script>alert('Data pesanan berhasil dihapus'); window.location='../detail_pesanan.php';</script>";
 } else {
-    echo "<script>alert('Gagal menghapus data pesanan: " . $conn->error . "'); window.location='../detail_pesanan.php';</script>";
+    echo "<script>alert('Hapus Pesanan di kelola pesanan terlebih dahulu'); window.location='../detail_pesanan.php';</script>";
 }
 
 $stmt->close();

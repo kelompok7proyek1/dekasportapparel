@@ -20,7 +20,7 @@ if ($result->num_rows === 1) { //Untuk menghitung jumlah data yang diambil dan m
         $_SESSION['nama'] = $user['nama'];
         $_SESSION['role'] = $user['role'];
         if($_SESSION['role'] === 'admin'){
-            header("Location: ../admin/dashboard_coba2.php") ; 
+            header("Location: ../admin/dashboard_admin.php") ; 
         } else{
             header("Location: home.php") ;
             exit();

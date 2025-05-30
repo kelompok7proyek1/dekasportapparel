@@ -34,7 +34,7 @@ function validate_input($data) {
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
+    // try {
         // Get and validate form data
         $paket_jersey = validate_input($_POST['paket_jersey'] ?? '');
         $nama_pemain = validate_input($_POST['nama_pemain'] ?? '');
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Validate required fields
         if (empty($paket_jersey) || empty($bahan_jersey) || empty($jenis_jersey) || 
-            empty($nama_pemain) || empty($nomor_punggung) || empty($ukuran) || empty($kode_jersey)) {
+            empty($nama_pemain) || empty($nomor_punggung) || empty($ukuran)) {
             throw new Exception("Semua field harus diisi.");
         }
 
@@ -70,6 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isset($_FILES['logo']) && $_FILES['logo']['error'] == 0) {
             // Validate file type
             $allowed_types = array('jpg', 'jpeg', 'png', 'gif', 'svg');
+            $fileName = $_FILES['logo']['name'];
+            $fileTmp = $_FILES['logo']['tmp_name'];
             $file_extension = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
             
             if (!in_array($file_extension, $allowed_types)) {
@@ -77,17 +79,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             
             // Generate unique filename
-            $logo_filename = $kode_jersey . "_logo_" . time() . "." . $file_extension;
-            $logo_destination = "uploads/" . $logo_filename;
+
+            $target = "uploads/";
+            $logo_filename = basename($_FILES['logo']['name']);
+            $ekstensi = pathinfo($logo_filename, PATHINFO_EXTENSION);
+            $namaUnik = "id_" . $id_pelanggan . "_kode_". $kode_jersey . "_logo_" . time() . "." . $ekstensi;
+            // $logo_filename = $kode_jersey . "_logo_" . time() . "." . pathinfo($fileName, PATHINFO_EXTENSION);
+            $logo_destination = $target . $namaUnik;
             
             // Check if uploads directory exists, if not create it
-            if (!is_dir("uploads/")) {
-                mkdir("uploads/", 0755, true);
-            }
+            // if (!is_dir("uploads/")) {
+            //     mkdir("uploads/", 0775, true);
+            // }
             
             // Move uploaded file
             if (!move_uploaded_file($_FILES['logo']['tmp_name'], $logo_destination)) {
+                // throw new Exception("Gagal mengunggah file logo.");
+                // echo "File logo berhasil diunggah: " . $logo_destination;
                 throw new Exception("Gagal mengunggah file logo.");
+
             }
         } else {
             throw new Exception("File logo harus diunggah.");
@@ -105,13 +115,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             
             // Generate unique filename
-            $motif_filename = $kode_jersey . "_motif_" . time() . "." . $file_extension;
-            $motif_destination = "uploads/" . $motif_filename;
+            $target = "uploads/";
+            $logo_filename = basename($_FILES['motif']['name']);
+            $ekstensi = pathinfo($logo_filename, PATHINFO_EXTENSION);
+            $namaUnik = "id_" . $id_pelanggan . "_kode_". $kode_jersey . "_motif_" . time() . "." . $ekstensi;
+            // $logo_filename = $kode_jersey . "_logo_" . time() . "." . pathinfo($fileName, PATHINFO_EXTENSION);
+            $motif_destination = $target . $namaUnik;
+            
+            // Check if uploads directory exists, if not create it
+            // if (!is_dir(__DIR__ . "uploads/")) {
+            //     mkdir(__DIR__ . "uploads/", 0775, true);
+            // }
             
             // Move uploaded file
             if (!move_uploaded_file($_FILES['motif']['tmp_name'], $motif_destination)) {
-                throw new Exception("Gagal mengunggah file motif.");
+                // throw new Exception("Gagal mengunggah file motif.");
+                throw new Exception("Gagal mengunggah file logo.");
             }
+            // For DB storage, use relative path
+            // $motif_filename = "uploads/" . $motif_filename;
         } else {
             throw new Exception("File motif harus diunggah.");
         }
@@ -177,25 +199,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $success_message = "Pesanan berhasil dibuat! Silakan cek status pesanan di Dashboard Anda.";
         
         // Redirect to dashboard after 2 seconds
-        header("refresh:2;url=dashboard.php");
+        // header("refresh:2;url=dashboard.php");
         
-    } catch (Exception $e) {
-        // Rollback transaction
-        if ($conn->in_transaction) {
-            $conn->rollback();
-        }
+    // } catch (Exception $e) {
+    //     // Rollback transaction
+    //     if ($conn->in_transaction) {
+    //         $conn->rollback();
+    //     }
         
-        // Delete uploaded files if they exist
-        if (!empty($logo_filename) && file_exists("uploads/" . $logo_filename)) {
-            unlink("uploads/" . $logo_filename);
-        }
-        if (!empty($motif_filename) && file_exists("uploads/" . $motif_filename)) {
-            unlink("uploads/" . $motif_filename);
-        }
+    //     // Delete uploaded files if they exist
+    //     if (!empty($logo_filename) && file_exists("uploads/" . $logo_filename)) {
+    //         unlink("uploads/" . $logo_filename);
+    //     }
+    //     if (!empty($motif_filename) && file_exists("uploads/" . $motif_filename)) {
+    //         unlink("uploads/" . $motif_filename);
+    //     }
         
-        // Set error message
-        $error_message = $e->getMessage();
-    }
+    //     // Set error message
+    //     $error_message = $e->getMessage();
+    // }
 }
 ?>
 
@@ -722,96 +744,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- JS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Validate form on submit
-        (function () {
-            'use strict'
-            
-            // Fetch all forms we want to apply validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
-            
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        // Validate player details count match
-                        const playerNames = document.getElementById('nama_pemain').value.split('\n').filter(name => name.trim() !== '');
-                        const playerNumbers = document.getElementById('nomor_punggung').value.split('\n').filter(num => num.trim() !== '');
-                        const playerSizes = document.getElementById('ukuran').value.split('\n').filter(size => size.trim() !== '');
-                        
-                        if (playerNames.length !== playerNumbers.length || playerNames.length !== playerSizes.length) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            
-                            // Show error using SweetAlert
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Data Tidak Sesuai',
-                                text: 'Jumlah nama pemain, nomor punggung, dan ukuran harus sama!',
-                                confirmButtonColor: '#d33'
-                            });
-                            
-                            return false;
-                        }
-                        
-                        if (!form.checkValidity()) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        } else {
-                            // Show confirmation dialog
-                            event.preventDefault();
-                            
-                            const paket = document.getElementById('paket_jersey').options[document.getElementById('paket_jersey').selectedIndex].text;
-                            const totalJersey = playerNames.length;
-                            let hargaSatuan = 0;
-                            
-                            if (paket.includes('Basic')) {
-                                hargaSatuan = 110000;
-                            } else if (paket.includes('Frontprint')) {
-                                hargaSatuan = 125000;
-                            } else if (paket.includes('Halfprint')) {
-                                hargaSatuan = 135000;
-                            } else if (paket.includes('Fullprint')) {
-                                hargaSatuan = 145000;
-                            }
-                            
-                            const totalHarga = hargaSatuan * totalJersey;
-                            
-                            Swal.fire({
-                                title: 'Konfirmasi Pesanan',
-                                html: `
-                                    <div class="text-start">
-                                        <p><strong>Paket:</strong> ${paket}</p>
-                                        <p><strong>Jumlah Jersey:</strong> ${totalJersey} pcs</p>
-                                        <p><strong>Harga Satuan:</strong> Rp ${hargaSatuan.toLocaleString('id-ID')}</p>
-                                        <p><strong>Total Harga:</strong> Rp ${totalHarga.toLocaleString('id-ID')}</p>
-                                    </div>
-                                    <div class="alert alert-warning mt-3">
-                                        Dengan melanjutkan, Anda setuju dengan persyaratan dan ketentuan kami.
-                                    </div>
-                                `,
-                                icon: 'question',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'Ya, Lanjutkan Pesanan',
-                                cancelButtonText: 'Batal'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    form.submit();
-                                }
-                            });
-                        }
-                        
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-        })();
-        
-        // Mobile menu toggle
-        document.getElementById('menu-toggle').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-            this.classList.toggle('active');
+(function () {
+    'use strict';
+
+    const forms = document.querySelectorAll('.needs-validation');
+
+    function handleSubmit(event) {
+        const form = event.target;
+
+        const playerNames = document.getElementById('nama_pemain').value.split('\n').filter(name => name.trim() !== '');
+        const playerNumbers = document.getElementById('nomor_punggung').value.split('\n').filter(num => num.trim() !== '');
+        const playerSizes = document.getElementById('ukuran').value.split('\n').filter(size => size.trim() !== '');
+
+        if (playerNames.length !== playerNumbers.length || playerNames.length !== playerSizes.length) {
+            event.preventDefault();
+            event.stopPropagation();
+            Swal.fire({
+                icon: 'error',
+                title: 'Data Tidak Sesuai',
+                text: 'Jumlah nama pemain, nomor punggung, dan ukuran harus sama!',
+                confirmButtonColor: '#d33'
+            });
+            return false;
+        }
+
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+            form.classList.add('was-validated');
+            return;
+        }
+
+        event.preventDefault(); // stop default submit, lanjut jika confirmed
+
+        const paket = document.getElementById('paket_jersey').options[document.getElementById('paket_jersey').selectedIndex].text;
+        const totalJersey = playerNames.length;
+        let hargaSatuan = 0;
+
+        if (paket.includes('Basic')) hargaSatuan = 110000;
+        else if (paket.includes('Frontprint')) hargaSatuan = 125000;
+        else if (paket.includes('Halfprint')) hargaSatuan = 135000;
+        else if (paket.includes('Fullprint')) hargaSatuan = 145000;
+
+        const totalHarga = hargaSatuan * totalJersey;
+
+        Swal.fire({
+            title: 'Konfirmasi Pesanan',
+            html: `
+                <div class="text-start">
+                    <p><strong>Paket:</strong> ${paket}</p>
+                    <p><strong>Jumlah Jersey:</strong> ${totalJersey} pcs</p>
+                    <p><strong>Harga Satuan:</strong> Rp ${hargaSatuan.toLocaleString('id-ID')}</p>
+                    <p><strong>Total Harga:</strong> Rp ${totalHarga.toLocaleString('id-ID')}</p>
+                </div>
+                <div class="alert alert-warning mt-3">
+                    Dengan melanjutkan, Anda setuju dengan persyaratan dan ketentuan kami.
+                </div>
+            `,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Lanjutkan Pesanan',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.removeEventListener('submit', handleSubmit);
+                form.submit(); // kirim beneran sekarang
+            }
         });
-    </script>
+
+        form.classList.add('was-validated');
+    }
+
+    forms.forEach(function (form) {
+        form.addEventListener('submit', handleSubmit);
+    });
+})();
+
+</script>
+
 </body>
 </html>

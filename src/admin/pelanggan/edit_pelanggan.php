@@ -10,7 +10,7 @@ session_start();
 
 // Periksa apakah ada parameter id
 if(!isset($_GET['id'])) {
-    header("Location: ../dashboard_coba2.php");
+    header("Location: ../dashboard_admin.php");
     exit();
 }
 

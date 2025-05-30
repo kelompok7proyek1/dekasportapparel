@@ -259,7 +259,7 @@ $in_progress_orders = $conn->query("SELECT COUNT(*) as dalam_proses FROM pesanan
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="dashboard_coba2.php">
+            <a class="nav-link active" href="dashboard_admin.php">
                 <i class="fas fa-table"></i>
                 Dashboard
             </a>

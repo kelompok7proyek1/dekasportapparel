@@ -206,7 +206,7 @@ $resultpelanggan = $conn->query("SELECT * FROM pelanggan_dekas");
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link" href="dashboard_coba2.php">
+            <a class="nav-link" href="dashboard_admin.php">
                 <i class="fas fa-table"></i>
                 Dashboard
             </a>
