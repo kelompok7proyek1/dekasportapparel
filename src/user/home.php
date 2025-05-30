@@ -28,20 +28,16 @@
                     <li><a href="data_pelanggan.php">Custom</a></li>
                     <li><a href="about.php">About Us</a></li>
                     <li><a href="contact.php">Contact Us</a></li>
-                    <?php if($loggedIn) : ?>
+                        <?php if($loggedIn) : ?>
                     <li><a href="dashboard.php">Dashboard</a></li>
-                        <!-- <li><a href="logout.php">Logout</a></li> -->
-                            <?php else : ?>
-                                <li><a href="login.php" onclick="return confirm('Silakan login terlebih dahulu!')">Dashboard</a></li>
-                                <!-- <li><a href="login.php">login</a></li>
-                                <li><a href="registrasi.html">Register</a></li>  -->
-                    <?php endif; ?>
+                        <?php else : ?>
+                    <li><a href="login.php" onclick="return confirm('Silakan login terlebih dahulu!')">Dashboard</a></li>
+                        <?php endif; ?>
                 </ul>
             
             <!-- Auth buttons (Login/Register) -->
             <div class="auth-buttons">
                 <?php if($loggedIn) : ?>
-                    <!-- <a href="profile.php?" class="login-btn">My Account</a> -->
                     <a href="profile.php?id=<?= $_SESSION['id_pelanggan'] ?>" class="login-btn">Profile</a>
                     <a href="logout.php" class="register-btn">Logout</a>
                 <?php else : ?>
@@ -73,7 +69,7 @@
     <!-- custom Section -->
     <section class="custom" id="custom">
         <div class="container">
-            <h2 class="section-title">KAMI MELAYANI CUSTOM</h2>
+            <h2 class="section-title2">KAMI MELAYANI CUSTOM</h2>
             <div class="custom-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -114,7 +110,7 @@
 <!-- custom Section -->
 <section class="custom" id="custom">
     <div class="container">
-        <h2 class="section-title">KENAPA HARUS DEKA SPORT APPAREL?</h2>
+        <h2 class="section-title2">KENAPA HARUS DEKA SPORT APPAREL?</h2>
         <div class="custom-grid">
             <div class="feature-card">
                 <div class="feature-icon">

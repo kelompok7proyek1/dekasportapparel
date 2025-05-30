@@ -697,7 +697,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
                 <div class="footer-content">
                     <section class="footer-column">
