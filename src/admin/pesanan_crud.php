@@ -64,7 +64,7 @@ if (!$resultpesanan) {
             left: 0;
             height: 100vh;
             width: 250px;
-            background-color: var(--sidebar-bg);
+            background-color: rgba(62, 62, 62, 1);
             padding: 1.5rem 1rem;
             transition: all 0.3s ease;
             z-index: 1000;
@@ -115,7 +115,7 @@ if (!$resultpesanan) {
         }
         
         .page-header {
-            background: linear-gradient(135deg, rgba(49, 49, 67, 1)0%, rgba(49, 49, 67, 1) 100%);
+            background: linear-gradient(135deg, rgba(62, 62, 62, 1)0%, rgba(62, 62, 62, 1)100%);
             color: white;
             border-radius: 10px;
             padding: 2rem;
