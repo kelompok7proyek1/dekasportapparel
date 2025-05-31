@@ -19,13 +19,13 @@ $id_pesanan = $_GET['id'];
 
 // Ambil data pesanan berdasarkan ID
 $result = $conn->query("SELECT * FROM pesanan_dekas WHERE id_pesanan = $id_pesanan");
+$pesanan = $result->fetch_assoc();
 
 if($result->num_rows == 0) {
     echo "<script>alert('Data pesanan tidak ditemukan'); window.location='../pesanan_crud.php';</script>";
     exit();
 }
 
-$pesanan = $result->fetch_assoc();
 
 // Ambil data pelanggan untuk dropdown
 $pelanggan_result = $conn->query("SELECT * FROM pelanggan_dekas ORDER BY nama");
@@ -108,7 +108,7 @@ if(isset($_POST['submit'])) {
                                     <select class="form-select" id="id_pelanggan" name="id_pelanggan" required>
                                         <?php while($row = $pelanggan_result->fetch_assoc()): ?>
                                             <option value="<?= $row['id_pelanggan'] ?>" <?= ($row['id_pelanggan'] == $pesanan['id_pelanggan']) ? 'selected' : '' ?>>
-                                                <?= $row['nama'] ?> (<?= $row['no_hp'] ?>)
+                                                <?= $row['nama'] ?>
                                             </option>
                                         <?php endwhile; ?>
                                     </select>

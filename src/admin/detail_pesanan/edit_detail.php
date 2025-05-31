@@ -11,6 +11,13 @@ session_start();
     }
 
 $detail_result = $conn->query("SELECT * FROM pelanggan_dekas ORDER BY id_pelanggan");
+$id_detail = $_GET['id'];
+
+$stmt = $conn->prepare("SELECT * FROM detail_pesanan WHERE id_detail = ?");
+    $stmt->bind_param("i", $id_detail);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $dataa = $result->fetch_assoc();
 
 if(isset($_POST['submit'])) {
     $id_pelanggan = $_POST['id_pelanggan'];
@@ -24,33 +31,37 @@ if(isset($_POST['submit'])) {
     $motif = $_POST['motif'];
     $total_jersey = $_POST['total_jersey'];
     $kode_jersey = $_POST['kode_jersey'];
+    
+    // $stmt->close();
 
-    $stmt = $conn->prepare("SELECT * FROM detail_pesanan WHERE id_pelanggan = ?");
-    $stmt->bind_param("i", $id_pelanggan);
-    $stmt->execute();
-    $result = $stmt->get_result();
+        $sql = "UPDATE detail_pesanan SET 
+                id_pelanggan = ?, 
+                jenis_jersey = ?, 
+                bahan_jersey = ?, 
+                paket_jersey = ?, 
+                nama_pemain = ?, 
+                nomor_punggung = ?, 
+                logo = ?, 
+                ukuran = ?, 
+                motif = ?, 
+                total_jersey = ?, 
+                kode_jersey = ? 
+            WHERE id_detail = ?";
 
-    if($result->num_rows > 0){
-        echo "<script>alert('Data pesanan sudah ada!'); window.location.href='../detail_pesanan.php';</script>";
-    } else {
-        $sql = "INSERT INTO detail_pesanan(
-            id_pelanggan, jenis_jersey, bahan_jersey, paket_jersey, 
-            nama_pemain, nomor_punggung, logo, ukuran, motif, total_jersey, kode_jersey
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("issssssssis", $id_pelanggan, $jenis_jersey, $bahan_jersey, $paket_jersey,
-            $nama_pemain, $nomor_punggung, $logo, $ukuran, $motif, $total_jersey, $kode_jersey);
+        $stmt->bind_param("issssssssisi", $id_pelanggan, $jenis_jersey, $bahan_jersey, $paket_jersey,
+            $nama_pemain, $nomor_punggung, $logo, $ukuran, $motif, $total_jersey, $kode_jersey, $id_detail);
+
 
         if($stmt->execute()) {
-            echo "<script>alert('Data pesanan berhasil ditambahkan'); window.location='../detail_pesanan.php';</script>";
+            echo "<script>alert('Data pesanan berhasil diubah'); window.location='../detail_pesanan.php';</script>";
         } else {
             echo "<script>alert('Gagal menambahkan data pesanan: " . $conn->error . "');</script>";
         }
 
         $stmt->close();
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -118,7 +129,9 @@ if(isset($_POST['submit'])) {
                                         <select id="id_pelanggan" name="id_pelanggan" class="form-select" required>
                                             <option value="">-- Pilih Pelanggan --</option>
                                             <?php while($row = $detail_result->fetch_assoc()): ?>
-                                                <option value="<?= $row['id_pelanggan'] ?>"><?= $row['id_pelanggan'] ?> (<?= $row['nama'] ?>)</option>
+                                                <option value="<?= $row['id_pelanggan'] ?>" <?= ($row['id_pelanggan'] == $dataa['id_pelanggan']) ? 'selected' : '' ?>>
+                                                    <?= $row['nama'] ?>
+                                                </option>
                                             <?php endwhile; ?>
                                         </select>
                                         <div class="invalid-feedback">
@@ -133,8 +146,8 @@ if(isset($_POST['submit'])) {
                                         <span class="input-group-text"><i class="bi bi-tag"></i></span>
                                         <select id="jenis_jersey" name="jenis_jersey" class="form-select" required>
                                             <option value="">-- Pilih Jenis Jersey --</option>
-                                            <option value="Jersey Bola">Jersey Bola</option>
-                                            <option value="Jersey Basket">Jersey Basket</option>
+                                            <option value="Jersey Bola" <?= ($dataa['jenis_jersey'] == 'Jersey Bola') ? 'selected' : '' ?>>Jersey Bola</option>
+                                            <option value="Jersey Basket" <?= ($dataa['jenis_jersey'] == 'Jersey Basket') ? 'selected' : '' ?>>Jersey Basket</option>
                                         </select>
                                         <div class="invalid-feedback">
                                             Silahkan pilih jenis jersey
@@ -150,11 +163,11 @@ if(isset($_POST['submit'])) {
                                         <span class="input-group-text"><i class="bi bi-layers"></i></span>
                                         <select id="bahan_jersey" name="bahan_jersey" class="form-select" required>
                                             <option value="">-- Pilih Bahan Jersey --</option>
-                                            <option value="milano">Milano</option>
-                                            <option value="Dryfit Puma">Dryfit Puma</option>
-                                            <option value="Embos Batik">Embos Batik</option>
-                                            <option value="Dryfit Lite">Dryfit Lite</option>
-                                            <option value="Jacquard Camo">Jacquard Camo</option>
+                                            <option value="milano" <?=($dataa['bahan_jersey'] == 'milano') ? 'selected' : '' ?>>Milano</option>
+                                            <option value="Dryfit Puma" <?=($dataa['bahan_jersey'] == 'Dryfit Puma') ? 'selected' : '' ?>>Dryfit Puma</option>
+                                            <option value="Embos Batik"<?=($dataa['bahan_jersey'] == 'Embos Batik') ? 'selected' : '' ?>>Embos Batik</option>
+                                            <option value="Dryfit Lite" <?=($dataa['bahan_jersey'] == 'Dryfit Lite') ? 'selected' : '' ?>>Dryfit Lite</option>
+                                            <option value="Jacquard Camo" <?=($dataa['bahan_jersey'] == 'Jacquard Camo') ? 'selected' : '' ?>>Jacquard Camo</option>
                                         </select>
                                         <div class="invalid-feedback">
                                             Silahkan pilih bahan jersey
@@ -168,10 +181,10 @@ if(isset($_POST['submit'])) {
                                         <span class="input-group-text"><i class="bi bi-box"></i></span>
                                         <select id="paket_jersey" name="paket_jersey" class="form-select" required>
                                             <option value="">-- Pilih Paket Jersey --</option>
-                                            <option value="Paket Basic">Paket Basic</option>
-                                            <option value="Paket Front Print">Paket Frontprint</option>
-                                            <option value="Paket Halfprint">Paket Halfprint</option>
-                                            <option value="Paket Fullprint">Paket Fullprint</option>
+                                            <option value="Paket Basic" <?= ($dataa['paket_jersey'] == 'Paket Basic') ? 'selected' : '' ?>>Paket Basic</option>
+                                            <option value="Paket Front Print" <?= ($dataa['paket_jersey'] == 'Paket Front Print') ? 'selected' : '' ?>>Paket Front Print</option>
+                                            <option value="Paket Halfprint" <?= ($dataa['paket_jersey'] == 'Paket Halfprint') ? 'selected' : '' ?>>Paket Halfprint</option>
+                                            <option value="Paket Fullprint" <?= ($dataa['paket_jersey'] == 'Paket Fullprint') ? 'selected' : '' ?>>Paket Fullprint</option>
                                         </select>
                                         <div class="invalid-feedback">
                                             Silahkan pilih paket jersey
@@ -185,7 +198,7 @@ if(isset($_POST['submit'])) {
                                     <label for="nama_pemain" class="form-label">Nama Pemain</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-                                        <textarea class="form-control" id="nama_pemain" name="nama_pemain" rows="3" required></textarea>
+                                        <textarea class="form-control" id="nama_pemain" name="nama_pemain" rows="3" required ><?=htmlspecialchars($dataa['nama_pemain'] ?? '') ?></textarea>
                                         <div class="invalid-feedback">
                                             Silahkan masukkan nama pemain
                                         </div>
@@ -199,7 +212,7 @@ if(isset($_POST['submit'])) {
                                     <label for="nomor_punggung" class="form-label">Nomor Punggung</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-123"></i></span>
-                                        <textarea class="form-control" id="nomor_punggung" name="nomor_punggung" rows="3" required></textarea>
+                                        <textarea  class="form-control" id="nomor_punggung" name="nomor_punggung" rows="3" required><?= htmlspecialchars($dataa['nomor_punggung'] ?? '') ?></textarea>
                                         <div class="invalid-feedback">
                                             Silahkan masukkan nomor punggung
                                         </div>
@@ -215,7 +228,7 @@ if(isset($_POST['submit'])) {
                                     <label for="logo" class="form-label">Logo</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-image"></i></span>
-                                        <input type="file" class="form-control" id="logo" name="logo" required>
+                                        <input type="file" class="form-control" id="logo" name="logo" required value ="<?= htmlspecialchars($dataa['logo'] ?? '') ?>">
                                         <div class="invalid-feedback">
                                             Silahkan unggah logo
                                         </div>
@@ -239,7 +252,7 @@ if(isset($_POST['submit'])) {
                                     <label for="ukuran" class="form-label">Ukuran</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-rulers"></i></span>
-                                        <textarea class="form-control" id="ukuran" name="ukuran" rows="3" required></textarea>
+                                        <textarea class="form-control" id="ukuran" name="ukuran" rows="3" required><?=htmlspecialchars($dataa['ukuran'] ?? '') ?></textarea>
                                         <div class="invalid-feedback">
                                             Silahkan masukkan ukuran
                                         </div>
@@ -255,7 +268,7 @@ if(isset($_POST['submit'])) {
                                             <label for="total_jersey" class="form-label">Total Jersey</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="bi bi-calculator"></i></span>
-                                                <input type="number" class="form-control" id="total_jersey" name="total_jersey" required>
+                                                <input type="number" class="form-control" id="total_jersey" name="total_jersey" required value="<?= htmlspecialchars($dataa['total_jersey'] ?? '') ?>"></input>
                                                 <div class="invalid-feedback">
                                                     Silahkan masukkan total jersey
                                                 </div>
@@ -266,7 +279,7 @@ if(isset($_POST['submit'])) {
                                             <label for="kode_jersey" class="form-label">Kode Jersey</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="bi bi-upc"></i></span>
-                                                <input type="text" class="form-control" id="kode_jersey" name="kode_jersey" required>
+                                                <input type="text" class="form-control" id="kode_jersey" name="kode_jersey" required value="<?= htmlspecialchars($dataa['kode_jersey'] ?? '') ?>">
                                                 <div class="invalid-feedback">
                                                     Silahkan masukkan kode jersey
                                                 </div>
