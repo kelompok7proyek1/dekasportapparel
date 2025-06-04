@@ -428,6 +428,18 @@ header {
         .dashboard-content h2 {
             padding-left: 20px; 
         }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .orders-table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+        }
+
         
  /* Footer */
 footer {
@@ -555,6 +567,47 @@ footer {
 }
 
 @media (max-width: 768px) {
+.orders-table,
+.orders-table thead,
+.orders-table tbody,
+.orders-table th,
+.orders-table td,
+.orders-table tr {
+    display: block;
+    width: 100%;
+}
+
+.orders-table thead {
+    display: none; /* Sembunyikan header */
+}
+
+.orders-table tr {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.orders-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    border: none;
+    border-bottom: 1px solid #eee;
+}
+
+.orders-table td::before {
+    content: attr(data-label); /* Label dari atribut data-label */
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    white-space: nowrap;
+    font-weight: bold;
+    text-align: left;
+    color: #333;
+}
+
 .nav-links {
     display: none;
     position: absolute;
@@ -605,6 +658,16 @@ footer {
 }
 
 @media (max-width: 576px) {
+
+.orders-table td {
+    font-size: 14px;
+    padding: 10px;
+}
+
+.orders-table td::before {
+    font-size: 13px;
+}
+
 .card {
     width: 100%;
     margin-bottom: 20px;
