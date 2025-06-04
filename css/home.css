@@ -451,12 +451,12 @@ footer {
     padding: 40px 0 20px;
 }
 
-.footer-content {
+/* .footer-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
     margin-bottom: 40px;
-}
+} */
 
 
 .footer-content {
@@ -542,6 +542,50 @@ footer {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Responsive Styles footer */
+@media (max-width: 992px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 30px 20px;
+    }
+
+    /* Sembunyikan location dan contact us */
+    .footer-column3,
+    .footer-column4 {
+        display: none;
+    }
+
+    .footer-column1,
+    .footer-column2 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .button {
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+}
+
 
 /* Responsive Styles */
 @media (max-width: 992px) {
@@ -560,6 +604,7 @@ footer {
 }
 
 @media (max-width: 768px) {
+
 .nav-links {
     display: none;
     position: absolute;

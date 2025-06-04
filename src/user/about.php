@@ -107,8 +107,8 @@
                         <h3>Deka<span> Sport Apparel</span></h3>
                         <p>Pakaian  custom premium dari Deka Sport Apparel <br> untuk tim dan individu. berkualitas, desain luar <br> biasa, dan layanan terbaik.</p>
                         <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href=""><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/dekasportapparel/"><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
                     </section>
