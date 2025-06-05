@@ -7,12 +7,14 @@
 
         $sql = "SELECT 
             p.id_detail,
+            p.id_pesanan,
             p.tanggal_pemesanan, 
             p.harga_satuan, 
             p.total_harga, 
             p.status_produksi, 
             p.dalam_proses, 
             p.selesai,
+            p.status_pembayaran,
             dp.total_jersey,
             pd.nama AS nama_pelanggan
         FROM 
@@ -321,6 +323,7 @@
                         <th>Total harga</th>
                         <th>Progres</th>
                         <th>Status Pemesanan</th>
+                        <th>Status Pembayaran</th>
                         <!-- <th>In Progress</th> -->
                         <!-- <th>selesai</th> -->
                     </tr>
@@ -359,7 +362,9 @@
                     ?>
                     <tr>
                         <td data-label="confirm pemesanan">
-                            <a href="https://wa.me/6282119513872?text=Halo%20saya%20ingin%20konfirmasi%20pesanan%20atas%20nama%20<?= $row['nama_pelanggan'] ?>" target="_blank">
+                            <!-- <a href="https://wa.me/6282119513872?text=Halo%20saya%20ingin%20konfirmasi%20pesanan%20atas%20nama%20<?= $row['nama_pelanggan'] ?>" target="_blank"> -->
+                                <a href="pembayaran/bayar.php?id=<?= $row['id_pesanan'] ?>" class="btn btn-primary">
+                                    <!-- <i class="fas fa-check"></i> Konfirmasi -->
                                 <button class="btn btn-success">Confirm</button>
                             </a>
                         </td>
@@ -391,6 +396,7 @@
                                     <?= ucfirst($status) ?>
                                 </span>
                         </td>
+                         <td class="bold" data-label="status pemesanan/produksi"><?php echo $status = $row['status_pembayaran'] ?></td>
                         
                     </tr>
                 <?php endforeach; ?>

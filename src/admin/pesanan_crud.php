@@ -304,6 +304,7 @@ if (!$resultpesanan) {
                         <th>Total Harga</th>
                         <th>Status</th>
                         <th>Progress</th>
+                        <th>Status Pembayaran</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -371,6 +372,12 @@ if (!$resultpesanan) {
                                         <span class="small fw-medium"><?= $selesai ?>/<?= $total ?></span>
                                     </div>
                                 </td>
+                                <td style="width: 18%">
+                                    <div class="d-flex align-items-center">
+                                        <div class="fw-medium"><?php echo $row['status_pembayaran'] ?></div>
+                                        <!-- <span class="small fw-medium"><?= $selesai ?>/<?= $total ?></span> -->
+                                    </div>
+                                </td>
 
                                 <td class="text-center action-buttons">
                                     <div class="btn-group">
@@ -386,6 +393,7 @@ if (!$resultpesanan) {
                                         </a>
                                     </div>
                                 </td>
+
                             </tr>
                         <?php endwhile; ?>
                     <?php else: ?>
