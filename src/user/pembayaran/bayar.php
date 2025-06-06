@@ -125,165 +125,401 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #2c2c2c 0%, #3c3c3c 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .payment-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            margin-top: 30px;
+        
+        .payment-container {
+            margin: 20px auto;
+            max-width: 1200px;
         }
-        .header-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        
+        .payment-header {
+            background: rgba(44, 44, 44, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
             color: white;
-            border-radius: 15px 15px 0 0;
-            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .form-section {
-            padding: 30px;
+        
+        .payment-content {
+            display: flex;
+            gap: 30px;
+            align-items: stretch;
         }
+        
+        .info-panel {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+        
+        .form-panel {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
         .info-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #dc3545;
+            transition: transform 0.3s ease;
         }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .info-card h5 {
+            color: #dc3545;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .info-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .bank-info {
+            background: linear-gradient(135deg, #2c2c2c 0%, #3c3c3c 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .bank-info h5 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
         .upload-area {
-            border: 2px dashed #dee2e6;
-            border-radius: 10px;
+            border: 3px dashed #dee2e6;
+            border-radius: 15px;
             padding: 40px;
             text-align: center;
             transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            margin-bottom: 25px;
         }
+        
         .upload-area:hover {
-            border-color: #667eea;
-            background-color: #f8f9ff;
+            border-color: #dc3545;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+            transform: translateY(-2px);
         }
+        
+        .upload-area.file-selected {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        }
+        
         .btn-payment {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
+            padding: 15px 40px;
+            border-radius: 50px;
             color: white;
             font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .btn-payment:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(220, 53, 69, 0.4);
+            color: white;
+        }
+        
+        .btn-back {
+            background: linear-gradient(135deg, #2c2c2c 0%, #3c3c3c 100%);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-back:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(44, 44, 44, 0.4);
+            color: white;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+            font-size: 16px;
             transition: all 0.3s ease;
         }
-        .btn-payment:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        
+        .form-control:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .status-badge {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
             color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .total-amount {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .payment-content {
+                flex-direction: column;
+            }
+            
+            .payment-header {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .info-panel,
+            .form-panel {
+                padding: 20px;
+            }
+            
+            .payment-container {
+                margin: 10px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .info-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .upload-area {
+                padding: 25px 15px;
+            }
+            
+            .btn-payment,
+            .btn-back {
+                padding: 12px 30px;
+                font-size: 14px;
+            }
+            
+            .payment-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .payment-container {
+                margin: 5px;
+            }
+            
+            .info-panel,
+            .form-panel {
+                padding: 15px;
+            }
+            
+            .info-card {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .bank-info {
+                padding: 15px;
+            }
+            
+            .total-amount {
+                font-size: 20px;
+                padding: 12px 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="payment-card">
-                    <!-- Header Section -->
-                    <div class="header-section text-center">
-                        <h2><i class="fas fa-credit-card me-3"></i>Pembayaran Pesanan</h2>
-                        <p class="mb-0">Pesanan #<?php echo $id_pesanan; ?></p>
+    <div class="container-fluid">
+        <div class="payment-container">
+            <!-- Header -->
+            <div class="payment-header">
+                <h2><i class="fas fa-credit-card me-3"></i>Pembayaran Pesanan</h2>
+                <p class="mb-0 fs-5">Pesanan #<?php echo $id_pesanan; ?></p>
+            </div>
+
+            <!-- Alerts -->
+            <?php if (isset($success_message)): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i><?php echo $success_message; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($error_message)): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i><?php echo $error_message; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+
+            <!-- Main Content -->
+            <div class="payment-content">
+                <!-- Info Panel -->
+                <div class="info-panel">
+                    <!-- Info Pelanggan -->
+                    <div class="info-card">
+                        <h5><i class="fas fa-user me-2"></i>Informasi Pelanggan</h5>
+                        <div class="info-row">
+                            <span class="info-label">Nama:</span>
+                            <span class="info-value"><?php echo htmlspecialchars($pesanan['nama']); ?></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">No. HP:</span>
+                            <span class="info-value"><?php echo htmlspecialchars($pesanan['no_hp']); ?></span>
+                        </div>
                     </div>
 
-                    <!-- Form Section -->
-                    <div class="form-section">
-                        <?php if (isset($success_message)): ?>
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <i class="fas fa-check-circle me-2"></i><?php echo $success_message; ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        <?php endif; ?>
+                    <!-- Info Pesanan -->
+                    <div class="info-card">
+                        <h5><i class="fas fa-shopping-cart me-2"></i>Informasi Pesanan</h5>
+                        <div class="info-row">
+                            <span class="info-label">ID Pesanan:</span>
+                            <span class="info-value">#<?php echo $pesanan['id_pesanan']; ?></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Tanggal:</span>
+                            <span class="info-value"><?php echo date('d/m/Y H:i', strtotime($pesanan['tanggal_pemesanan'])); ?></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Status:</span>
+                            <span class="status-badge"><?php echo ucfirst($pesanan['status_pembayaran'] ?? 'pending'); ?></span>
+                        </div>
+                    </div>
 
-                        <?php if (isset($error_message)): ?>
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <i class="fas fa-exclamation-circle me-2"></i><?php echo $error_message; ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        <?php endif; ?>
+                    <!-- Total Amount -->
+                    <div class="total-amount">
+                        <i class="fas fa-money-bill-wave me-2"></i>
+                        Total: Rp <?php echo number_format($pesanan['total_harga'] ?? 0, 0, ',', '.'); ?>
+                    </div>
 
-                        <!-- Info Pelanggan -->
-                        <div class="info-card">
-                            <h5 class="mb-3"><i class="fas fa-user me-2"></i>Informasi Pelanggan</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p><strong>Nama:</strong> <?php echo htmlspecialchars($pesanan['nama']); ?></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><strong>No. HP:</strong> <?php echo htmlspecialchars($pesanan['no_hp']); ?></p>
-                                </div>
+                    <!-- Bank Info -->
+                    <div class="bank-info">
+                        <h5><i class="fas fa-university me-2"></i>Informasi Rekening</h5>
+                        <div class="info-row">
+                            <span class="info-label">Bank:</span>
+                            <span class="info-value">BCA</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">No. Rekening:</span>
+                            <span class="info-value">111111111111</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Atas Nama:</span>
+                            <span class="info-value">Dekas Sport Apparel</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Panel -->
+                <div class="form-panel">
+                    <h4 class="mb-4"><i class="fas fa-upload me-2"></i>Upload Bukti Pembayaran</h4>
+                    
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label for="tanggal_upload" class="form-label">
+                                <i class="fas fa-calendar me-2"></i>Tanggal Pembayaran
+                            </label>
+                            <input type="datetime-local" class="form-control" id="tanggal_upload" name="tanggal_upload" 
+                                   value="<?php echo date('Y-m-d\TH:i'); ?>" required> 
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="id_bayar" class="form-label">
+                                <i class="fas fa-hashtag me-2"></i>ID Pembayaran
+                            </label>
+                            <input type="text" class="form-control" id="id_bayar" name="id_bayar" 
+                                   value="PAY<?php echo $id_pesanan . time(); ?>" readonly>
+                            <small class="form-text text-muted">ID ini akan digunakan sebagai referensi pembayaran</small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-camera me-2"></i>Bukti Pembayaran
+                            </label>
+                            <div class="upload-area" id="uploadArea">
+                                <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                                <h5>Pilih File Bukti Pembayaran</h5>
+                                <p class="text-muted mb-3">Format: JPG, JPEG, PNG, GIF (Max: 5MB)</p>
+                                <input type="file" class="form-control" name="bukti_pembayaran" id="fileInput"
+                                       accept=".jpg,.jpeg,.png,.gif" required>
                             </div>
                         </div>
 
-                        <!-- Info Pesanan -->
-                        <div class="info-card">
-                            <h5 class="mb-3"><i class="fas fa-shopping-cart me-2"></i>Informasi Pesanan</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p><strong>ID Pesanan:</strong> #<?php echo $pesanan['id_pesanan']; ?></p>
-                                    <p><strong>Tanggal:</strong> <?php echo date('d/m/Y', strtotime($pesanan['tanggal_pemesanan'])); ?></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><strong>Total:</strong> Rp <?php echo number_format($pesanan['total_harga'] ?? 0, 0, ',', '.'); ?></p>
-                                    <p><strong>Status:</strong> 
-                                        <span class="badge bg-warning"><?php echo ucfirst($pesanan['status_pembayaran'] ?? 'pending'); ?></span>
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="d-grid gap-3">
+                            <button type="submit" name="submit" class="btn btn-payment">
+                                <i class="fas fa-paper-plane me-2"></i>Upload Bukti Pembayaran
+                            </button>
+                            <a href="../dashboard.php" class="btn-back">
+                                <i class="fas fa-arrow-left me-2"></i>Kembali ke Dashboard
+                            </a>
                         </div>
-
-                        <!-- Form Upload Bukti Pembayaran -->
-                        <form method="POST" enctype="multipart/form-data">
-                            <div class="mb-4">
-                                <label for="tanggal_upload" class="form-label">
-                                    <i class="fas fa-calendar me-2"></i>Tanggal Pembayaran
-                                </label>
-                                <input type="datetime-local" class="form-control" id="tanggal_upload" name="tanggal_upload" 
-                                       value="<?php echo date('Y-m-d\TH:i'); ?>" required> 
-                            </div>
-                            
-                            <div class="mb-4">
-                                <label for="id_bayar" class="form-label">
-                                    <i class="fas fa-hashtag me-2"></i>ID Pembayaran
-                                </label>
-                                <input type="text" class="form-control" id="id_bayar" name="id_bayar" 
-                                       value="PAY<?php echo $id_pesanan . time(); ?>" readonly>
-                                <small class="form-text text-muted">ID ini akan digunakan sebagai referensi pembayaran</small>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="form-label">
-                                    <i class="fas fa-upload me-2"></i>Upload Bukti Pembayaran
-                                </label>
-                                <div class="upload-area">
-                                    <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
-                                    <h5>Pilih File Bukti Pembayaran</h5>
-                                    <p class="text-muted">Format yang diizinkan: JPG, JPEG, PNG, GIF (Max: 5MB)</p>
-                                    <input type="file" class="form-control" name="bukti_pembayaran" 
-                                           accept=".jpg,.jpeg,.png,.gif" required>
-                                </div>
-                            </div>
-
-                            <!-- Informasi Pembayaran -->
-                            <div class="alert alert-info">
-                                <h6><i class="fas fa-info-circle me-2"></i>Informasi Pembayaran</h6>
-                                <p class="mb-2"><strong>Bank:</strong> BCA</p>
-                                <p class="mb-2"><strong>No. Rekening:</strong> 111111111111</p>
-                                <p class="mb-2"><strong>Atas Nama:</strong> Dekas Sport Apparel</p>
-                                <p class="mb-0"><strong>Jumlah:</strong> Rp <?php echo number_format($pesanan['total_harga'] ?? 0, 0, ',', '.'); ?></p>
-                            </div>
-
-                            <div class="text-center">
-                                <button type="submit" name="submit" class="btn btn-payment btn-lg">
-                                    <i class="fas fa-paper-plane me-2"></i>Upload Bukti Pembayaran
-                                </button>
-                                <a href="../dashboard.php" class="btn btn-secondary btn-lg ms-3">
-                                    <i class="fas fa-arrow-left me-2"></i>Kembali
-                                </a>
-                            </div>
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -291,23 +527,77 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Preview file upload
-        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+        // File upload preview
+        document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
+            const uploadArea = document.getElementById('uploadArea');
+            
             if (file) {
-                const uploadArea = document.querySelector('.upload-area');
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                uploadArea.classList.add('file-selected');
                 uploadArea.innerHTML = `
                     <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
                     <h5 class="text-success">File Terpilih</h5>
-                    <p class="text-muted">${file.name}</p>
-                    <small class="text-muted">Ukuran: ${(file.size / 1024 / 1024).toFixed(2)} MB</small>
-                    <input type="file" class="form-control d-none" name="bukti_pembayaran" 
+                    <p class="text-dark fw-bold">${file.name}</p>
+                    <small class="text-muted">Ukuran: ${fileSize} MB</small>
+                    <div class="mt-3">
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="changeFile()">
+                            <i class="fas fa-edit me-1"></i>Ganti File
+                        </button>
+                    </div>
+                    <input type="file" class="d-none" name="bukti_pembayaran" id="hiddenFileInput"
                            accept=".jpg,.jpeg,.png,.gif" required>
                 `;
-                // Keep the file in the hidden input
-                uploadArea.querySelector('input[type="file"]').files = e.target.files;
+                
+                // Transfer file to hidden input
+                const hiddenInput = uploadArea.querySelector('#hiddenFileInput');
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                hiddenInput.files = dt.files;
             }
         });
+        
+        function changeFile() {
+            const uploadArea = document.getElementById('uploadArea');
+            uploadArea.classList.remove('file-selected');
+            uploadArea.innerHTML = `
+                <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                <h5>Pilih File Bukti Pembayaran</h5>
+                <p class="text-muted mb-3">Format: JPG, JPEG, PNG, GIF (Max: 5MB)</p>
+                <input type="file" class="form-control" name="bukti_pembayaran" id="fileInput"
+                       accept=".jpg,.jpeg,.png,.gif" required>
+            `;
+            
+            // Re-attach event listener
+            document.getElementById('fileInput').addEventListener('change', arguments.callee.caller);
+        }
+        
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const fileInput = document.querySelector('input[name="bukti_pembayaran"]');
+            if (!fileInput.files[0]) {
+                e.preventDefault();
+                alert('Silakan pilih file bukti pembayaran terlebih dahulu.');
+                return false;
+            }
+            
+            // Check file size (5MB limit)
+            if (fileInput.files[0].size > 5 * 1024 * 1024) {
+                e.preventDefault();
+                alert('Ukuran file terlalu besar. Maksimal 5MB.');
+                return false;
+            }
+        });
+        
+        // Auto-dismiss alerts after 5 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                if (alert.querySelector('.btn-close')) {
+                    alert.querySelector('.btn-close').click();
+                }
+            });
+        }, 5000);
     </script>
 </body>
 </html>

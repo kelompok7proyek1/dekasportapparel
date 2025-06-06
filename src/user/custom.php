@@ -163,13 +163,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $dalam_proses = 1;
         $selesai = 0;
         
-        $query_pesanan = "INSERT INTO pesanan_dekas (id_pelanggan, id_detail, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, dalam_proses, selesai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $status_pembayaran = 'pending'; // or use the appropriate default value
+
+        $query_pesanan = "INSERT INTO pesanan_dekas (id_pelanggan, id_detail, tanggal_pemesanan, harga_satuan, total_harga, status_produksi, status_pembayaran, dalam_proses, selesai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt_pesanan = $conn->prepare($query_pesanan);
         $harga_satuan_str = strval($harga_satuan);
         $total_harga_str = strval($total_harga);
         
-        $stmt_pesanan->bind_param("iisssiii", $id_pelanggan, $id_detail, $tanggal_pemesanan, $harga_satuan_str, $total_harga_str, $status_produksi, $dalam_proses, $selesai);
+        $stmt_pesanan->bind_param("iisssssii", $id_pelanggan, $id_detail, $tanggal_pemesanan, $harga_satuan_str, $total_harga_str, $status_produksi, $status_pembayaran, $dalam_proses, $selesai);
         
         if (!$stmt_pesanan->execute()) {
             throw new Exception("Gagal membuat pesanan: " . $stmt_pesanan->error);
